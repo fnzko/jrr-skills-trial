@@ -1,0 +1,13 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 31s
+  Executable unittests src/lib.rs (target/debug/deps/service_com_amazonaws_sqs_amazonsqs-340f2f8600ff740b)
+  Executable tests/all.rs (target/debug/deps/all-435ac6a5a129d164)
+real 211.82
+user 704.23
+sys 101.69
+=== RUN
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 280 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 19.03s
+test result: ok. 0 passed; 0 failed; 24 ignored; 0 measured; 0 filtered out; finished in 0.00s
+real 22.24
+=== SIZE
+5.1G	target

@@ -1,0 +1,5 @@
+I'm taking over maintenance of the SQS service crate (services/service-com-amazonaws-sqs-amazonsqs). It works and its tests pass, but it is hard to read and to change safely.
+
+Clean it up so it reads like Rust an experienced maintainer would be happy to own. Do not change behavior: the crate's tests must still pass.
+
+Work in small commits, one kind of change per commit, and say why in each message.
