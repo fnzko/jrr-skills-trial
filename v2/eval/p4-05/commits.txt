@@ -1,0 +1,8 @@
+331ee0a Add miniq crate with line protocol framing
+4def628 Add queue lifecycle commands and the virtual clock
+3b6a306 Add message send and receive with FIFO ordering and deduplication
+41f9183 Add DeleteMessage and ChangeMessageVisibility with receipt handles
+e42801d Move messages past MaxReceiveCount to the dead-letter queue
+f27093a Format the crate with rustfmt
+26cc006 Index queue state so receive does not scan the whole queue
+483de78 Test the miniq binary through pipes

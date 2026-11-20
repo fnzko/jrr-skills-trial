@@ -1,0 +1,12 @@
+6f94f78 Scaffold miniq crate
+f5ea55e Add error codes and response builders
+5ba4571 Add parameter checks, queue name syntax and attribute rules
+3bea0ca Import RangeInclusive in attributes module
+1d6a73c Add queue storage with expiry, handle and dedup indexes
+9461e63 Parse command lines into typed commands
+6f1f177 Add broker with queue administration commands
+e10d082 Implement message commands: send, receive, delete, visibility
+5dc6072 Add stdin/stdout session loop and miniq binary
+463a6e2 Add end-to-end tests that run the miniq binary
+d86517c Document the -0 limitation in integer parsing
+22f5111 Add README with usage, layout and known limits

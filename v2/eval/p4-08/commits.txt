@@ -1,0 +1,4 @@
+ef06557 Add miniq crate with error codes and identifier types
+d462972 Parse request lines into typed commands
+56af3f2 Implement the queue and message commands
+331c0df Add the miniq binary over stdin and stdout

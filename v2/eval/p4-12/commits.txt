@@ -1,0 +1,6 @@
+0b078be Scaffold miniq crate with the stdio line loop and error codes
+70bc7ff Parse request lines into typed commands
+3b920b4 Add the per-queue message store and deduplication window
+593b810 Implement the command handlers on a Service
+0e2f3ff Add black-box tests for the protocol, queues and messages
+481a77e Judge integers by their written form so -0 is accepted

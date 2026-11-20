@@ -1,0 +1,5 @@
+0627c60 Add request parsing and domain types for miniq
+4be07ad Add the queue model: messages, retention, deduplication, receive
+61f99b1 Add the service, the miniq binary and spec-level tests
+9a26db9 Give message ids and receipt handles separate counters
+8e1289a List the impossible dead-letter type pairings explicitly

@@ -1,0 +1,74 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-5f41bc7fe3019394)
+
+running 19 tests
+test queue::tests::deduplication_window_is_not_extended_by_duplicates ... ok
+test queue::tests::zero_timeout_keeps_message_visible_but_receipt_unusable ... ok
+test queue::tests::retention_removes_messages_in_any_state ... ok
+test queue::tests::delay_hides_until_it_ends ... ok
+test queue::tests::dead_letter_candidates_are_removed_and_the_scan_continues ... ok
+test queue::tests::delivers_in_arrival_order_and_hides_in_flight ... ok
+test queue::tests::delete_and_change_visibility_need_the_latest_receipt ... ok
+test queue::tests::fifo_delayed_head_blocks_its_group ... ok
+test queue::tests::fifo_delivers_one_message_per_group_head ... ok
+test queue::tests::purge_keeps_sequence_numbers ... ok
+test request::tests::attributes_are_validated ... ok
+test request::tests::create_queue_checks_name_first ... ok
+test request::tests::integers_must_be_written_as_integers ... ok
+test request::tests::missing_parameter_beats_invalid_value ... ok
+test request::tests::null_counts_as_absent ... ok
+test request::tests::queue_name_syntax ... ok
+test request::tests::rejects_malformed_lines ... ok
+test service::tests::receipts_must_be_canonical ... ok
+test request::tests::send_message_values ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-d6ec2c6fcfe67bca)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/binary.rs (target/debug/deps/binary-0bc0c6d77a73824a)
+
+running 4 tests
+test empty_input_exits_cleanly ... ok
+test answers_each_line_before_reading_the_next ... ok
+test one_response_per_line_including_blank_and_unterminated_lines ... ok
+test fills_a_queue_to_its_limit_quickly ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.20s
+
+     Running tests/commands.rs (target/debug/deps/commands-960726c9f6cf44bf)
+
+running 20 tests
+test failure_responses_have_the_documented_shape ... ok
+test create_queue_defaults_and_idempotence ... ok
+test list_queues_sorts_by_bytes_and_filters_by_prefix ... ok
+test message_ids_skip_failed_and_duplicate_sends ... ok
+test dead_letter_moves ... ok
+test deduplication_window_outlives_the_message ... ok
+test fifo_dead_letter_takes_new_sequence_number ... ok
+test change_message_visibility ... ok
+test delete_queue_clears_dead_letter_configurations ... ok
+test delays_from_queue_and_message ... ok
+test create_queue_rules_in_order ... ok
+test fifo_groups_and_sequence_numbers ... ok
+test recreated_queue_shares_nothing ... ok
+test retention_and_purge ... ok
+test send_message_rules ... ok
+test send_and_receive_standard_messages ... ok
+test receipt_handle_checks ... ok
+test set_queue_attributes_rules ... ok
+test queue_limit ... ok
+test message_limit_per_queue ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.14s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

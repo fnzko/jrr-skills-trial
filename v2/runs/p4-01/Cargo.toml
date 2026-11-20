@@ -1,0 +1,13 @@
+[package]
+name = "miniq"
+version = "0.1.0"
+edition = "2024"
+description = "A small in-memory message queue driven by JSON lines on stdin"
+publish = false
+
+[dependencies]
+serde = { version = "1.0.229", features = ["derive"] }
+# arbitrary_precision keeps the source text of numbers, so `-0` is accepted as
+# the integer 0 while `0.0` and `3e1` are rejected, as the protocol requires.
+serde_json = { version = "1.0.154", features = ["arbitrary_precision"] }
+thiserror = "2"

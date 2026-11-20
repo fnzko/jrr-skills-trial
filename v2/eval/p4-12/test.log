@@ -1,0 +1,85 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-a6340b5057516ed9)
+
+running 16 tests
+test dedup::tests::window_lasts_300_seconds_from_acceptance ... ok
+test dedup::tests::reaccepted_id_opens_a_new_window ... ok
+test queue::tests::counts_follow_the_clock ... ok
+test queue::tests::zero_visibility_timeout_examines_each_message_once ... ok
+test queue::tests::retention_drops_old_dead_letters_on_arrival ... ok
+test queue::tests::fifo_receive_takes_one_message_per_group_head ... ok
+test request::tests::missing_parameters_outrank_invalid_ones ... ok
+test request::tests::group_and_deduplication_ids_are_restricted_tokens ... ok
+test request::tests::create_queue_checks_the_name_before_attributes ... ok
+test request::tests::null_counts_as_absent_and_unknown_members_are_ignored ... ok
+test request::tests::integers_must_be_written_without_fraction_or_exponent ... ok
+test request::tests::queue_name_syntax ... ok
+test request::tests::body_length_is_measured_in_utf8_bytes ... ok
+test request::tests::other_commands_accept_any_queue_name_string ... ok
+test request::tests::rejects_lines_that_are_not_json_objects ... ok
+test request::tests::requires_a_known_string_command ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-538e5e4134b5f7ec)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/binary.rs (target/debug/deps/binary-95eeedf8a799e1c9)
+
+running 2 tests
+test empty_input_produces_no_output ... ok
+test answers_every_line_in_order_and_exits_zero ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+     Running tests/messages.rs (target/debug/deps/messages-82a4bf0ade8ae6a6)
+
+running 18 tests
+test lowering_retention_removes_messages_at_once_for_good ... ok
+test ids_count_across_queues_and_skip_failed_sends ... ok
+test moved_messages_invalidate_their_receipt_handles ... ok
+test dead_letters_too_old_for_their_new_queue_vanish ... ok
+test fifo_deduplication_window ... ok
+test delays_hide_messages_until_they_end ... ok
+test fifo_dead_letter_move_takes_a_new_sequence_number_and_unblocks_the_group ... ok
+test messages_move_to_the_dead_letter_queue_after_max_receives ... ok
+test fifo_groups_deliver_in_order_one_at_a_time ... ok
+test change_message_visibility_resets_the_timeout_from_now ... ok
+test received_message_shape ... ok
+test queue_attribute_changes_apply_to_later_operations_only ... ok
+test retention_removes_messages_whatever_their_state ... ok
+test send_rules_by_queue_type ... ok
+test zero_visibility_timeout_never_yields_a_usable_handle ... ok
+test visibility_timeout_returns_messages_in_arrival_order ... ok
+test receipt_handles_are_checked_exactly ... ok
+test a_queue_holds_at_most_100000_messages ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.38s
+
+     Running tests/queues.rs (target/debug/deps/queues-2dc4e8b9cb46c5ee)
+
+running 12 tests
+test success_responses_carry_exactly_the_result_members ... ok
+test create_queue_is_idempotent_only_for_equal_attributes ... ok
+test create_queue_defaults_and_get_attributes ... ok
+test tick_advances_the_clock ... ok
+test malformed_lines_are_invalid_requests_and_the_session_continues ... ok
+test list_queues_filters_by_prefix_in_byte_order ... ok
+test create_queue_rules_in_order ... ok
+test error_precedence_follows_section_2 ... ok
+test deleting_a_queue_clears_dead_letter_configs_that_name_it ... ok
+test purge_removes_messages_but_keeps_sequence_and_deduplication ... ok
+test set_queue_attributes_rules_in_order ... ok
+test queue_limit_is_1000 ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

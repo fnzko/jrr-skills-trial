@@ -1,0 +1,11 @@
+a18e333 Add crate skeleton with typed values and error codes
+0361954 Parse command lines into typed commands
+b0f884f Model one queue: settings, retention, send and receive rules
+d3db4de Apply every command to a table of queues
+5476039 Serve the line protocol from the miniq binary
+5b3723d Name the FIFO sequence member as the wire does
+28970d2 Drop a clone and an accumulator loop that the broker did not need
+dd9f07e Test framing and the queue administration commands
+a197255 Test message lifecycle, visibility, retention and dead letters
+a53768e Test the queue and message limits
+1826359 Format the crate with rustfmt

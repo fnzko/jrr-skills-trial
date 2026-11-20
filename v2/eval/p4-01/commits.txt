@@ -1,0 +1,5 @@
+2ad97e3 Add crate skeleton and validated value types
+599f609 Parse request lines into typed commands
+e891ce5 Add the per-queue message store
+30b5132 Execute commands and serve the line protocol
+7e37ba1 Add end-to-end tests of the protocol

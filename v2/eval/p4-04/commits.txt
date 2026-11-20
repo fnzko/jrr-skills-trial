@@ -1,0 +1,5 @@
+c180f7d Add miniq crate with line protocol and Tick
+85d3791 Add queue registry: CreateQueue, SetQueueAttributes, ListQueues, DeleteQueue
+1b21f58 Add messages: send, receive, delete, visibility, FIFO, retention
+f881da8 Move messages to the dead-letter queue during ReceiveMessage
+4efd2ad Tidy derives, borrows and dedup pruning

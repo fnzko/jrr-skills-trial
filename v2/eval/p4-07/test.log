@@ -1,0 +1,92 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-2924a68382c6cd0e)
+
+running 14 tests
+test request::tests::missing_parameter_is_reported_before_a_bad_value ... ok
+test request::tests::malformed_receipt_handle_becomes_none_for_the_broker_to_refuse ... ok
+test request::tests::null_members_count_as_absent_and_unknown_members_are_ignored ... ok
+test request::tests::attributes_null_members_are_absent ... ok
+test types::tests::message_ids_print_with_prefix ... ok
+test request::tests::queue_name_is_checked_before_other_attributes ... ok
+test request::tests::out_of_range_integers_are_refused_at_both_ends ... ok
+test types::tests::queue_name_refusal_has_queue_name_invalid_code ... ok
+test types::tests::clock_stops_at_the_limit_exactly ... ok
+test request::tests::refused_lines_report_the_code_of_section_2 ... ok
+test types::tests::body_size_rules_table ... ok
+test types::tests::queue_name_rules_table ... ok
+test types::tests::receipt_handle_parse_table ... ok
+test types::tests::token_rules_table ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-149399b64b2cf856)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/fifo.rs (target/debug/deps/fifo-018b8d4b8cc6f6bf)
+
+running 6 tests
+test group_and_deduplication_ids_are_refused_on_a_standard_queue ... ok
+test content_based_deduplication_uses_the_body_and_shares_its_namespace_with_explicit_ids ... ok
+test a_fifo_send_without_group_or_deduplication_id_or_with_a_delay_is_refused ... ok
+test a_message_moved_to_a_fifo_dead_letter_queue_does_not_hold_back_its_group ... ok
+test a_duplicate_within_the_window_returns_the_original_and_the_window_is_not_extended ... ok
+test one_receive_delivers_at_most_one_message_per_group_and_a_group_waits_for_its_earliest_message ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/framing.rs (target/debug/deps/framing-fef833828ebc03a9)
+
+running 4 tests
+test a_command_name_is_case_sensitive ... ok
+test a_line_that_is_not_utf8_is_refused_and_the_next_line_is_still_served ... ok
+test unknown_and_null_members_are_ignored_or_treated_as_absent ... ok
+test blank_and_unparsable_lines_get_their_own_refusal_and_the_session_goes_on ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/limits.rs (target/debug/deps/limits-479ed7154a673f06)
+
+running 2 tests
+test the_broker_refuses_a_1001st_queue_but_still_accepts_an_identical_repeat_of_an_existing_one ... ok
+test a_queue_refuses_its_100001st_message_and_the_100000th_is_accepted ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.66s
+
+     Running tests/messages.rs (target/debug/deps/messages-35aa3a1fcd464bc6)
+
+running 10 tests
+test a_dead_lettered_message_already_past_the_dead_letter_retention_is_dropped_on_arrival ... ok
+test a_handle_of_an_expired_message_is_expired_and_the_message_is_not_counted ... ok
+test a_delayed_message_is_invisible_until_its_delay_ends_and_a_send_can_override_the_delay ... ok
+test a_message_is_hidden_while_in_flight_and_returns_with_a_new_handle ... ok
+test a_refused_send_does_not_use_up_a_message_id ... ok
+test a_message_that_reached_max_receive_count_moves_to_the_dead_letter_queue ... ok
+test lowering_retention_removes_messages_at_once_and_raising_it_brings_nothing_back ... ok
+test receive_returns_at_most_max_messages_in_arrival_order ... ok
+test change_message_visibility_moves_the_end_of_the_timeout_and_zero_makes_it_visible ... ok
+test a_bad_or_expired_receipt_handle_is_refused_after_the_queue_lookup ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/queues.rs (target/debug/deps/queues-e2a502d4c7c7d811)
+
+running 7 tests
+test get_queue_attributes_reports_defaults_for_standard_and_fifo_queues ... ok
+test list_queues_returns_names_in_byte_order_filtered_by_prefix ... ok
+test purge_empties_the_queue_but_message_ids_keep_counting ... ok
+test deleting_a_dead_letter_queue_clears_the_references_and_a_new_queue_starts_empty ... ok
+test create_queue_accepts_identical_repeats_and_refuses_other_attributes ... ok
+test set_queue_attributes_applies_the_rules_of_section_5_in_order ... ok
+test tick_advances_the_clock_and_stops_at_the_documented_limit ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

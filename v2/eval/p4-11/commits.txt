@@ -1,0 +1,18 @@
+d6bf44e Add miniq crate skeleton
+510e7b7 Add error codes and the command error type
+f9f218c Add validated domain types for names and identifiers
+9129f63 Add typed conversions for command parameters
+0141806 Add queue attributes with defaults and partial updates
+0777bc7 Parse command lines into typed commands
+14c958b Add the queue model: messages, states, send and receive planning
+5912cf6 Apply attribute updates and check the dead-letter pair
+17b0c77 Add the broker that runs every command against the queues
+0b32fb9 Serve the line protocol over any reader and writer
+47a2b99 Add the miniq binary that connects stdin and stdout to the protocol
+aff20ca Test dead-letter arrival against the destination retention
+12ab8c0 Test the protocol end to end against the rules of the spec
+0fa3e77 Test the binary as a process, not only the library
+36edbee Remove the license and rust-version fields from the manifest
+67765cd Add a README with the usage, the test commands and the module layout
+a49e17e Format the crate with rustfmt
+9aeb240 Correct two broker comments about which rules run where

@@ -1,0 +1,95 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-a6340b5057516ed9)
+
+running 14 tests
+test request::tests::dead_letter_needs_both_attributes ... ok
+test request::tests::create_queue_checks_name_before_attributes ... ok
+test request::tests::missing_parameter_wins_over_invalid_value ... ok
+test request::tests::other_commands_take_any_queue_name_string ... ok
+test request::tests::null_counts_as_absent_and_unknown_members_are_ignored ... ok
+test request::tests::checks_message_parameter_values ... ok
+test request::tests::parses_attributes ... ok
+test request::tests::rejects_malformed_lines ... ok
+test types::tests::queue_name_rules ... ok
+test request::tests::integers_must_be_written_as_integers ... ok
+test request::tests::rejects_bad_attribute_values ... ok
+test types::tests::receipt_handle_accepts_only_canonical_text ... ok
+test types::tests::receipt_handles_are_issued_from_one ... ok
+test types::tests::tag_rules ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-538e5e4134b5f7ec)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/messages.rs (target/debug/deps/messages-82a4bf0ade8ae6a6)
+
+running 27 tests
+test change_message_visibility_requires_a_timeout ... ok
+test content_based_deduplication_uses_the_body ... ok
+test deduplication_is_per_queue ... ok
+test delay_hides_a_new_message ... ok
+test dead_lettered_message_past_retention_there_is_removed ... ok
+test fifo_deduplication_window_is_300_seconds_from_acceptance ... ok
+test dead_lettered_fifo_message_takes_the_next_sequence_number ... ok
+test delete_message_needs_the_latest_handle_of_a_message_in_flight ... ok
+test fifo_delivers_one_message_per_group_in_order ... ok
+test handle_expires_when_the_visibility_timeout_ends ... ok
+test ids_count_over_all_queues_and_skip_failed_sends ... ok
+test fifo_group_waits_behind_a_visible_head_that_reappears ... ok
+test change_message_visibility_restarts_the_timeout_from_now ... ok
+test lowering_retention_removes_messages_for_good ... ok
+test new_delay_applies_to_later_sends_only ... ok
+test max_messages_limits_one_receive ... ok
+test new_dead_letter_configuration_applies_on_the_next_receive ... ok
+test messages_received_too_often_move_to_the_dead_letter_queue ... ok
+test receive_visibility_timeout_parameter_overrides_the_queue ... ok
+test retention_ended_before_it_was_raised_still_removes ... ok
+test purge_removes_all_messages_but_keeps_sequence_and_deduplication ... ok
+test retention_removes_messages_in_every_state ... ok
+test zero_visibility_timeout_handle_is_never_usable ... ok
+test send_and_receive_report_every_member ... ok
+test visibility_timeout_hides_a_message_until_it_ends ... ok
+test send_message_rule_order ... ok
+test a_queue_holds_at_most_100000_messages ... ok
+
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.97s
+
+     Running tests/protocol.rs (target/debug/deps/protocol-22c8f7b2b1564fbf)
+
+running 5 tests
+test empty_input_gives_no_output ... ok
+test final_line_without_newline_counts ... ok
+test every_line_gets_one_response_in_order ... ok
+test failed_command_changes_no_state ... ok
+test binary_answers_stdin_on_stdout_and_exits_with_zero ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running tests/queues.rs (target/debug/deps/queues-2dc4e8b9cb46c5ee)
+
+running 12 tests
+test create_queue_is_idempotent_only_for_equal_attributes ... ok
+test new_queue_reports_default_attributes_and_no_messages ... ok
+test recreated_queue_shares_nothing_with_the_deleted_one ... ok
+test set_queue_attributes_changes_only_the_given_attributes ... ok
+test delete_queue_clears_dead_letter_configurations_pointing_at_it ... ok
+test dead_letter_configuration_is_reported_and_compared ... ok
+test list_queues_sorts_by_bytes_and_filters_by_prefix ... ok
+test tick_advances_the_clock ... ok
+test create_queue_rule_order ... ok
+test lookup_fails_for_any_unknown_name ... ok
+test set_queue_attributes_rule_order ... ok
+test at_most_1000_queues_exist ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

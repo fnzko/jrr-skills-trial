@@ -1,0 +1,12 @@
+d0ccb43 Scaffold the miniq crate
+70f3866 Add the closed set of error codes
+728adab Read command lines and write one response per line
+b13e400 Check parameters in the order section 2 requires
+93302ed Model queue attributes with defaults from section 4
+c1f484f Add the queue registry, the clock and the queue commands
+d660994 Accept messages with SendMessage, deduplication and retention
+d733000 Deliver messages with ReceiveMessage, including FIFO and dead-letter moves
+4589489 Validate receipt handles for DeleteMessage and ChangeMessageVisibility
+5581e71 Format the crate with rustfmt
+d54b4fd Test the line protocol and the binary end to end
+7eb4cf3 Share the missing-parameter error and document the crate
