@@ -1,0 +1,10 @@
+[package]
+name = "miniq"
+version = "0.1.0"
+edition = "2024"
+description = "A small in-memory message queue driven by JSON commands on stdin"
+
+[dependencies]
+# arbitrary_precision keeps the written form of numbers, so `30.0`, `3e1` and
+# `-0` can be told apart from integers instead of being folded into f64.
+serde_json = { version = "1", features = ["arbitrary_precision"] }
