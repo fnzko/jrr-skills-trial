@@ -1,0 +1,27 @@
+ 25 files changed, 117 insertions(+), 170 deletions(-)
+ .../src/ops/add_permission.rs                      |  1 -
+ .../src/ops/cancel_message_move_task.rs            |  1 -
+ .../src/ops/change_message_visibility.rs           |  6 +-
+ .../src/ops/change_message_visibility_batch.rs     |  6 +-
+ .../src/ops/create_queue.rs                        |  1 -
+ .../src/ops/delete_message.rs                      |  6 +-
+ .../src/ops/delete_message_batch.rs                |  6 +-
+ .../src/ops/delete_queue.rs                        |  6 +-
+ .../src/ops/get_queue_attributes.rs                |  6 +-
+ .../src/ops/get_queue_url.rs                       |  6 +-
+ .../src/ops/list_dead_letter_source_queues.rs      |  1 -
+ .../src/ops/list_message_move_tasks.rs             |  1 -
+ .../src/ops/list_queue_tags.rs                     |  6 +-
+ .../src/ops/list_queues.rs                         |  1 -
+ .../src/ops/purge_queue.rs                         |  6 +-
+ .../src/ops/receive_message.rs                     |  7 +-
+ .../src/ops/remove_permission.rs                   |  1 -
+ .../src/ops/send_message.rs                        | 82 ++++++++++------------
+ .../src/ops/send_message_batch.rs                  | 78 +++++++++-----------
+ .../src/ops/set_queue_attributes.rs                |  1 -
+ .../src/ops/start_message_move_task.rs             |  1 -
+ .../src/ops/tag_queue.rs                           |  1 -
+ .../src/ops/untag_queue.rs                         |  1 -
+ .../src/service.rs                                 | 28 --------
+ .../src/state.rs                                   | 27 +++++++
+ 25 files changed, 117 insertions(+), 170 deletions(-)

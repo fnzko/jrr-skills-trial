@@ -1,0 +1,5 @@
+b08fed989 refactor: drop override stubs that restate the trait defaults
+7c0c90203 refactor: borrow the queue's ARN and policy for the authorization check
+46c69e1ba refactor: move SendMessage's request fields instead of cloning them
+2891bf700 refactor: drop allow(unused_imports) from the handlers' type glob
+8f2a3661c refactor: give the send handlers one Queue::enqueue_sent

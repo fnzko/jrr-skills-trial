@@ -1,0 +1,9 @@
+4ab882a1b refactor(sqs): move message attribute digest and size helpers next to their rules
+8dd03d03b refactor(sqs): move the message move task record into its own module
+0100201f1 refactor(sqs): move queue addressing into state/queue_address.rs
+8554de138 refactor(sqs): move receipt handle helpers into state/receipt_handle.rs
+a63fc8ef3 refactor(sqs): move tag quotas and refusals into state/tags.rs
+a61889fa2 refactor(sqs): keep the redrive attribute names with the redrive rules
+e4cf18e0b refactor(sqs): move queue attribute specs and validation into state/queue_attributes.rs
+a8a2f5348 chore(sqs): drop allow(unused_imports) from operation modules
+2961d9c2a refactor(sqs): move batch limits and refusal wording into state/batch.rs
