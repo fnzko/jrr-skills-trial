@@ -1,0 +1,9 @@
+/claude-home/
+/homes/
+/aws-emulator/
+/runs/
+/tools/
+/just-right-rust/
+/just-right-rust-main/
+target/
+.DS_Store
