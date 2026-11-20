@@ -1,0 +1,12 @@
+48ee66f Name the attribute ranges that several commands share
+5ac1e6f Dispatch on a Command enum instead of command-name strings
+01a990e Return required parameters from require instead of unwrapping later
+1a0b8af Assert values in the request unit tests
+90d65ab Give message ids, receipt handles and sequence numbers their own types
+3a14079 Look the queue up once when resolving a receipt handle
+e176f0a Keep the dead-letter members of an update together
+50859eb Model the queue type as an enum
+f6071ff Hold a FIFO message's group and sequence number in one field
+ae348a9 Validate queue names once, in a QueueName key type
+7420932 Type durations and clock values instead of naming the unit
+fda8f50 Name the FIFO identifiers of a send instead of passing a tuple

@@ -1,0 +1,8 @@
+47995d6 Build the missing-parameter error in one place
+4446de4 Parse the command name into an enum at the request boundary
+d241550 Make require return the parameters it checked
+f9df771 Pair the dead-letter attributes once, when they are parsed
+c3524a6 Give message ids, receipt handles, sequence numbers and arrival indexes their own types
+6bbbba7 Group the message fields that always change together
+0484cc5 Stop copying state in ReceiveMessage only to satisfy the borrow checker
+9445768 Move the FIFO send rules out of send_message into FifoIds::resolve

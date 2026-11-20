@@ -1,0 +1,4 @@
+bc4d666 Name the attribute range limits instead of repeating literals
+64c59a6 Define the MissingParameter error once
+aff1d30 Share the ContentBasedDeduplication/FIFO check
+7f5dc8a Pull FIFO send identifier handling out of send_message

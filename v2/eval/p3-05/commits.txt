@@ -1,0 +1,5 @@
+2a5ea09 Name the visibility-timeout and delay limits
+df637a8 Build MissingParameter errors in one place
+80abd80 Share the ContentBasedDeduplication/FIFO rule between create and set
+954c7ab Inline the single-use expiry closure in Queue::expire
+7a2d749 Assert exact values in tests that only checked ok/err or substrings

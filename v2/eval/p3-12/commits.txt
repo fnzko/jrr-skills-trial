@@ -1,0 +1,5 @@
+a8c99c4 Read required parameters through typed getters instead of expect
+bbb0fed Look the queue up once in delete and change-visibility
+28ae083 Decide the dead-letter configuration once per update
+6cad4fe Name the limits and the FIFO-only deduplication rule once
+3c426fd Make the request unit tests assert exact outcomes

@@ -1,0 +1,6 @@
+84fa3bc Parse the command name into an enum at the request boundary
+d3dc663 Add required_* getters to replace expect on checked parameters
+397b35e Give message ids, receipt handles and arrival indices their own types
+106945b Hold seconds as std Duration instead of bare u64
+fd7bb20 Merge a message's group id and sequence number into one FifoPlacement
+2ab28a3 Resolve receipt handles inside the queue and drop the swallowed lookup

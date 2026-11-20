@@ -1,0 +1,3 @@
+c40db03 Name the attribute range limits instead of repeating literals
+079193e Give Error constructors for the common codes
+854786d Extract FIFO parameter resolution out of send_message

@@ -1,0 +1,5 @@
+d9f3c19 Name the timeout and delay ranges shared by attributes and requests
+44fdbb3 Build the MissingParameter error in one place
+014ec04 Share the ContentBasedDeduplication-needs-FIFO check
+d281f05 Move the Body length rule out of send_message
+1f2bc91 Simplify the expiry guard and drop a redundant closure

@@ -1,0 +1,4 @@
+07a6425 Name the numeric limits that were repeated as literals
+b73ec13 Build common errors in one place
+b42c879 Document the queue module's public types
+c00b072 Extract the FIFO send rules out of send_message

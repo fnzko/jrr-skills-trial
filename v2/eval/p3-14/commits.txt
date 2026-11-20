@@ -1,0 +1,4 @@
+627fe98 Replace expect("required") with required_* getters
+386d8eb Decide the dead-letter pairing once
+a1d4b5c Make request tests assert exact outcomes
+4fcbd3c Share the ContentBasedDeduplication/FIFO check

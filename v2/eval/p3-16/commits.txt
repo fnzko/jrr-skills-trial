@@ -1,0 +1,5 @@
+5cfe981 Return MissingParameter from typed getters instead of expect
+c8ca135 Look the queue up once for delete and change-visibility
+bf0aee4 Pass the validated dead-letter pair into Attributes::apply
+e35eab1 Assert exact results and error codes in the range test
+2856c70 Drop the redundant Ok(...?) wrapper in queue_name

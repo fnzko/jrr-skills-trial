@@ -1,0 +1,4 @@
+18733ea Name the attribute ranges shared by queue and message commands
+f5bd74d Give Error named constructors for the errors raised in several places
+8ff20f2 Apply the clippy simplifications that need no judgement
+e670f35 Split the FIFO admission rules out of send_message
