@@ -1,0 +1,5 @@
+713ce35 Add error codes and validated value types
+7a6c3bf Parse command lines into typed commands
+a666c30 Add the queue engine, response rendering and the stdin loop
+b1995ae Test the protocol and queue commands through the binary
+580cca9 Test message commands, FIFO groups, deduplication and dead letters

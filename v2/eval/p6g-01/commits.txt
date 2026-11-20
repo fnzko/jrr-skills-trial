@@ -1,0 +1,7 @@
+8ea6c62 Add crate with error codes, typed ids and validated names
+4012c43 Parse command lines into validated requests
+715d0ee Add the queue model: states, retention, dedup and delivery
+eb1ac74 Add the broker and the stdin/stdout binary
+6b7fe57 Test the line protocol, check order and attribute validation
+eff504b Format the sources with rustfmt and collapse a nested if
+494eb33 Test queue behavior end to end through the broker

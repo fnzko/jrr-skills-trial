@@ -1,0 +1,71 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-de1fa45e3075ebf5)
+
+running 4 tests
+test ids::tests::ids_display_with_their_prefix ... ok
+test ids::tests::only_canonical_issued_handles_are_recognized ... ok
+test names::tests::message_token_rule ... ok
+test names::tests::queue_name_syntax ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-269756b648abed54)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/miniq.rs (target/debug/deps/miniq-08ae272aada04660)
+
+running 42 tests
+test a_recreated_queue_shares_nothing_with_the_deleted_one ... ok
+test content_based_deduplication_uses_the_body_unless_an_id_is_given ... ok
+test change_message_visibility_replaces_the_end_of_the_timeout ... ok
+test bad_lines_get_invalid_request_and_the_next_line_still_runs ... ok
+test create_queue_checks_the_name_before_other_parameters ... ok
+test create_queue_is_idempotent_only_for_equal_attributes ... ok
+test a_new_dead_letter_configuration_applies_from_the_next_receive ... ok
+test attribute_values_are_range_and_type_checked ... ok
+test existing_queue_is_reported_before_a_missing_dead_letter_queue ... ok
+test delayed_messages_become_visible_when_their_delay_ends ... ok
+test deleting_a_queue_clears_dead_letter_configurations_that_name_it ... ok
+test create_queue_rules_apply_in_spec_order ... ok
+test dead_letter_move_resets_counters_and_gives_fifo_messages_new_sequence_numbers ... ok
+test dead_lettered_messages_do_not_count_toward_max_messages ... ok
+test fifo_deduplication_id_outlives_the_message ... ok
+test fifo_deduplication_window_is_300_seconds_and_not_extended_by_duplicates ... ok
+test integers_must_be_written_as_integers ... ok
+test fifo_group_stays_blocked_while_its_earlier_message_is_in_flight_after_a_later_one_is_visible ... ok
+test invalid_values_are_reported_before_the_queue_lookup ... ok
+test get_queue_attributes_lists_defaults_and_omits_unset_dead_letter_members ... ok
+test fifo_delivers_one_message_per_group_and_blocks_groups_with_hidden_messages ... ok
+test list_queues_sorts_by_byte_value_and_filters_by_prefix ... ok
+test message_already_past_the_dead_letter_queues_retention_is_dropped_on_arrival ... ok
+test lowering_retention_removes_messages_at_once_and_raising_it_brings_none_back ... ok
+test missing_parameters_are_reported_before_invalid_values ... ok
+test messages_are_removed_when_retention_runs_out_whatever_their_state ... ok
+test retention_is_not_revived_by_raising_it_after_the_deadline_passed_in_a_tick ... ok
+test only_the_latest_handle_of_an_in_flight_message_is_usable ... ok
+test message_moves_to_the_dead_letter_queue_after_max_receive_count_deliveries ... ok
+test receive_message_validates_its_parameters ... ok
+test receipt_handles_are_invalid_or_expired_by_the_spec_rules ... ok
+test send_message_rules_apply_in_spec_order ... ok
+test unknown_members_are_ignored_and_null_means_absent ... ok
+test zero_visibility_timeout_redelivers_at_once_and_the_handle_never_works ... ok
+test visible_again_message_keeps_its_place_in_arrival_order ... ok
+test set_queue_attributes_rules_apply_in_spec_order ... ok
+test standard_queue_delivers_in_arrival_order_with_counters ... ok
+test at_most_1000_queues_exist ... ok
+test binary_with_no_input_prints_nothing ... ok
+test binary_treats_a_lone_newline_as_one_blank_command ... ok
+test binary_answers_every_line_including_blank_ones_and_an_unterminated_last_line ... ok
+test a_queue_holds_at_most_100000_messages_in_any_state ... ok
+
+test result: ok. 42 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.64s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

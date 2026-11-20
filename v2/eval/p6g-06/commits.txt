@@ -1,0 +1,9 @@
+099fe28 Scaffold the miniq crate with the protocol error type
+28ea7b7 Add validated queue names, identifiers and attribute types
+a0d5597 Parse input lines into typed commands in the spec's error order
+a23d8c9 Add typed response structs and single-line rendering
+da36c6a Add the queue: ordered messages, retention index and deduplication
+bbff73f Execute commands against the process state
+540cc5c Wire the line protocol and the miniq binary
+87f55b9 Apply rustfmt to the existing sources
+7df41bc Test the protocol end to end through run()

@@ -1,0 +1,11 @@
+[package]
+name = "miniq"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.104"
+serde = { version = "1.0.229", features = ["derive"] }
+# arbitrary_precision keeps numbers such as 1e400 parseable, so they reach
+# parameter validation instead of failing as a malformed line.
+serde_json = { version = "1.0.154", features = ["arbitrary_precision"] }

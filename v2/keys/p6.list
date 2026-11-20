@@ -1,0 +1,27 @@
+p6r-01 context2 refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6r-05 short refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6r-09 context2 refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6f-07 short feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6g-06 limits green claude-sonnet-5-5
+p6r-06 limits refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6r-08 context2 refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6f-04 limits feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6f-05 context2 feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6g-07 limits green claude-sonnet-5-5
+p6g-04 context2 green claude-sonnet-5-5
+p6g-08 context2 green claude-sonnet-5-5
+p6f-02 limits feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6f-03 context2 feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6r-04 short refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6r-02 limits refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6r-03 limits refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6f-06 context2 feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6f-09 limits feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6g-05 short green claude-sonnet-5-5
+p6g-01 context2 green claude-sonnet-5-5
+p6g-02 limits green claude-sonnet-5-5
+p6g-09 short green claude-sonnet-5-5
+p6r-07 short refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6g-03 short green claude-sonnet-5-5
+p6f-01 short feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p6f-08 short feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline

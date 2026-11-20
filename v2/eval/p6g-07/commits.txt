@@ -1,0 +1,4 @@
+cdf56ac Start the miniq crate with error codes and identifiers
+f01e3dc Add request parsing, response shapes and the queue model
+284798c Execute commands and serve them over stdin and stdout
+945deca Test protocol rules end to end and the binary's line framing

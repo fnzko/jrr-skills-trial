@@ -1,0 +1,7 @@
+2526666 Add crate skeleton with error codes and identifier types
+5c03c8e Add queue attributes with defaults, request matching and updates
+40f1845 Add the queue model with retention, deduplication and dead-letter moves
+8e880c4 Parse input lines into typed commands
+7ce036a Add the broker, response rendering and the line-by-line server
+d30ae19 Format sources and collapse nested conditions flagged by clippy
+5c3036f Add end-to-end scenario tests and a binary smoke test

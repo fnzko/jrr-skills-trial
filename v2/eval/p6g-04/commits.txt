@@ -1,0 +1,6 @@
+7b94620 Add error codes and validated identifier types
+ff6e0f4 Add queue storage with exact retention and receive rules
+195b1ab Parse command lines into validated requests
+d599e84 Execute requests and serve them over stdin and stdout
+e832a1f Apply rustfmt to the source
+cae4753 Test the protocol end to end through the line interface

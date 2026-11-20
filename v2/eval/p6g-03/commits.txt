@@ -1,0 +1,7 @@
+cce68fd Add error codes and validated value types
+deba2e1 Parse request lines into typed commands
+ab47092 Add the queue engine
+4910171 Add the service, replies and the stdin/stdout driver
+18d4162 Format sources and rename Counter::next to advance
+c41775a Add protocol tests that drive whole sessions
+6c3d521 Rename Counter::next to advance

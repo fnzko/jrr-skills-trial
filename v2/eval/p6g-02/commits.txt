@@ -1,0 +1,5 @@
+f7c2521 Scaffold the miniq crate with error codes and typed ids
+0476235 Add queue configuration types
+5a069a7 Add request parsing, response types and the queue core
+e9449dc Add the service state machine and the stdin/stdout loop
+1f0a6d5 Add end-to-end protocol tests
