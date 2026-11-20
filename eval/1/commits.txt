@@ -1,0 +1,23 @@
+d26ae0b6b test(sqs): rename scratch_probe to say what it covers
+51b9a4849 refactor(sqs): move message attribute digests and sizes into message_attributes
+b53e414b0 refactor(sqs): move CreateQueue recreate rules into state::recreate
+e25499c88 refactor(sqs): move queue tag quotas and refusals into state::tags
+d0c4c54d0 refactor(sqs): move queue attribute validation into state::attribute_validation
+426a92b2a refactor(sqs): move the queue attribute table into state::attribute_specs
+be9e61dc0 refactor(sqs): move the message move task record into state::message_move_task
+705efa041 refactor(sqs): move refusal wording templates into state::refusal_messages
+f1dd838eb refactor(sqs): move shared batch limits and wording into state::batch
+3b2b728fe refactor(sqs): move receipt handle handling into state::receipt_handle
+66a9f396f refactor(sqs): move queue naming and addressing into state::queue_address
+7034f0c8c refactor(sqs): move list pagination into state::pagination
+8b59accd7 refactor(sqs): move the store ceilings into state::limits
+d3d156130 refactor(sqs): move the queue store and its operations into state::store
+0a915ed33 refactor(sqs): move the Queue record and message types into state::queue and state::message
+2b6689c53 refactor(sqs): order the state module declarations and fix a stale banner
+c45ff569f refactor(sqs): drop 23 unneeded allow(unused_imports) in op handlers
+87a40bbdb refactor(sqs): share the delay and attribute-count refusals between single and batch send
+062de3113 refactor(sqs): validate ReceiveRequestAttemptId once in ReceiveMessage
+06c379390 refactor(sqs): name the ReceiveMessage batch size once
+f5f3170db refactor(sqs): move the query-compatible error envelope out of service.rs
+6b937bf4c docs(sqs): update the README layout for the split state and service modules
+f534cd51a refactor(sqs): judge a message's FIFO members and delay by one rule for single and batch sends

@@ -1,0 +1,15 @@
+ 13 files changed, 3288 insertions(+), 3197 deletions(-)
+ .../src/state.rs                                   | 3239 +-------------------
+ .../src/state/batch.rs                             |   77 +
+ .../src/state/clock.rs                             |   59 +
+ .../src/state/message.rs                           |  197 ++
+ .../src/state/message_attributes.rs                |  186 ++
+ .../src/state/message_move_task.rs                 |  253 ++
+ .../src/state/pagination.rs                        |  117 +
+ .../src/state/queue.rs                             | 1165 +++++++
+ .../src/state/queue_address.rs                     |  173 ++
+ .../src/state/queue_attributes.rs                  |  520 ++++
+ .../src/state/queue_creation.rs                    |  158 +
+ .../src/state/receipt_handle.rs                    |  225 ++
+ .../src/state/tags.rs                              |  116 +
+ 13 files changed, 3288 insertions(+), 3197 deletions(-)

@@ -1,0 +1,9 @@
+81fb4a81b refactor(sqs): keep message attribute limits beside the rules that use them
+64aa7d308 refactor(sqs): move message digests and attribute sizing out of state.rs
+3b8df57b2 refactor(sqs): give the message movement task record its own module
+527777273 refactor(sqs): split queue addressing and receipt handles out of state.rs
+f5c15d1c2 refactor(sqs): split parameter refusals, attribute validation and queue rules out of state.rs
+dbb8cdea9 refactor(sqs): move the attribute catalogue, store limits and redrive members out of state.rs
+34e606d98 refactor(sqs): place Queue and state methods beside the feature they implement
+4c7588325 refactor(sqs): name the (arn, policy) pair the authorization gate takes from a queue
+f54953a3b style(sqs): run rustfmt over the crate

@@ -1,0 +1,47 @@
+ 45 files changed, 5231 insertions(+), 5126 deletions(-)
+ .../service-com-amazonaws-sqs-amazonsqs/README.md  |   15 +-
+ .../src/ops/add_permission.rs                      |    1 -
+ .../src/ops/cancel_message_move_task.rs            |    1 -
+ .../src/ops/change_message_visibility.rs           |    1 -
+ .../src/ops/change_message_visibility_batch.rs     |    1 -
+ .../src/ops/create_queue.rs                        |    1 -
+ .../src/ops/delete_message.rs                      |    1 -
+ .../src/ops/delete_message_batch.rs                |    1 -
+ .../src/ops/delete_queue.rs                        |    1 -
+ .../src/ops/get_queue_attributes.rs                |    1 -
+ .../src/ops/get_queue_url.rs                       |    1 -
+ .../src/ops/list_dead_letter_source_queues.rs      |    1 -
+ .../src/ops/list_message_move_tasks.rs             |    1 -
+ .../src/ops/list_queue_tags.rs                     |    1 -
+ .../src/ops/list_queues.rs                         |    1 -
+ .../src/ops/purge_queue.rs                         |    1 -
+ .../src/ops/receive_message.rs                     |   32 +-
+ .../src/ops/remove_permission.rs                   |    1 -
+ .../src/ops/send_message.rs                        |  104 +-
+ .../src/ops/send_message_batch.rs                  |  120 +-
+ .../src/ops/set_queue_attributes.rs                |    1 -
+ .../src/ops/start_message_move_task.rs             |    1 -
+ .../src/ops/tag_queue.rs                           |    1 -
+ .../src/ops/untag_queue.rs                         |    1 -
+ .../src/service.rs                                 |  411 +-
+ .../src/service/query_compatible_errors.rs         |  415 ++
+ .../src/state.rs                                   | 4620 +-------------------
+ .../src/state/attribute_specs.rs                   |  319 ++
+ .../src/state/attribute_validation.rs              |  269 ++
+ .../src/state/batch.rs                             |   77 +
+ .../src/state/limits.rs                            |  106 +
+ .../src/state/message.rs                           |  197 +
+ .../src/state/message_attributes.rs                |  186 +
+ .../src/state/message_move_task.rs                 |  253 ++
+ .../src/state/pagination.rs                        |  117 +
+ .../src/state/queue.rs                             | 1166 +++++
+ .../src/state/queue_address.rs                     |  293 ++
+ .../src/state/receipt_handle.rs                    |  258 ++
+ .../src/state/recreate.rs                          |  117 +
+ .../src/state/refusal_messages.rs                  |  202 +
+ .../src/state/send_rules.rs                        |  111 +
+ .../src/state/store.rs                             |  827 ++++
+ .../src/state/tags.rs                              |  116 +
+ .../tests/all.rs                                   |    4 +-
+ ...rs => delete_message_batch_visibility_lapse.rs} |    2 +-
+ 45 files changed, 5231 insertions(+), 5126 deletions(-)

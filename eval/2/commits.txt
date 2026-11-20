@@ -1,0 +1,14 @@
+221f61902 refactor(sqs): move attribute digest and size helpers next to the attribute rules
+27e2f77e4 refactor(sqs): extract queue key, url and ARN handling into state::queue_address
+3670b8c18 refactor(sqs): extract MessageMoveTask and its limits into state::message_move_task
+5e1c6de3d refactor(sqs): extract receipt handle encoding and refusals into state::receipt_handle
+874c93698 refactor(sqs): extract attribute validation into state::queue_attributes
+33cd4743f refactor(sqs): move the attribute catalog next to the code that validates against it
+a3af63097 refactor(sqs): extract tag limits and refusals into state::tags
+f3d303b17 refactor(sqs): extract create-time name and recreate checks into state::queue_creation
+cfc0e1f96 refactor(sqs): extract list pagination helpers into state::pagination
+46fafaef5 docs(sqs): point the tag-bounds note at the module that now holds them
+a45b6a8fd refactor(sqs): extract the stored message records into state::message
+479bfc304 refactor(sqs): move Queue and its impl into state::queue
+c88aca4da refactor(sqs): extract epoch rendering and span arithmetic into state::clock
+ca7b38e07 refactor(sqs): extract batch limits and entry wording into state::batch

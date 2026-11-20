@@ -1,0 +1,39 @@
+model claude-sonnet-5-5
+skills offered ['just-right-rust:async-rust', 'just-right-rust:rust-comments', 'just-right-rust:rust-domain-types', 'just-right-rust:rust-error-discipline', 'just-right-rust:rust-keep-it-simple', 'just-right-rust:rust-ownership', 'just-right-rust:rust-test-quality', 'just-right-rust:unsafe-rust-review', 'anthropic-skills:built-in-browser', 'anthropic-skills:chrome-browser', 'anthropic-skills:computer-use', 'anthropic-skills:deep-research', 'anthropic-skills:docs', 'anthropic-skills:docx', 'anthropic-skills:google-workspace', 'anthropic-skills:import-memory', 'anthropic-skills:morning', 'anthropic-skills:pdf', 'anthropic-skills:pptx', 'anthropic-skills:skill-creator', 'anthropic-skills:xlsx']
+skills invoked []
+skill files read {}
+tool calls {'Bash': 112, 'Monitor': 4, 'Write': 2, 'Edit': 2, 'Read': 1}
+bash {'cargo test': 11, 'git commit': 4, 'cargo check': 1, 'cargo clippy': 1}
+result messages 3
+subtype success
+is_error False
+num_turns 124
+duration_ms 3395905
+total_cost_usd 3.2355901000000014
+final message:
+Resumen: la limpieza está hecha en 23 commits sobre `run-1`, todos dentro del crate. Después de cada commit corrí la suite completa y pasó cada vez: 5 tests unitarios y 280 de integración, 0 fallos, y sin warnings nuevos del crate. Lo que no verifiqué es la salida de rustdoc: dejé en `state.rs` enlaces de documentación a items que ahora están en submódulos y no corrí `cargo doc`.
+
+**Estructura (la mayor parte)**
+- `state.rs` pasó de 4.877 a 505 líneas y quedó con la documentación del módulo, los helpers compartidos y los re-exports. Los items siguen accesibles como `crate::state::*`.
+- Ahora hay 22 módulos en `state/`, uno por concepto: `store`, `queue`, `message`, `attribute_specs`, `attribute_validation`, `limits`, `pagination`, `batch`, `tags`, `recreate`, `queue_address`, `receipt_handle`, `message_move_task`, `refusal_messages`, y los que ya existían.
+- `service.rs` pasó de 731 a 326 líneas. Todo el envelope de errores query-compatible (con sus tests unitarios) está ahora en `service/query_compatible_errors.rs`.
+- Todos estos commits mueven el código sin cambiarlo. Las únicas ediciones fueron las necesarias para compilar: algunos `pub(super)` y un `../` extra en un `include_str!`. Cada mensaje de commit las nombra.
+
+**Limpiezas pequeñas**
+- Eliminé 23 `#[allow(unused_imports)]` innecesarios en los handlers; sin ellos no aparece ningún warning.
+- Eliminé la validación de `ReceiveRequestAttemptId`, que estaba duplicada y cuya segunda copia nunca podía rechazar nada.
+- En `ReceiveMessage` el tamaño del lote se calcula una sola vez en lugar de cuatro.
+- Renombré el test `scratch_probe` a `delete_message_batch_visibility_lapse`.
+- Actualicé el README, que tenía un árbol de archivos desactualizado.
+
+**Reglas compartidas entre `SendMessage` y `SendMessageBatch`**
+- Los mensajes de rechazo de delay y de cantidad de atributos estaban copiados en ambos handlers. Ahora viven en `state::refusal_messages` y las dos operaciones los llaman.
+- Las reglas de `MessageGroupId`, token de deduplicación y delay también estaban copiadas. Ahora están una vez en `state::send_rules`, y cada operación traduce el rechazo a su formato de error. El orden de los chequeos no cambió.
+- Para esto último hice una prueba de mutación: rompí cada regla y confirmé que fallaban tests tanto del envío simple como del batch.
+
+**Lo que no hice**
+- Los handlers `receive_message`, `send_message`, `send_message_batch` y `start_message_move_task` siguen teniendo 290 a 395 líneas. Partirlos es el siguiente paso con más valor. Lo dejé porque el flujo de `ReceiveMessage` está entrelazado con locks y esperas, y ahí el riesgo de cambiar comportamiento es mayor.
+- No toqué `ops/types/` ni `scaffolded.rs` (código generado), ni los `#![allow(...)]` de `lib.rs`.
+- Si querés que siga, dime si quieres que ataque `receive_message` primero.
+
+Una nota de proceso: el primer intento de correr la suite se cortó a los 10 minutos porque la compilación inicial del workspace tarda unos 8. Lo relancé con un límite mayor y desde entonces el ciclo es de unos 20 segundos.
