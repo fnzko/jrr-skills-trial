@@ -1,0 +1,12 @@
+[package]
+name = "rust-error-discipline-check"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+anyhow = "1"
+log = "0.4"
+thiserror = "2"
+
+[workspace]
