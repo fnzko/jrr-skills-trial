@@ -1,0 +1,38 @@
+model claude-sonnet-5-5
+skills offered ['just-right-rust:async-rust', 'just-right-rust:rust-comments', 'just-right-rust:rust-domain-types', 'just-right-rust:rust-error-discipline', 'just-right-rust:rust-keep-it-simple', 'just-right-rust:rust-ownership', 'just-right-rust:rust-test-quality', 'just-right-rust:unsafe-rust-review', 'anthropic-skills:built-in-browser', 'anthropic-skills:chrome-browser', 'anthropic-skills:computer-use', 'anthropic-skills:deep-research', 'anthropic-skills:docs', 'anthropic-skills:docx', 'anthropic-skills:google-workspace', 'anthropic-skills:import-memory', 'anthropic-skills:morning', 'anthropic-skills:pdf', 'anthropic-skills:pptx', 'anthropic-skills:skill-creator', 'anthropic-skills:xlsx']
+skills invoked []
+skill files read {}
+tool calls {'Bash': 65, 'Monitor': 2}
+bash {'cargo test': 5, 'cargo clippy': 4, 'cargo check': 8, 'git commit': 16}
+result messages 2
+subtype success
+is_error False
+num_turns 69
+duration_ms 4389558
+total_cost_usd 1.5579961
+final message:
+I've split the SQS crate's 4,877-line `state.rs` into 21 focused modules in 15 commits, and nothing about behavior changed. The crate tests pass after every commit (280 integration, 5 unit, 24 ignored, same as before I started). Clippy shows no warnings for the crate.
+
+I didn't build the other crates that depend on this one, because a workspace-wide build filled the disk. Instead I grepped every `sqs_amazonsqs::state::...` path they use and checked each is still re-exported. The 156 `EmulatedService::new` callers are untouched. This check is by reading, not by compiling.
+
+`state.rs` is now 355 lines: the module docs plus a few shared helpers, `pub use`-ing everything. Moved code is verbatim; a few private items became `pub(super)` where sibling modules need them.
+
+| New module | Holds |
+|---|---|
+| `tags` | tag limits and refusals |
+| `queue_address` | key, ARN and URL building and parsing, queue-name rules |
+| `receipt_handle` | handle provenance, encoding and refusals |
+| `message_move_task` | the task record, its limits and its clock |
+| `refusals` | refusal wording and error constructors |
+| `queue_attributes` | attribute catalogue and validation |
+| `queue` | `Queue` and the stored-message types |
+| `store` | the store struct and its methods |
+| `pagination`, `batch`, `limits`, `clock`, `message_rules` | the cross-cutting rules each name suggests |
+
+Three existing modules also took in their leftover pieces: `redrive`, `message_attributes` and `queue_address`.
+
+Each commit message says why it was made. The ones that needed visibility changes list them.
+
+- **Formatting:** the repo has no rustfmt config and the old code wasn't rustfmt-clean. I ran rustfmt only on newly created files, so a moved block may differ slightly in whitespace from the original. I left existing files alone to keep the diffs as pure moves.
+- **Still large:** `queue.rs` (1,386 lines) and `store.rs` (833) are big because `Queue` and the store are big types. Splitting their `impl` blocks by concern (delivery, handles, policy) would be the next step.
+- **Not touched:** the `ops/*` handlers still repeat the same prelude (get the store, find the region, check authorization). I left them because the files start with generator-owned headers and changing the handlers is closer to a behavior change.

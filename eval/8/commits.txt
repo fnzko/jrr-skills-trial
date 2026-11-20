@@ -1,0 +1,24 @@
+c5f1c5be8 refactor(sqs): move queue addressing out of state.rs
+cc927933c refactor(sqs): move receipt handle rules out of state.rs
+adcd08d90 refactor(sqs): move message move task model out of state.rs
+d8c0b365b refactor(sqs): move listing pagination out of state.rs
+4b0cb88d3 refactor(sqs): move clock helpers out of state.rs
+65eb929ad refactor(sqs): move message digests out of state.rs
+9b888ebfe refactor(sqs): gather message attribute rules in message_attributes
+54a427532 refactor(sqs): move queue tag rules out of state.rs
+f45ada8d0 refactor(sqs): move queue attribute definitions out of state.rs
+ef29f9ba2 refactor(sqs): move attribute and queue name validation out of state.rs
+4c1261d8f refactor(sqs): gather store bounds in a limits module
+013efcd3b refactor(sqs): move the queue record out of state.rs
+eca16422f refactor(sqs): split the Queue impl by concern
+4803000c1 refactor(sqs): split the store impl by concern
+77c3d9892 refactor(sqs): move batch entry rules out of state.rs
+369b44d4c refactor(sqs): move message content rules out of state.rs
+65f97b3b1 refactor(sqs): keep the retention windows with the other store bounds
+440ac3623 refactor(sqs): move shared refusal wording out of state.rs and order module declarations
+586edbacb chore(sqs): drop blanket lint allows that no longer hide anything
+00bab2914 refactor(sqs): tidy leftovers of the state.rs split
+a41704580 refactor(sqs): break ReceiveMessage::handle into named steps
+5048c7b0a refactor(sqs): extract SendMessage's parameter rules into prepare
+63a315d74 refactor(sqs): name the request-level steps of SendMessageBatch
+5108af4fd refactor(sqs): share the ARN classification of StartMessageMoveTask

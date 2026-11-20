@@ -1,0 +1,40 @@
+model claude-sonnet-5-5
+skills offered ['just-right-rust:async-rust', 'just-right-rust:unsafe-rust-review', 'anthropic-skills:built-in-browser', 'anthropic-skills:chrome-browser', 'anthropic-skills:computer-use', 'anthropic-skills:deep-research', 'anthropic-skills:docs', 'anthropic-skills:docx', 'anthropic-skills:google-workspace', 'anthropic-skills:import-memory', 'anthropic-skills:morning', 'anthropic-skills:pdf', 'anthropic-skills:pptx', 'anthropic-skills:skill-creator', 'anthropic-skills:xlsx']
+skills invoked []
+skill files read {}
+tool calls {'Bash': 112, 'Monitor': 5, 'Read': 4, 'Write': 2, 'ToolSearch': 1, 'TaskStop': 1}
+bash {'cargo test': 11, 'cargo check': 25, 'git commit': 25, 'cargo clippy': 4}
+result messages 7
+subtype success
+is_error False
+num_turns 132
+duration_ms 3389625
+total_cost_usd 3.8668348000000003
+final message:
+I cleaned up the SQS crate in 25 small commits on `run-8`, and all the crate's tests pass after the last one (5 unit tests, 280 integration tests). Clippy is clean on lib and tests. I didn't touch `scaffolded.rs` or `ops/types/`, since those are generated.
+
+**What was hard to read**
+- `state.rs` was 4,877 lines. It mixed constants, error wording, parsers, the queue model and the store.
+- A few operation handlers were 350 to 400 lines each.
+
+**State module, 4,877 to 477 lines**
+- Each concern moved verbatim into its own file under `state/`, re-exported from `state`, so no import elsewhere changed. The concerns are addressing, receipt handles, attribute rules, tags, limits, message-move tasks and refusal wording.
+- `impl Queue` is split by concern into `state/queue/`, and the store's `impl` into redrive and message-move files.
+- Stranded section banners and comments were relocated to the module docs they describe.
+- The crate-level lint `allow`s in `lib.rs` hid nothing, so I removed them.
+
+**Handlers**
+- `ReceiveMessage::handle` is now parse, then a loop of named steps.
+- `SendMessage` validation moved into `prepare`, the same shape the batch operation already used.
+- `SendMessageBatch` request checks and `StartMessageMoveTask` ARN handling were turned into named helpers. The latter had two identical match blocks.
+- I did not merge `SendMessage` and `SendMessageBatch` validation. They check rules in a different order, and merging could change which error a bad request gets.
+
+**Behavior changes**
+- None intended. The one deliberate removal is a second `ReceiveRequestAttemptId` check that could never fire.
+- Moving code initially turned two `match` patterns (`REDRIVE_PERMISSION_DENY_ALL` and `REDRIVE_PERMISSION_BY_QUEUE`) into silent catch-all bindings, because their imports were missing. A compiler warning caught it and I fixed the imports before committing.
+
+Two things to know:
+- The disk filled up mid-session. I deleted only `target/debug/incremental` in this worktree and set `CARGO_INCREMENTAL=0` afterwards.
+- The existing code isn't `rustfmt`-clean, so I kept moved code verbatim rather than reformatting it. Running `rustfmt` over the new modules would be a separate commit.
+
+I did not run the wider workspace tests or the other crates that import `state`.

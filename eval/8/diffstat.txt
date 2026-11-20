@@ -1,0 +1,31 @@
+ 29 files changed, 5591 insertions(+), 5221 deletions(-)
+ .../service-com-amazonaws-sqs-amazonsqs/src/lib.rs |    3 -
+ .../src/ops/receive_message.rs                     |  709 +--
+ .../src/ops/send_message.rs                        |  370 +-
+ .../src/ops/send_message_batch.rs                  |  286 +-
+ .../src/ops/start_message_move_task.rs             |   60 +-
+ .../src/state.rs                                   | 4746 +-------------------
+ .../src/state/addressing.rs                        |  192 +
+ .../src/state/attribute_validation.rs              |  447 ++
+ .../src/state/batch.rs                             |   77 +
+ .../src/state/clock.rs                             |   59 +
+ .../src/state/dead_letter.rs                       |  279 ++
+ .../src/state/limits.rs                            |  136 +
+ .../src/state/message_attributes.rs                |  140 +
+ .../src/state/message_content.rs                   |  107 +
+ .../src/state/message_digest.rs                    |   98 +
+ .../src/state/message_move.rs                      |  320 ++
+ .../src/state/message_move_tasks.rs                |  350 ++
+ .../src/state/pagination.rs                        |  117 +
+ .../src/state/queue.rs                             |  519 +++
+ .../src/state/queue/access_policy.rs               |  188 +
+ .../src/state/queue/bounds.rs                      |   66 +
+ .../src/state/queue/delivery.rs                    |  271 ++
+ .../src/state/queue/fifo.rs                        |  197 +
+ .../src/state/queue/handles.rs                     |  199 +
+ .../src/state/queue_attributes.rs                  |  360 ++
+ .../src/state/receipt_handles.rs                   |  226 +
+ .../src/state/redrive.rs                           |    2 +
+ .../src/state/refusals.rs                          |  172 +
+ .../src/state/tags.rs                              |  116 +
+ 29 files changed, 5591 insertions(+), 5221 deletions(-)

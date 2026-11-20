@@ -1,0 +1,15 @@
+0631780e1 refactor(sqs): move queue tag rules out of state.rs into state/tags.rs
+260cce00d refactor(sqs): move queue addressing into state/queue_address.rs
+db5b31815 refactor(sqs): move receipt handle rules into state/receipt_handle.rs
+8ac3dc493 refactor(sqs): move the message move task record into state/message_move_task.rs
+44d37a4d3 refactor(sqs): gather refusal wording and error constructors in state/refusals.rs
+88eac22cc refactor(sqs): move queue attribute catalogue and validation into state/queue_attributes.rs
+d074541da refactor(sqs): move Queue and its message records into state/queue.rs
+b1be74695 refactor(sqs): move the redrive attribute member names next to the redrive validation
+188d1b86e refactor(sqs): move leftover name and attribute helpers to the modules that own them
+2d5c4a756 refactor(sqs): move listing pagination into state/pagination.rs
+2819c4449 refactor(sqs): move the shared batch rules into state/batch.rs
+21642cdc1 refactor(sqs): collect the store bounds in state/limits.rs
+2c1af8d50 refactor(sqs): move clock and timestamp helpers into state/clock.rs
+4849caed5 refactor(sqs): move the queue store into state/store.rs
+0dbe5f9fd refactor(sqs): move message body and FIFO token rules into state/message_rules.rs

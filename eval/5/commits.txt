@@ -1,0 +1,18 @@
+1a2f9c1e9 refactor(sqs): move message digests and attribute sizing out of state.rs
+0dbc9ebaa refactor(sqs): keep message attribute limits beside their validation
+7f89c53a3 refactor(sqs): move list paging helpers into their own module
+25e6e2970 refactor(sqs): move the store-bounds constants into state/bounds.rs
+ac48fd2ea refactor(sqs): split attribute, queue-name and tag rules out of state.rs
+3c9074c90 refactor(sqs): give message moves, addressing, receipt handles and batches their own modules
+915fe907a refactor(sqs): move the queue attribute catalogue out of state.rs
+d330a3d10 refactor(sqs): move epoch renderings and span arithmetic into state/clock.rs
+0cdf30d5a refactor(sqs): collect refusal wording into state/wording.rs
+071d7303a refactor(sqs): keep the store's message-move methods with the task they drive
+1aa16f373 refactor(sqs): move dead-letter redrive behaviour into the redrive module
+6f1718eb1 refactor(sqs): move queue permission methods into the permissions module
+ba53bff5d refactor(sqs): move receipt-handle bookkeeping into the receipt_handle module
+73f18b643 refactor(sqs): list state's submodules in one sorted, documented block
+b76235f6a refactor(sqs): move the stored queue and message types into state/queue.rs
+cc73047a0 test(sqs): name the batch-delete clock test for what it asserts
+7f3a24488 refactor(sqs): define the KMS refusal mapping once instead of three times
+85203a443 refactor(sqs): drop a second, unreachable ReceiveRequestAttemptId check

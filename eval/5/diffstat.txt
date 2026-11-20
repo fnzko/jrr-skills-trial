@@ -1,0 +1,26 @@
+ 24 files changed, 4561 insertions(+), 4501 deletions(-)
+ .../src/ops/receive_message.rs                     |   43 +-
+ .../src/ops/send_message.rs                        |   34 +-
+ .../src/ops/send_message_batch.rs                  |   38 +-
+ .../src/state.rs                                   | 4594 +-------------------
+ .../src/state/addressing.rs                        |  209 +
+ .../src/state/attribute_catalog.rs                 |  322 ++
+ .../src/state/attribute_validation.rs              |  268 ++
+ .../src/state/batch.rs                             |   76 +
+ .../src/state/bounds.rs                            |  100 +
+ .../src/state/clock.rs                             |   59 +
+ .../src/state/digest.rs                            |  184 +
+ .../src/state/encryption.rs                        |   44 +
+ .../src/state/message_attributes.rs                |   27 +
+ .../src/state/message_move_task.rs                 |  583 +++
+ .../src/state/pagination.rs                        |  117 +
+ .../src/state/permissions.rs                       |  174 +
+ .../src/state/queue.rs                             |  961 ++++
+ .../src/state/queue_creation.rs                    |  158 +
+ .../src/state/receipt_handle.rs                    |  392 ++
+ .../src/state/redrive.rs                           |  329 ++
+ .../src/state/tags.rs                              |  115 +
+ .../src/state/wording.rs                           |  227 +
+ .../tests/all.rs                                   |    4 +-
+ ...s => batch_delete_survives_visibility_lapse.rs} |    4 +-
+ 24 files changed, 4561 insertions(+), 4501 deletions(-)
