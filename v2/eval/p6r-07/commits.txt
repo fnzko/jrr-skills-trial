@@ -1,0 +1,5 @@
+d6e204b Read required parameters through total getters
+d16903c Dispatch on a Command enum instead of command-name strings
+8d54fb1 Give message ids, receipt handles and arrival indexes their own types
+dfbe2e2 Remove an unreachable Option and a lossy cast in the message path
+6fd44f2 Define the expiry predicate after the early return in Queue::expire

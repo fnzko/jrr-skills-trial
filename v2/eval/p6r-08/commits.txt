@@ -1,0 +1,7 @@
+7efe328 Parse the command name into an enum
+90dd9f4 Name the visibility timeout and delay ranges once
+508abf3 Give message ids, receipt handles, sequence numbers and arrival keys their own types
+1cf18d1 Panic on states only a bug can reach instead of skipping them
+d3316b5 Make attribute and queue fields private
+5279500 Compute shared validation decisions in one place
+5a33fc8 Make Request fields private

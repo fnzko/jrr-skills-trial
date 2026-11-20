@@ -1,0 +1,6 @@
+7f574e7 Queue::expire: build the expiry closure after the early return
+94375bc Add Error::missing for absent required parameters
+4834f2e receive_message: convert MaxMessages with try_from instead of a cast
+eb27720 Give message ids, receipt handles and arrival indexes their own types
+206bc52 cargo fmt: join Error::missing onto one line
+f7cdbab send_message: move FIFO parameter rules into fifo_ids

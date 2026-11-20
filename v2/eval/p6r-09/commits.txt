@@ -1,0 +1,5 @@
+45dc65b Narrow internal items to pub(crate)
+e9a19a4 Parse command names into a Command enum
+23720cb Panic on broken invariants instead of skipping silently
+8d99840 Give message ids, receipt handles and arrival keys their own types
+e18b8ac Remove duplicated error construction and validation rule

@@ -1,0 +1,5 @@
+51423c5 Parse the command name into an enum at the request boundary
+7c34ff9 Name the visibility timeout and delay ranges used in two places
+45b3711 Give message ids, receipt handles and arrival indexes their own types
+c0f3782 Build the missing-parameter error in one place
+e560fa4 Panic instead of dropping dead letters when the target queue is missing

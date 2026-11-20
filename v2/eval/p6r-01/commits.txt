@@ -1,0 +1,7 @@
+2e93908 Parse the command name into an enum at the request boundary
+010208f Give message ids, receipt handles and arrival keys their own types
+a1b6750 Model the dead-letter request attributes as one value
+a1b3277 Stop swallowing impossible states in receipt and dead-letter handling
+6e9ff6c Make Queue's attributes private behind a getter and two operations
+bdd0df5 Merge a message's group id and sequence number into one FIFO position
+3fff186 Assert values and error codes in the range unit test
