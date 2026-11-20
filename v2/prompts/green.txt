@@ -1,0 +1,5 @@
+SPEC.md in this directory describes a small service. Build it as a new Rust crate here, with tests.
+
+Write it as Rust an experienced maintainer would be happy to own.
+
+Work in small commits and say why in each message.

@@ -1,0 +1,5 @@
+This crate implements SPEC.md. SPEC-feature.md describes three additions. Implement them, with tests.
+
+Do not change existing behavior: the crate's tests must still pass.
+
+Work in small commits and say why in each message.
