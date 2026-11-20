@@ -1,0 +1,17 @@
+[package]
+name = "miniq"
+version = "0.1.0"
+edition = "2021"
+description = "A small in-memory message queue service that speaks line-delimited JSON on stdin/stdout"
+publish = false
+
+[lib]
+name = "miniq"
+path = "src/lib.rs"
+
+[[bin]]
+name = "miniq"
+path = "src/main.rs"
+
+[dependencies]
+serde_json = "1"

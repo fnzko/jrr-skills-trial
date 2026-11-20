@@ -1,0 +1,10 @@
+[package]
+name = "miniq"
+version = "0.1.0"
+edition = "2024"
+description = "A small in-memory message queue service speaking line-delimited JSON over stdio"
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["arbitrary_precision"] }

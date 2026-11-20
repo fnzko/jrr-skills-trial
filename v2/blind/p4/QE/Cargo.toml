@@ -1,0 +1,9 @@
+[package]
+name = "miniq"
+version = "0.1.0"
+edition = "2021"
+description = "In-memory message queue service driven by JSON lines on stdin"
+publish = false
+
+[dependencies]
+serde_json = "1"

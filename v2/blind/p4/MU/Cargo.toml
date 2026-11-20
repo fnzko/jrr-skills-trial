@@ -1,0 +1,13 @@
+[package]
+name = "miniq"
+version = "0.1.0"
+edition = "2024"
+description = "A small in-memory message queue driven by JSON lines on stdin"
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+# arbitrary_precision keeps the source text of numbers, which is the only way to
+# tell the integer `-0` (accepted) from `-0.0` (rejected) as SPEC.md section 1 requires.
+serde_json = { version = "1", features = ["arbitrary_precision"] }
+thiserror = "2"
