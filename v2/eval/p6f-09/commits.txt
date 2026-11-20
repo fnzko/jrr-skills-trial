@@ -1,0 +1,3 @@
+92efd2c Add MaxMessageBytes queue attribute and per-queue body limit
+456b21e Add SendMessageBatch and DeleteMessageBatch
+9162b25 Add TagQueue, UntagQueue and ListQueueTags

@@ -1,0 +1,4 @@
+1c62cd2 Add MaxMessageBytes queue attribute
+9ce1944 Add TagQueue, UntagQueue and ListQueueTags
+0cb5e7a Split single-message handling out of the command parsers
+9d8761a Add SendMessageBatch and DeleteMessageBatch
