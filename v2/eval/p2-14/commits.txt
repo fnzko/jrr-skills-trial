@@ -1,0 +1,5 @@
+4938e5f Add the MaxMessageBytes queue attribute and its send limit
+22db6b1 Add queue tags: TagQueue, UntagQueue, ListQueueTags
+cd68e3e Split send and delete into per-item steps
+2d70a1b Add SendMessageBatch and DeleteMessageBatch
+00b24c5 Assert the full attribute set in the tags test

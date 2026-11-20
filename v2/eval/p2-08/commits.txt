@@ -1,0 +1,3 @@
+6f7cf3b Add the MaxMessageBytes queue attribute and its send rule
+a1a0911 Add TagQueue, UntagQueue and ListQueueTags
+9409ed2 Add SendMessageBatch and DeleteMessageBatch

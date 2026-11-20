@@ -1,0 +1,5 @@
+0caad49 Split send and delete into per-queue functions
+7c2d8bc Add the MaxMessageBytes queue attribute
+b3ef194 Test MaxMessageBytes
+a7a1789 Add SendMessageBatch and DeleteMessageBatch
+d99678c Add TagQueue, UntagQueue and ListQueueTags

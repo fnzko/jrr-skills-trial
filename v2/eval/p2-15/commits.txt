@@ -1,0 +1,6 @@
+9261b0a Add the MaxMessageBytes queue attribute and its send rule
+d4c7b14 Add queue tags: TagQueue, UntagQueue and ListQueueTags
+795d51e Split single send and delete into per-queue functions
+916a21a Add SendMessageBatch and DeleteMessageBatch
+546280f Format the new code and name the batch shape test accurately
+f8e5984 Assert the whole tag map after a rejected TagQueue

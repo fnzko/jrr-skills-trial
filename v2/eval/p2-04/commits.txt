@@ -1,0 +1,4 @@
+6f5dce0 Add MaxMessageBytes queue attribute and the send size rule
+6c80ba9 Add queue tags: TagQueue, UntagQueue, ListQueueTags
+6f00c7a Add SendMessageBatch and DeleteMessageBatch
+4177aec Make the tag tests assert whole values

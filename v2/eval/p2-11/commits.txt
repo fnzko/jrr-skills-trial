@@ -1,0 +1,4 @@
+0551eae Add the MaxMessageBytes queue attribute and the batch error codes
+5db4c06 Add TagQueue, UntagQueue and ListQueueTags
+a978914 Split SendMessage and DeleteMessage into parse and apply steps
+b960907 Add SendMessageBatch and DeleteMessageBatch
