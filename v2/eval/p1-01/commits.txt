@@ -1,0 +1,11 @@
+49d8795 Scaffold the miniq crate and its error codes
+57a3626 Parse command lines into typed commands
+e8079f2 Model queues, receipt handles and response shapes
+ee773f3 Execute commands in a Broker that owns all process state
+33c364b Answer stdin lines on stdout, flushing after each response
+71793cc Test queue commands through the line protocol
+ffa8d32 Test the standard message lifecycle, handles and retention
+3f3f616 Test FIFO groups, sequence numbers and deduplication windows
+f2a99ae Test dead-letter moves
+7a024fa Test the binary's line protocol end to end
+b0f30dc Drop a test-only constructor and a duplicated required check

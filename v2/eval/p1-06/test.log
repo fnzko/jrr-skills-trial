@@ -1,0 +1,87 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-2924a68382c6cd0e)
+
+running 32 tests
+test error::tests::display_names_code_and_message ... ok
+test deliveries::tests::handles_resolve_to_their_queue_and_arrival ... ok
+test deliveries::tests::unissued_handles_are_invalid_and_foreign_ones_expired ... ok
+test queue::tests::delete_requires_the_latest_live_handle ... ok
+test queue::tests::dead_lettering_unblocks_the_group_within_the_same_receive ... ok
+test error::tests::serializes_code_and_message_only ... ok
+test queue::tests::fifo_receive_delivers_one_message_per_group_in_arrival_order ... ok
+test queue::tests::content_based_deduplication_uses_the_body ... ok
+test queue::tests::receive_marks_messages_in_flight_until_the_timeout ... ok
+test queue::tests::duplicate_send_returns_the_original_identity_inside_the_window_only ... ok
+test queue::tests::fifo_send_requires_group_then_deduplication_id ... ok
+test queue::tests::retention_removes_messages_at_the_deadline_in_any_state ... ok
+test queue::tests::standard_queue_rejects_fifo_parameters ... ok
+test request::tests::attributes_are_decoded_and_null_means_absent ... ok
+test request::tests::create_queue_checks_the_name_before_the_attributes ... ok
+test request::tests::bad_attributes_are_invalid_parameter_values ... ok
+test request::tests::integers_must_be_written_as_integers ... ok
+test request::tests::invalid_lines_are_invalid_requests ... ok
+test request::tests::receive_message_defaults_to_one_message ... ok
+test request::tests::required_parameters_are_checked_before_values ... ok
+test request::tests::send_message_decodes_every_parameter ... ok
+test response::tests::failure_carries_code_and_message ... ok
+test response::tests::success_flattens_the_result_members ... ok
+test response::tests::success_without_results_is_just_ok ... ok
+test types::tests::fifo_names_are_recognised_by_suffix ... ok
+test types::tests::identifiers_serialize_as_protocol_text ... ok
+test types::tests::instants_add_durations ... ok
+test types::tests::queue_names_follow_the_syntax ... ok
+test types::tests::ranges_are_inclusive_and_reject_out_of_range_integers ... ok
+test types::tests::receipt_handle_index_round_trips ... ok
+test types::tests::receipt_handles_parse_only_canonical_text ... ok
+test types::tests::tokens_and_bodies_enforce_length_and_characters ... ok
+
+test result: ok. 32 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-149399b64b2cf856)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/protocol.rs (target/debug/deps/protocol-af84cad6f972eae2)
+
+running 30 tests
+test crlf_line_endings_are_accepted ... ok
+test create_queue_applies_defaults_and_reports_them ... ok
+test change_message_visibility_replaces_the_deadline ... ok
+test dead_letter_configuration_can_be_replaced_and_dies_with_its_target ... ok
+test deduplication_ids_outlive_deleted_and_purged_messages ... ok
+test dead_lettered_messages_that_are_too_old_for_the_target_vanish ... ok
+test a_new_dead_letter_configuration_applies_from_the_next_receive ... ok
+test empty_input_produces_no_output ... ok
+test a_recreated_queue_shares_nothing_with_the_deleted_one ... ok
+test create_queue_is_idempotent_only_for_equal_attributes ... ok
+test create_queue_error_order_follows_the_numbered_rules ... ok
+test every_line_gets_exactly_one_response_in_order ... ok
+test failed_and_duplicate_sends_do_not_use_up_ids ... ok
+test fifo_receive_yields_one_message_per_group_and_blocks_busy_groups ... ok
+test fifo_dead_letter_moves_take_new_sequence_numbers_and_unblock_the_group ... ok
+test list_queues_sorts_by_byte_value_and_filters_by_prefix ... ok
+test messages_move_to_the_dead_letter_queue_after_max_receive_count ... ok
+test purge_removes_every_state_and_keeps_ids_counting ... ok
+test queue_delay_applies_at_send_time_and_message_delay_overrides_it ... ok
+test tick_accumulates_and_validates ... ok
+test set_queue_attributes_follows_its_rules ... ok
+test retention_removes_messages_at_the_deadline_and_never_restores_them ... ok
+test send_and_receive_round_trip_on_a_standard_queue ... ok
+test send_message_validates_in_the_documented_order ... ok
+test unknown_queue_names_fail_lookup_whatever_they_look_like ... ok
+test receipt_handles_are_exact_strings_and_expire_when_superseded ... ok
+test visibility_timeout_zero_makes_the_message_visible_at_once_and_the_handle_unusable ... ok
+test queue_limit_is_one_thousand ... ok
+test the_binary_serves_stdin_to_stdout ... ok
+test a_queue_holds_at_most_one_hundred_thousand_messages_and_filling_it_is_fast ... ok
+
+test result: ok. 30 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.60s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,4 @@
+01da6f4 Add crate skeleton: line protocol, parameter parsing, Tick
+2116564 Add queue management commands and the queue model
+5880b9e Add message commands: send, receive, delete, change visibility
+2621852 Test the executable's stdin/stdout framing

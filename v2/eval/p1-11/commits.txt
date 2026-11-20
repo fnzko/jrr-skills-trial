@@ -1,0 +1,7 @@
+c9dc303 Add error codes, identifiers and typed parameter access
+6d8ff30 Parse request lines into validated commands
+2116d50 Execute commands against in-memory queues and serve them on stdin/stdout
+080fb2b Test queue management, retention and the clock
+3157061 Test message commands: delivery, handles, FIFO groups, dedup, dead letters
+7955cf0 Test the stdin/stdout protocol through the real binary
+c8715b5 Assert exact values instead of is_some/is_ok in tests

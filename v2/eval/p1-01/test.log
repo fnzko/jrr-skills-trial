@@ -1,0 +1,122 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-a6340b5057516ed9)
+
+running 17 tests
+test receipt::tests::handles_display_as_r_and_the_delivery_number ... ok
+test receipt::tests::resolves_only_handles_in_their_exact_issued_form ... ok
+test request::tests::missing_parameters_are_reported_before_bad_values ... ok
+test request::tests::null_and_unknown_members_are_ignored ... ok
+test request::tests::accepts_names_at_the_length_limits ... ok
+test request::tests::dead_letter_attributes_come_as_a_pair ... ok
+test request::tests::parses_attributes_and_treats_null_as_absent ... ok
+test request::tests::rejects_invalid_utf8 ... ok
+test request::tests::attribute_values_are_validated_one_by_one ... ok
+test request::tests::integers_must_be_written_without_fraction_or_exponent ... ok
+test request::tests::rejects_lines_that_are_not_a_command_object ... ok
+test request::tests::queue_name_syntax_is_checked_first_in_create_queue ... ok
+test response::tests::failures_carry_the_code_and_a_message ... ok
+test request::tests::two_byte_characters_count_as_two_body_bytes ... ok
+test response::tests::result_members_use_the_protocol_names ... ok
+test response::tests::success_without_members_is_just_ok ... ok
+test request::tests::send_message_checks_body_and_identifier_rules ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-538e5e4134b5f7ec)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/dead_letter.rs (target/debug/deps/dead_letter-0c370f49c49ea21e)
+
+running 8 tests
+test a_moved_fifo_message_takes_no_deduplication_id_in_the_dead_letter_queue ... ok
+test a_moved_message_does_not_count_toward_max_messages ... ok
+test a_message_too_old_for_the_dead_letter_queue_is_dropped_on_arrival ... ok
+test in_a_fifo_queue_a_moved_head_unblocks_its_group_within_the_same_receive ... ok
+test a_message_is_moved_when_its_receive_count_reaches_the_maximum ... ok
+test deleting_the_dead_letter_queue_stops_moves ... ok
+test a_moved_message_goes_to_the_end_of_the_dead_letter_queue ... ok
+test a_new_dead_letter_configuration_applies_from_the_next_receive ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/fifo.rs (target/debug/deps/fifo-b6b5938610967ec2)
+
+running 10 tests
+test fifo_sends_report_sequence_numbers_and_deliveries_carry_group_and_sequence ... ok
+test a_duplicate_send_returns_the_original_ids_and_uses_up_no_numbers ... ok
+test the_deduplication_window_is_300_seconds_and_a_duplicate_does_not_extend_it ... ok
+test deduplication_ids_are_per_queue ... ok
+test a_delayed_group_head_blocks_later_messages_of_its_group ... ok
+test a_deduplication_id_outlives_its_message ... ok
+test content_based_deduplication_uses_the_body_unless_an_id_is_given ... ok
+test sequence_numbers_continue_after_a_purge ... ok
+test fifo_send_applies_its_rules_in_order ... ok
+test fifo_receive_delivers_one_message_per_group_and_blocks_a_group_while_its_head_is_in_flight ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/messages.rs (target/debug/deps/messages-82a4bf0ade8ae6a6)
+
+running 18 tests
+test a_delayed_message_has_no_usable_handle ... ok
+test a_standard_message_goes_through_send_receive_and_delete ... ok
+test a_new_visibility_timeout_applies_to_later_deliveries_only ... ok
+test ids_and_handles_count_over_all_queues_and_failed_sends_use_none ... ok
+test a_zero_visibility_timeout_makes_the_handle_unusable ... ok
+test an_ended_timeout_expires_the_handle ... ok
+test change_visibility_to_zero_makes_the_message_visible_at_once ... ok
+test handle_errors_distinguish_never_issued_from_no_longer_usable ... ok
+test receive_returns_at_most_max_messages_and_validates_it ... ok
+test messages_come_back_in_arrival_order_and_keep_their_place_after_a_timeout ... ok
+test lowering_retention_removes_messages_at_once_and_raising_it_does_not_restore_them ... ok
+test only_the_latest_handle_of_a_message_is_usable ... ok
+test change_visibility_can_lengthen_a_timeout_and_validates_its_value ... ok
+test delay_hides_a_message_until_its_time_and_a_new_queue_delay_applies_to_later_sends ... ok
+test send_message_checks_parameters_before_looking_up_the_queue ... ok
+test retention_removes_messages_in_every_state_at_the_moment_it_runs_out ... ok
+test send_message_rejects_what_a_standard_queue_does_not_support ... ok
+test a_queue_holds_at_most_100000_messages ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.85s
+
+     Running tests/process.rs (target/debug/deps/process-e1c415ac00edb904)
+
+running 5 tests
+test empty_input_produces_no_output ... ok
+test a_final_line_without_a_newline_counts ... ok
+test invalid_utf8_is_an_invalid_request_and_the_next_line_still_runs ... ok
+test every_line_gets_exactly_one_response_in_order_and_the_exit_code_is_zero ... ok
+test a_blank_final_line_is_a_command_but_the_empty_remainder_after_the_last_newline_is_not ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+
+     Running tests/queues.rs (target/debug/deps/queues-2dc4e8b9cb46c5ee)
+
+running 15 tests
+test new_queue_has_the_default_attributes_and_no_messages ... ok
+test attributes_report_the_dead_letter_configuration_only_when_set ... ok
+test create_queue_compares_the_dead_letter_configuration ... ok
+test a_dead_letter_configuration_can_be_replaced_but_not_removed ... ok
+test a_recreated_queue_shares_nothing_with_the_deleted_one ... ok
+test deleting_a_queue_clears_dead_letter_configurations_that_name_it ... ok
+test create_queue_is_idempotent_only_for_equal_attributes ... ok
+test purge_removes_messages_in_every_state ... ok
+test list_queues_sorts_by_byte_value_and_filters_by_prefix ... ok
+test create_queue_applies_its_rules_in_order ... ok
+test tick_returns_the_new_clock_value ... ok
+test set_queue_attributes_changes_only_the_attributes_given ... ok
+test queue_lookup_uses_the_exact_string_whatever_it_looks_like ... ok
+test set_queue_attributes_applies_its_rules_in_order_and_changes_nothing_on_failure ... ok
+test queue_limit_is_1000_but_recreating_an_existing_queue_still_succeeds ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

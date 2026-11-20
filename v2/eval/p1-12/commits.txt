@@ -1,0 +1,5 @@
+018f487 Add line protocol skeleton that answers every line
+e6016a5 Add queue management commands
+ca65bf7 Add SendMessage, GetQueueAttributes and PurgeQueue
+a1586d4 Add ReceiveMessage with dead-letter moves
+574c4be Add DeleteMessage and ChangeMessageVisibility

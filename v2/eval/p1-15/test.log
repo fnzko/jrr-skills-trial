@@ -1,0 +1,73 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-5f41bc7fe3019394)
+
+running 7 tests
+test request::tests::missing_beats_invalid_value ... ok
+test request::tests::null_attributes_are_absent ... ok
+test request::tests::create_queue_judges_the_name_before_attributes ... ok
+test request::tests::queue_name_syntax ... ok
+test request::tests::integers_must_be_plain_and_in_range ... ok
+test request::tests::shape_errors_are_invalid_request ... ok
+test request::tests::send_message_checks_body_and_ids ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-d6ec2c6fcfe67bca)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/messages.rs (target/debug/deps/messages-566ec1ed4229d88b)
+
+running 15 tests
+test a_dead_lettered_message_that_is_too_old_for_the_target_is_dropped ... ok
+test a_handle_of_another_queue_or_an_earlier_queue_of_the_same_name_is_expired ... ok
+test deduplication_outlives_the_message_and_content_based_uses_the_body ... ok
+test fifo_send_rules_and_deduplication_window ... ok
+test fifo_delivers_one_message_per_group_and_blocks_behind_in_flight ... ok
+test dead_lettering_frees_the_group_for_later_messages ... ok
+test receipt_handles_are_exact_and_only_the_latest_works ... ok
+test messages_are_dead_lettered_after_max_receive_count ... ok
+test retention_removes_messages_and_lowering_then_raising_does_not_restore_them ... ok
+test change_visibility_moves_the_end_of_the_timeout ... ok
+test receive_validates_its_parameters ... ok
+test send_rules_for_standard_queues ... ok
+test send_and_receive_in_order_with_counts ... ok
+test state_counts_follow_the_clock ... ok
+test a_full_queue_rejects_sends_quickly ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.69s
+
+     Running tests/protocol.rs (target/debug/deps/protocol-3ad59bda3465147c)
+
+running 5 tests
+test an_empty_input_gets_no_response_but_a_lone_newline_gets_one ... ok
+test invalid_utf8_is_an_invalid_request_and_the_next_line_still_runs ... ok
+test every_line_gets_exactly_one_response_including_blank_and_final_unterminated ... ok
+test unknown_members_are_ignored_and_a_failed_command_changes_nothing ... ok
+test the_binary_answers_on_stdout_and_exits_zero ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running tests/queues.rs (target/debug/deps/queues-26dc571543a7db53)
+
+running 9 tests
+test get_attributes_reports_defaults_and_omits_unset_dead_letter ... ok
+test create_is_idempotent_only_for_equal_attributes ... ok
+test tick_advances_the_clock ... ok
+test name_and_type_must_agree ... ok
+test list_queues_sorts_by_bytes_and_filters_by_prefix ... ok
+test deleting_a_dead_letter_queue_clears_the_configuration_of_its_users ... ok
+test dead_letter_configuration_is_checked_on_create ... ok
+test set_attributes_rules_apply_in_order ... ok
+test queue_count_is_limited ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

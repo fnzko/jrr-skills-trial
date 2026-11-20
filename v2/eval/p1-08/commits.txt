@@ -1,0 +1,5 @@
+c3521e3 Add line protocol framing with the Tick command
+2c8a835 Add queue management commands
+2f7c832 Add send, receive, delete and change-visibility commands
+0498721 Test FIFO ordering, groups and deduplication
+e0e5dae Test dead-letter moves

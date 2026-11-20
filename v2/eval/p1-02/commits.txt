@@ -1,0 +1,7 @@
+c11bca2 Scaffold the miniq crate with error codes and id types
+588a59a Add queue Config and AttributePatch types
+e7cb7c3 Parse input lines into typed requests
+fdc2524 Add the queue engine with indexed message states
+0089280 Execute requests in the broker and serve them over stdin/stdout
+96788be Test the protocol end to end, in-process and as a process
+ef8456c Tighten types and assertions after the lint review

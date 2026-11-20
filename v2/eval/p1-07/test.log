@@ -1,0 +1,84 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running unittests src/lib.rs (target/debug/deps/miniq-9b6b4d57e04ab586)
+
+running 8 tests
+test command::tests::create_queue_checks_the_name_first ... ok
+test command::tests::integers_must_be_plain_literals ... ok
+test command::tests::null_attributes_are_absent_but_names_are_still_checked ... ok
+test command::tests::attribute_ranges ... ok
+test command::tests::message_field_limits ... ok
+test command::tests::queue_name_syntax ... ok
+test command::tests::required_parameters_come_before_value_checks ... ok
+test command::tests::request_shape_errors ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-41041198a72155db)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/binary.rs (target/debug/deps/binary-e3899a0ceead2191)
+
+running 2 tests
+test every_line_gets_one_response_in_order ... ok
+test empty_input_and_a_final_newline_add_no_phantom_line ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+     Running tests/fifo_and_dead_letter.rs (target/debug/deps/fifo_and_dead_letter-c2e2dd3dc84458f9)
+
+running 11 tests
+test content_based_dedup_uses_the_body_unless_an_id_is_given ... ok
+test fifo_send_rules_in_order ... ok
+test a_visible_message_behind_an_in_flight_one_of_its_group_waits ... ok
+test dead_letter_arrival_respects_the_target_retention ... ok
+test messages_move_to_the_dead_letter_queue_on_the_receive_after_the_limit ... ok
+test fifo_dead_letters_get_new_sequence_numbers_and_unblock_their_group ... ok
+test a_moved_message_invalidates_its_old_handle ... ok
+test duplicates_return_the_original_and_use_no_numbers ... ok
+test the_dedup_id_outlives_the_message ... ok
+test a_new_dead_letter_configuration_applies_from_the_next_receive ... ok
+test fifo_receive_gives_one_message_per_group_and_blocks_busy_groups ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/messages.rs (target/debug/deps/messages-2fa8f5e059cf1224)
+
+running 12 tests
+test ids_count_accepted_messages_over_all_queues ... ok
+test standard_send_rules ... ok
+test receive_parameter_checks ... ok
+test delay_defaults_to_the_queue_value_at_send_time ... ok
+test zero_visibility_timeout_leaves_the_message_visible_with_a_dead_handle ... ok
+test purge_removes_everything_and_keeps_counters ... ok
+test receive_delivers_in_arrival_order_and_marks_in_flight ... ok
+test change_visibility ... ok
+test retention_removes_messages_in_any_state_and_is_not_undone ... ok
+test receipt_handle_errors ... ok
+test message_limit_is_100000_and_filling_is_fast ... ok
+test the_message_limit_counts_every_state ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.75s
+
+     Running tests/queues.rs (target/debug/deps/queues-1de944c70cf24d4d)
+
+running 8 tests
+test create_is_idempotent_only_for_identical_attributes ... ok
+test lookup_comes_before_command_rules ... ok
+test deleting_a_queue_detaches_dead_letter_configs ... ok
+test list_queues_sorts_by_byte_and_filters_by_prefix ... ok
+test tick_reports_the_new_clock ... ok
+test create_rule_order ... ok
+test set_attributes_rules_and_effects ... ok
+test queue_limit_is_1000 ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

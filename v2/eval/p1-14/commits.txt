@@ -1,0 +1,8 @@
+96928e7 Add line protocol loop and request envelope checks
+77fe019 Add queue lifecycle commands, attributes and the virtual clock
+378754e Add SendMessage with delays, FIFO deduplication and the message limit
+2f5dc62 Add ReceiveMessage with visibility timeouts, FIFO groups and dead letters
+6ee1170 Add DeleteMessage and ChangeMessageVisibility
+d507b24 Test retention and the binary's line-by-line behavior
+4e49a0e Drop redundant target tables and a lossy length cast
+ab56f2b Match every JSON type when checking for a string

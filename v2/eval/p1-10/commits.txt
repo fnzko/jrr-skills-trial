@@ -1,0 +1,5 @@
+6f7b6d3 Add crate with error codes, virtual time and validated value types
+802dbf6 Parse command lines into typed commands in the spec's check order
+107322b Accept -0 as an integer and let id counters hand out their next value
+3bd310a Add the queue model, broker rules and response types
+5ed0d37 Add the stdin/stdout line protocol and the miniq binary

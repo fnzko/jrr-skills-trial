@@ -1,0 +1,5 @@
+2391021 Add validated scalar, text and id types
+7494c7d Add the queue model with retention, dedup and receive planning
+df1ff67 Add command parsing, the service and the line protocol
+5cf6cdc Rename Counter::next to issue
+cfdcb23 Add protocol and behavior tests driven through the line server

@@ -1,0 +1,7 @@
+5fc0b74 Scaffold the miniq crate with the error code type
+8a9618f Parse and validate command lines into a typed Command
+cd602f2 Add the queue: message states, retention, dedup and delivery
+a26625f Wire commands to queues and serve them over stdin/stdout
+8c09c8d Test standard-queue message flow, handles, retention and limits
+463922c Test FIFO ordering, deduplication windows and dead-lettering
+4086f90 Add binary framing tests, a README, and apply rustfmt

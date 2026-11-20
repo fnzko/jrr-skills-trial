@@ -1,0 +1,4 @@
+03cc481 Parse command lines into typed commands
+46b8420 Add the broker, queue model and stdin/stdout loop
+2d370d2 Test message commands end to end
+bee8d78 Test the line protocol and the binary

@@ -1,0 +1,11 @@
+12922f4 Scaffold the miniq crate with serde and serde_json
+00cca59 Add error codes and validated identifiers
+548b81b Add queue attributes and per-queue message state
+d31621c Parse request lines into typed commands
+22f5a29 Execute commands against the in-memory broker
+b6831bd Serve the line protocol on stdin and stdout
+75b51f6 Apply rustfmt to the whole crate
+3bc48e4 Test the line protocol and error precedence end to end
+64aca75 Test queue commands against the spec's rule order
+c03dffb Test sending, receiving, retention, deduplication and handles
+279e4ab Test dead-letter moves and the binary's flush-per-line contract

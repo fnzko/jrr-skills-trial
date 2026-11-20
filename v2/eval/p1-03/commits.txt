@@ -1,0 +1,4 @@
+779ff87 Add miniq crate with line protocol, strict parameter parsing and Tick
+6b89511 Add queue model and queue management commands
+a8e775e Add SendMessage with FIFO groups, deduplication and limits
+582628c Add ReceiveMessage, DeleteMessage and ChangeMessageVisibility

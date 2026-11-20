@@ -1,0 +1,5 @@
+6b3da89 Add validated scalar types and protocol error codes
+38221b0 Decode command lines into typed commands
+35611da Add the queue engine and the delivery log
+9407d1a Execute commands against process-wide state
+69165b7 Serve the protocol on stdin and stdout and test it end to end
