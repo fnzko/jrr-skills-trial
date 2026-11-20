@@ -1,0 +1,5 @@
+9b7c967f6 refactor: split state.rs into one module per concern
+71c27d34a refactor: authorize a queue through one helper instead of copying its fields
+57a901818 refactor: model a message movement task's status as an enum
+4738b88d2 refactor: resolve a queue url to its queue in one lookup
+484424bcb docs: drop section banners now that each section is its own module

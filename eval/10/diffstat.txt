@@ -1,0 +1,31 @@
+ 29 files changed, 4794 insertions(+), 4873 deletions(-)
+ .../src/ops/add_permission.rs                      |   32 +-
+ .../src/ops/cancel_message_move_task.rs            |    4 +-
+ .../src/ops/change_message_visibility.rs           |   11 +-
+ .../src/ops/change_message_visibility_batch.rs     |   11 +-
+ .../src/ops/delete_message.rs                      |   11 +-
+ .../src/ops/delete_message_batch.rs                |   11 +-
+ .../src/ops/delete_queue.rs                        |   11 +-
+ .../src/ops/get_queue_attributes.rs                |   11 +-
+ .../src/ops/get_queue_url.rs                       |   11 +-
+ .../src/ops/list_queue_tags.rs                     |   11 +-
+ .../src/ops/purge_queue.rs                         |   11 +-
+ .../src/ops/receive_message.rs                     |   12 +-
+ .../src/ops/remove_permission.rs                   |   32 +-
+ .../src/ops/send_message.rs                        |   11 +-
+ .../src/ops/send_message_batch.rs                  |   11 +-
+ .../src/ops/set_queue_attributes.rs                |   21 +-
+ .../src/ops/start_message_move_task.rs             |   21 +-
+ .../src/ops/tag_queue.rs                           |   32 +-
+ .../src/ops/untag_queue.rs                         |   31 +-
+ .../src/state.rs                                   | 4661 +-------------------
+ .../src/state/addressing.rs                        |  237 +
+ .../src/state/authorization.rs                     |   15 +-
+ .../src/state/catalogue.rs                         |  729 +++
+ .../src/state/content.rs                           |  235 +
+ .../src/state/message_move.rs                      |  272 ++
+ .../src/state/parameters.rs                        |  666 +++
+ .../src/state/queue.rs                             | 1355 ++++++
+ .../src/state/refusals.rs                          |  370 ++
+ .../src/state/store.rs                             |  821 ++++
+ 29 files changed, 4794 insertions(+), 4873 deletions(-)

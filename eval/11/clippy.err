@@ -1,0 +1,10 @@
+    Checking service-common v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/11/services/common)
+   Compiling service-com-amazonaws-iam-awsidentitymanagementv20100508 v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/11/services/service-com-amazonaws-iam-awsidentitymanagementv20100508)
+   Compiling service-com-amazonaws-cloudwatch-graniteserviceversion20100801 v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/11/services/service-com-amazonaws-cloudwatch-graniteserviceversion20100801)
+   Compiling service-com-amazonaws-wafv2-awswaf-20190729 v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/11/services/service-com-amazonaws-wafv2-awswaf-20190729)
+   Compiling service-com-amazonaws-cognitoidentityprovider-awscognitoidentityproviderservice v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/11/services/service-com-amazonaws-cognitoidentityprovider-awscognitoidentityproviderservice)
+   Compiling service-com-amazonaws-sts-awssecuritytokenservicev20110615 v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/11/services/service-com-amazonaws-sts-awssecuritytokenservicev20110615)
+   Compiling service-com-amazonaws-cloudhsmv2-baldrapiservice v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/11/services/service-com-amazonaws-cloudhsmv2-baldrapiservice)
+   Compiling service-com-amazonaws-kms-trentservice v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/11/services/service-com-amazonaws-kms-trentservice)
+   Compiling service-com-amazonaws-sqs-amazonsqs v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/11/services/service-com-amazonaws-sqs-amazonsqs)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 36.99s

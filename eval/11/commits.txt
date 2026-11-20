@@ -1,0 +1,8 @@
+394723c07 refactor: split state.rs into focused submodules
+10a6c046d refactor: name unused trait parameters instead of discarding them
+81f7f8619 style: apply rustfmt to the crate
+4dfb46eb2 refactor: model message move task status as an enum
+9da7cd6af refactor: pass the queue to the authorization gate instead of its parts
+04c9ce066 refactor: share the whole-request checks of the three batch operations
+2ea25385a refactor: resolve the queue once in the tag and permission handlers
+277cae972 refactor: look a queue up by url without copying its name
