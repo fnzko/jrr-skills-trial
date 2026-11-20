@@ -1,0 +1,41 @@
+model claude-sonnet-5-5
+skills offered ['just-right-rust:async-rust', 'just-right-rust:rust-comments', 'just-right-rust:rust-domain-types', 'just-right-rust:rust-error-discipline', 'just-right-rust:rust-keep-it-simple', 'just-right-rust:rust-ownership', 'just-right-rust:rust-test-quality', 'just-right-rust:unsafe-rust-review', 'anthropic-skills:built-in-browser', 'anthropic-skills:chrome-browser', 'anthropic-skills:computer-use', 'anthropic-skills:deep-research', 'anthropic-skills:docs', 'anthropic-skills:docx', 'anthropic-skills:google-workspace', 'anthropic-skills:import-memory', 'anthropic-skills:morning', 'anthropic-skills:pdf', 'anthropic-skills:pptx', 'anthropic-skills:skill-creator', 'anthropic-skills:xlsx']
+skills invoked ['just-right-rust:rust-keep-it-simple', 'just-right-rust:rust-comments']
+skill files read {}
+tool calls {'Bash': 54, 'Monitor': 3, 'Skill': 2, 'Read': 1, 'Edit': 1}
+bash {'cargo clippy': 2, 'cargo check': 20, 'git commit': 11, 'cargo test': 2}
+result messages 2
+subtype success
+is_error False
+num_turns 65
+duration_ms 1578545
+total_cost_usd 1.3371532999999998
+final message:
+I split the 4,877-line `state.rs` into focused modules and removed one duplicated snippet. Behavior is unchanged. Tests pass (280 integration plus 5 unit, 0 failures), and `cargo clippy --all-targets` shows no warnings for this crate.
+
+`state.rs` is now 1,241 lines. It holds limits, wording helpers and module wiring, and re-exports the new modules, so no caller or test path changed. Each move is its own commit with the reason in the message.
+
+| Commit | What moved |
+|---|---|
+| 9b7a26dc7 | `queue_address`: queue key, ARN and URL helpers |
+| 45e82ef7c | `receipt_handle`: handle format, origin and refusal wording |
+| 76625f120 | `clock`: epoch renderings and seconds/after/lapsed |
+| e7f48a2d0 | `message_digest`: message ids, MD5s and the dedup token |
+| 15e1892af | `message_move_task`: the task record, schedule and wording |
+| 2fd61bc47 | `queue_tags`: tag limits and refusals |
+| c225704a7 | `queue_attributes`: the settable-attribute table and its validation |
+| bd3b99d23 | `queue`: `Queue`, `StoredMessage` and the delivery types |
+| d39e3f236 | `store`: the store struct and its operations |
+| 4e876f7e4 | `Queue::authorization_subject()` replaces the same owned (ARN, policy) pair built in 18 handlers |
+| 86fd13b2d | README layout section updated |
+
+- **Visibility:** the code was moved as is. Five private items became `pub(super)` because `state.rs` still uses them. They are `queue_arn_fields`, `encoded_opaque_token`, `RECEIPT_HANDLE_FIELD_SEPARATOR`, `epoch_seconds` and three `MessageMoveTask` methods.
+- **Commit scope:** the message-move commit (15e1892af) also re-wraps the module doc comments from the earlier moves. That is a small departure from one kind of change per commit.
+- **Imports:** the new modules use `use super::*;`, which matches the existing `permissions`, `redrive` and `message_attributes` modules. Explicit import lists would be tidier, but they would be a different convention from the crate's own.
+- **Left alone:**
+  - The `#[allow(unused_imports)]` lines in `ops/`, which sit on generated scaffold code.
+  - The `.expect(...)` calls, which carry real invariants.
+  - Existing em dashes in comments, because rewording them would bury the moves.
+  - The crate-wide rustfmt drift (generated code, not touched).
+
+The wording-helper constants and builders in `state.rs` are the next obvious split, and the `ops/` handlers share more boilerplate. Both are worth doing as separate passes if you want to go further.

@@ -1,0 +1,16 @@
+38a2735c9 refactor(sqs): move message attribute digests and limits into message_attributes
+697c442a2 refactor(sqs): extract digests and identifier generation into state::digest
+11250aab2 refactor(sqs): extract time arithmetic and epoch rendering into state::clock
+3e3c5ab7c refactor(sqs): extract receipt handle format and refusals into state::receipt_handle
+f8371192b refactor(sqs): extract refusal wording into state::refusals
+1a4e9f707 refactor(sqs): extract queue addressing into state::address
+edca95bab refactor(sqs): extract queue attribute specs and validation into state::attributes
+7292c6274 refactor(sqs): extract queue name, tag and re-create rules into state::queue_rules
+d40b5167e refactor(sqs): extract store ceilings into state::limits
+a1d12fc56 refactor(sqs): extract the stored message records into state::message
+29b2ac3b7 refactor(sqs): move the Queue record and its impl into state::queue
+850637adc refactor(sqs): move message movement tasks into state::message_move
+d36162e26 refactor(sqs): move the attribute refusal constructors next to the attribute checks
+fc36aa875 refactor(sqs): move tag quotas next to the tag rules in state::queue_rules
+d3971d58f refactor(sqs): move the store-wide redrive checks into state::redrive
+c91018b71 refactor(sqs): order state module declarations and document the layout

@@ -1,0 +1,31 @@
+ 29 files changed, 3813 insertions(+), 3719 deletions(-)
+ .../service-com-amazonaws-sqs-amazonsqs/README.md  |    4 +-
+ .../src/ops/add_permission.rs                      |    2 +-
+ .../src/ops/change_message_visibility.rs           |    2 +-
+ .../src/ops/change_message_visibility_batch.rs     |    2 +-
+ .../src/ops/delete_message.rs                      |    2 +-
+ .../src/ops/delete_message_batch.rs                |    2 +-
+ .../src/ops/delete_queue.rs                        |    2 +-
+ .../src/ops/get_queue_attributes.rs                |    2 +-
+ .../src/ops/get_queue_url.rs                       |    2 +-
+ .../src/ops/list_queue_tags.rs                     |    2 +-
+ .../src/ops/purge_queue.rs                         |    2 +-
+ .../src/ops/receive_message.rs                     |    2 +-
+ .../src/ops/remove_permission.rs                   |    2 +-
+ .../src/ops/send_message.rs                        |    2 +-
+ .../src/ops/send_message_batch.rs                  |    2 +-
+ .../src/ops/set_queue_attributes.rs                |    2 +-
+ .../src/ops/start_message_move_task.rs             |    2 +-
+ .../src/ops/tag_queue.rs                           |    2 +-
+ .../src/ops/untag_queue.rs                         |    2 +-
+ .../src/state.rs                                   | 3764 +-------------------
+ .../src/state/clock.rs                             |   59 +
+ .../src/state/message_digest.rs                    |  145 +
+ .../src/state/message_move_task.rs                 |  306 ++
+ .../src/state/queue.rs                             | 1362 +++++++
+ .../src/state/queue_address.rs                     |  173 +
+ .../src/state/queue_attributes.rs                  |  519 +++
+ .../src/state/queue_tags.rs                        |  116 +
+ .../src/state/receipt_handle.rs                    |  225 ++
+ .../src/state/store.rs                             |  823 +++++
+ 29 files changed, 3813 insertions(+), 3719 deletions(-)

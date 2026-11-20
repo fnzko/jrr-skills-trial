@@ -1,0 +1,9 @@
+fa0445f65 refactor: move message move task items out of state.rs
+a40715d1b refactor: move queue key, ARN and url helpers into queue_address
+d2376f098 refactor: move epoch and duration helpers into clock
+f4014b00f refactor: keep extracted helpers private unless a sibling needs them
+63252522e refactor: move receipt handle logic into its own module
+a54bc3d79 refactor: move attribute, name and tag validation into its own module
+e57c9993e style: apply rustfmt to the crate
+5e58b732e refactor: express delivery order and delay reapplication as iterator chains
+2ebcedd1f test: rename scratch_probe to say what it verifies

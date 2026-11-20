@@ -1,0 +1,351 @@
+warning: unused variable: `errors_path`
+    --> vendor/smithy-macros/src/lib.rs:3836:9
+     |
+3836 |     let errors_path: syn::Path = match opts.errors.clone() {
+     |         ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_errors_path`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `types_path`
+    --> vendor/smithy-macros/src/lib.rs:4085:9
+     |
+4085 |     let types_path = &opts.types;
+     |         ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_types_path`
+
+warning: `aws-emulator-smithy-macros` (lib) generated 2 warnings (run `cargo fix --lib -p aws-emulator-smithy-macros` to apply 2 suggestions)
+   Compiling service-com-amazonaws-iam-awsidentitymanagementv20100508 v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-iam-awsidentitymanagementv20100508)
+   Compiling service-com-amazonaws-cloudwatch-graniteserviceversion20100801 v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-cloudwatch-graniteserviceversion20100801)
+   Compiling service-com-amazonaws-wafv2-awswaf-20190729 v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-wafv2-awswaf-20190729)
+   Compiling service-com-amazonaws-cognitoidentityprovider-awscognitoidentityproviderservice v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-cognitoidentityprovider-awscognitoidentityproviderservice)
+   Compiling service-com-amazonaws-cloudhsmv2-baldrapiservice v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-cloudhsmv2-baldrapiservice)
+   Compiling service-com-amazonaws-sts-awssecuritytokenservicev20110615 v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sts-awssecuritytokenservicev20110615)
+   Compiling service-com-amazonaws-kms-trentservice v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-kms-trentservice)
+   Compiling service-com-amazonaws-sqs-amazonsqs v0.1.0 (/Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 54.81s
+     Running unittests src/lib.rs (/Users/facundo/code/wye/jrr-refactor-trial/eval-target/debug/deps/service_com_amazonaws_sqs_amazonsqs-340f2f8600ff740b)
+
+running 5 tests
+test state::authorization::tests::a_batch_call_is_authorized_under_its_single_message_action ... ok
+test state::authorization::tests::an_action_element_names_an_action_of_this_service_or_nothing ... ok
+test state::authorization::tests::a_bare_account_id_principal_is_stored_as_that_accounts_root_arn ... ok
+test service::tests::only_the_models_error_shapes_are_classes ... ok
+test service::tests::a_class_of_this_services_model_is_named_by_its_shape_id ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/all.rs (/Users/facundo/code/wye/jrr-refactor-trial/eval-target/debug/deps/all-435ac6a5a129d164)
+
+running 280 tests
+test batch_entry_faults::a_handle_the_queue_cannot_resolve_is_refused_by_where_it_came_from ... ok
+test batch_entry_faults::an_entry_supplying_no_value_for_a_required_member_fails_alone ... ok
+test batch_entry_faults::a_delete_is_idempotent_for_a_handle_whose_message_is_gone ... ok
+test batch_entry_faults::a_second_task_on_a_busy_source_is_refused_as_a_parameter_value ... ok
+test batch_entry_faults::a_fifo_batch_with_an_unacceptable_entry_is_refused_whole ... ok
+test cancel_message_move_task::a_cancelled_task_frees_its_source_queue_for_another_task ... ok
+test batch_payload_ceiling::the_refusal_carries_the_services_own_error_document ... ok
+test batch_entry_faults::the_queues_maximum_message_size_bounds_each_entry_not_the_batch ... ok
+test batch_entry_faults::the_requests_payload_is_bounded_by_the_services_own_ceiling ... ok
+test batch_payload_ceiling::an_over_limit_aggregate_is_refused_as_a_modeled_batch_error ... ok
+test batch_payload_ceiling::a_batch_at_the_ceiling_is_accepted_and_one_byte_more_is_not ... ok
+test dead_letter_move_on_visibility_change::a_released_message_is_dead_lettered_and_retained_from_its_enqueue ... ok
+test batch_aggregate_refusal_reaches_the_operation::an_over_aggregate_batch_is_refused_by_the_operation_however_far_over_it_reaches ... ok
+test dead_letter_redrive::a_message_is_dead_lettered_once_its_queue_has_delivered_it_as_often_as_allowed ... ok
+test dead_letter_redrive::a_message_whose_allowance_is_unspent_stays_in_its_queue ... ok
+test batch_aggregate_refusal_reaches_the_operation::the_same_entries_split_under_the_limit_are_accepted_and_delivered ... ok
+test dead_letter_source_attribution::a_dead_lettered_message_names_the_queue_it_was_redriven_from ... ok
+test cancel_message_move_task::a_cancel_naming_no_running_task_is_refused ... ok
+test dead_letter_source_attribution::only_a_redriven_message_names_a_source_and_only_where_the_request_selects_it ... ok
+test delete_message_batch::a_bad_handle_fails_on_its_own_entry ... ok
+test delete_message_batch::a_batch_of_live_handles_deletes_every_message ... ok
+test delete_message_batch::a_batch_that_is_not_acceptable_is_refused_whole ... ok
+test delete_message_batch::an_entry_id_at_the_documented_bound_is_accepted ... ok
+test fifo_group_rotation::a_poller_handing_messages_back_reaches_every_unblocked_group ... ok
+test fifo_group_rotation::a_standard_queue_hands_over_every_visible_message_whatever_group_it_names ... ok
+test fifo_group_rotation::rotation_keeps_each_group_in_send_order ... ok
+test fifo_queue::a_fifo_receive_preserves_per_group_send_order ... ok
+test fifo_queue::a_fifo_send_is_observable_through_get_queue_attributes ... ok
+test fifo_queue::a_fifo_token_is_bounded_in_length_and_in_its_characters ... ok
+test fifo_queue::a_group_with_a_message_in_flight_hands_over_nothing_more ... ok
+test fifo_queue::a_receive_reports_the_attributes_a_fifo_send_records ... ok
+test fifo_queue::a_resend_inside_the_deduplication_interval_delivers_one_copy ... ok
+test fifo_queue::the_members_a_send_must_carry_follow_the_queue_type ... ok
+test fifo_queue_designation::a_fifo_queue_reports_the_default_of_the_fifo_only_attribute_its_create_left_out ... ok
+test fifo_queue_designation::a_standard_queue_carries_no_fifo_only_attribute ... ok
+test fifo_queue_designation::the_fifo_designator_takes_only_the_value_that_designates_and_creates_nothing_otherwise ... ok
+test fifo_receive_idempotency::a_deduplication_token_is_reusable_once_its_interval_has_elapsed ... ok
+test fifo_receive_idempotency::a_retry_is_refused_once_the_batch_has_been_modified ... ok
+test dead_letter_source_attribution::a_message_driven_out_of_a_dead_letter_queue_still_names_where_it_was_dead_lettered_from ... ok
+test fifo_receive_idempotency::a_retry_under_the_same_attempt_id_hands_the_identical_batch_back ... ok
+test fifo_receive_idempotency::an_attempt_id_is_bounded_in_its_form_on_either_queue_type ... ok
+test fifo_receive_idempotency::an_attempt_id_replays_only_inside_its_window ... ok
+test fifo_receive_idempotency::set_queue_attributes_holds_the_same_throughput_pair_rule ... ok
+test fifo_receive_idempotency::the_per_message_group_throughput_limit_requires_the_message_group_scope ... ok
+test generated_queue_policy_document::an_uploaded_policy_keeps_the_version_it_was_written_with ... ok
+test generated_queue_policy_document::the_generated_queue_policy_declares_the_default_policy_language_version ... ok
+test list_dead_letter_source_queues::a_request_the_listing_will_not_take_is_refused_with_its_own_message ... ok
+test list_dead_letter_source_queues::every_page_size_walks_the_whole_listing_exactly_once ... ok
+test list_dead_letter_source_queues::the_listing_reports_exactly_the_queues_whose_policy_names_the_addressed_queue ... ok
+test list_message_move_tasks::a_listing_naming_no_queue_or_asking_outside_the_result_range_is_refused ... ok
+test dead_letter_drain_cycle::a_cancelled_task_reports_no_handle_in_either_cancelled_status ... ok
+test list_message_move_tasks::a_task_is_listed_only_under_the_source_queue_it_moves_from ... ok
+test dead_letter_redrive::a_dead_lettered_message_names_the_queue_it_was_driven_out_of ... ok
+test fifo_receive_idempotency::a_retry_resets_the_visibility_timeout_of_the_batch ... ok
+test message_attribute_rules::a_message_system_attribute_does_not_count_toward_the_message_size ... ok
+test message_attribute_rules::a_number_attribute_is_bounded_by_its_published_precision_and_range ... ok
+test message_attribute_rules::a_number_attribute_is_stored_as_the_number_it_names ... ok
+test message_attribute_rules::a_taken_attribute_comes_back_on_the_receive ... ok
+test message_attribute_rules::message_attribute_names_are_taken_only_inside_the_documented_rules ... ok
+test message_attribute_rules::message_attribute_types_and_values_are_validated ... ok
+test message_attribute_rules::message_system_attributes_take_only_the_trace_header ... ok
+test message_attribute_rules::send_message_batch_judges_each_entry_by_the_same_rules ... ok
+test message_attribute_rules::the_attribute_name_wildcard_selects_by_name_prefix ... ok
+test dead_letter_redrive::a_move_task_over_a_filled_dead_letter_queue_completes_and_drains_it ... ok
+test message_lifecycle::a_handle_the_queue_never_minted_is_receipt_handle_is_invalid ... ok
+test batch_delete_survives_visibility_lapse::a_deleted_message_never_comes_back_when_the_visibility_timeout_lapses ... ok
+test message_lifecycle::a_message_over_the_queues_maximum_message_size_is_refused ... ok
+test message_lifecycle::an_unknown_queue_url_is_queue_does_not_exist_everywhere ... ok
+test message_lifecycle::an_unparameterised_list_queues_pages_at_the_default_size ... ok
+test message_lifecycle::list_queues_filters_by_prefix_and_pages ... ok
+test message_lifecycle::max_number_of_messages_caps_the_batch_across_its_documented_range ... ok
+test message_lifecycle::md5_of_message_attributes_matches_the_documented_byte_layout ... ok
+test message_lifecycle::md5_of_the_body_is_the_real_digest_for_every_body ... ok
+test message_lifecycle::message_attribute_names_select_exactly_what_was_asked_for ... ok
+test message_lifecycle::re_receiving_mints_a_handle_without_retiring_the_one_before_it ... ok
+test message_lifecycle::send_message_refuses_the_members_it_cannot_honour ... ok
+test message_lifecycle::sending_to_a_fifo_queue_is_accepted_and_held ... ok
+test message_lifecycle::the_effective_visibility_timeout_decides_when_a_message_returns ... ok
+test message_lifecycle::the_message_lifecycle_round_trips_through_state ... ok
+test management_event_recording::the_control_plane_is_recorded_and_the_message_plane_is_not ... ok
+test message_move_task::a_delayed_or_in_flight_message_stays_in_the_dead_letter_queue ... ok
+test message_move_task::a_start_naming_no_queue_or_a_rate_outside_its_range_is_refused ... ok
+test message_lifecycle::a_long_polling_receive_waits_for_the_requested_time ... ok
+test message_lifecycle::a_delayed_message_is_withheld_until_its_delay_elapses ... ok
+test message_move_task::with_several_dead_letter_source_queues_the_destination_must_be_named ... ok
+test message_move_task_queue_type::a_message_move_task_runs_only_between_queues_of_one_type ... ok
+test message_plane::a_body_character_outside_the_allowed_set_is_refused ... ok
+test message_plane::message_system_attributes_are_computed_and_selected_by_name ... ok
+test message_plane::the_first_receive_timestamp_stays_fixed_while_the_receive_count_rises ... ok
+test message_visibility_changes::a_batch_reports_each_entry_under_its_own_outcome ... ok
+test message_visibility_changes::a_batch_that_is_not_one_is_refused_whole ... ok
+test message_visibility_changes::a_changed_visibility_timeout_decides_when_the_message_comes_back ... ok
+test message_visibility_changes::a_visibility_change_is_refused_for_what_it_cannot_act_on ... ok
+test message_visibility_changes::every_entry_naming_a_lapsed_handle_is_applied_and_the_last_one_wins ... ok
+test message_visibility_changes::every_entry_of_one_batch_is_judged_against_the_state_the_request_arrived_to ... ok
+test message_visibility_changes::the_new_timeout_is_counted_from_the_call ... ok
+test opaque_response_tokens::a_message_move_task_handle_is_one_opaque_token_the_task_resolves_by ... ok
+test opaque_response_tokens::a_receipt_handle_is_one_opaque_token_the_delete_resolves ... ok
+test opaque_response_tokens::an_opaque_handle_of_another_queue_is_still_refused_as_that_queues ... ok
+test pagination_token_refusal::a_token_no_page_issued_is_refused_with_one_fixed_sentence ... ok
+test pagination_token_refusal::a_token_whose_listing_has_since_shrunk_is_refused_the_same_way ... ok
+test pagination_token_refusal::the_page_size_refusal_keeps_its_own_template ... ok
+test pagination_token_refusal::the_service_words_the_token_refusal_as_the_fixed_sentence ... ok
+test policy_statement_limit::a_grant_past_the_statement_limit_reports_the_attempted_count_and_the_limit ... ok
+test policy_statement_limit::a_grant_that_fills_the_statement_limit_is_served ... ok
+test purge_queue::a_purge_arriving_while_one_is_still_deleting_is_refused_and_changes_nothing ... ok
+test purge_queue::a_purge_discards_every_message_whatever_its_visibility ... ok
+test purge_queue::a_purge_lets_a_deduplication_token_admit_a_message_again ... ok
+test purge_queue::a_queue_keeps_working_after_a_purge ... ok
+test purge_queue::a_retry_of_a_remembered_receive_replays_nothing_after_a_purge ... ok
+test query_compatible_error_envelope::a_client_that_asked_for_no_report_is_sent_none ... ok
+test query_compatible_error_envelope::an_accepted_call_reports_no_error_class ... ok
+test query_compatible_error_envelope::every_refusal_reports_its_legacy_query_code_and_fault ... ok
+test queue_configuration::a_created_queue_reports_its_url_arn_supplied_attributes_and_documented_defaults ... ok
+test queue_configuration::a_non_integer_attribute_accepts_exactly_the_values_its_documentation_lists ... ok
+test queue_configuration::a_queue_name_is_accepted_only_in_the_documented_form ... ok
+test queue_configuration::a_queue_url_no_queue_answers_to_is_refused_as_queue_does_not_exist ... ok
+test queue_configuration::an_attribute_name_a_call_may_not_supply_is_refused_as_invalid_attribute_name ... ok
+test queue_configuration::an_integer_attribute_accepts_its_documented_range_and_refuses_anything_else ... ok
+test queue_configuration::an_unbounded_attribute_value_is_refused_past_the_documented_ceiling ... ok
+test queue_configuration::get_queue_attributes_returns_only_the_attribute_names_the_request_asks_for ... ok
+test queue_configuration::re_creating_a_name_is_idempotent_only_for_an_identical_attribute_set ... ok
+test queue_configuration::reading_a_queue_does_not_change_what_a_later_caller_sees ... ok
+test queue_configuration::set_queue_attributes_changes_exactly_the_attributes_it_names ... ok
+test message_lifecycle::the_retained_message_bytes_and_count_are_bounded ... ok
+test queue_depth_metrics::a_delivery_moves_the_count_from_the_visible_series_to_the_not_visible_one ... ok
+test queue_depth_metrics::a_queue_reports_how_long_the_oldest_message_it_can_deliver_has_been_in_it ... ok
+test queue_depth_metrics::each_queue_publishes_its_own_series_under_its_own_name ... ok
+test queue_depth_metrics::every_message_a_queue_holds_is_counted_in_exactly_one_aws_sqs_series ... ok
+test queue_depth_metrics::the_data_plane_calls_a_queue_serves_are_counted_into_its_own_counters ... ok
+test queue_depth_metrics::the_series_reads_the_same_over_the_query_wire_a_legacy_client_speaks ... ok
+test queue_does_not_exist::a_deleted_queue_is_refused_exactly_as_one_that_never_existed ... ok
+test queue_does_not_exist::every_url_addressed_operation_refuses_an_absent_queue_with_the_fixed_message ... ok
+test queue_does_not_exist::get_queue_url_refuses_an_absent_name_with_the_fixed_message ... ok
+test queue_encryption::a_batch_send_is_gated_on_the_queues_key_as_a_single_send_is ... ok
+test queue_encryption::a_kms_arn_whose_account_segment_is_not_an_account_id_refuses_the_send ... ok
+test queue_encryption::a_message_waiting_under_a_key_that_stops_serving_it_is_withheld ... ok
+test queue_encryption::a_queue_key_arn_whose_account_segment_names_no_account_relays_the_denial ... ok
+test queue_encryption::a_queue_on_a_kms_key_serves_each_caller_only_the_calls_its_grants_cover ... ok
+test queue_encryption::a_queue_reports_the_one_encryption_option_it_is_on ... ok
+test list_message_move_tasks::a_listing_reports_the_most_recent_tasks_of_its_source_queue_newest_first ... ok
+test queue_encryption::a_receive_the_queues_key_refuses_counts_as_a_delivery_attempt ... ok
+test queue_encryption::a_request_asking_for_both_encryption_options_is_refused ... ok
+test queue_encryption::an_explicit_deny_in_a_key_policy_refuses_the_accounts_own_credential ... ok
+test queue_encryption::the_data_key_reuse_period_takes_only_values_inside_its_published_range ... ok
+test queue_encryption::the_deny_refusal_relays_kms_and_lifts_as_soon_as_the_policy_does ... ok
+test queue_encryption::the_refusal_of_both_encryption_options_states_the_rule_in_fixed_text ... ok
+test queue_encryption::withdrawing_the_decrypt_grant_withholds_a_body_the_consumer_could_once_read ... ok
+test queue_lifecycle::a_batch_entry_with_an_empty_message_body_fails_alone ... ok
+test queue_lifecycle::a_name_deleted_a_moment_ago_cannot_be_created_again ... ok
+test queue_lifecycle::a_send_with_an_empty_message_body_is_refused ... ok
+test queue_lifecycle::a_tag_key_in_the_reserved_prefix_is_refused ... ok
+test queue_lifecycle::list_queues_accepts_a_page_size_only_inside_the_published_range ... ok
+test queue_lifecycle::re_creating_a_name_compares_the_tag_set_the_request_supplies ... ok
+test queue_permissions::a_grant_adds_to_an_uploaded_policy_rather_than_replacing_it ... ok
+test queue_permissions::a_grant_past_the_permission_bound_is_refused_as_over_limit ... ok
+test dead_letter_instants::a_dead_lettered_message_keeps_its_send_instant_and_is_retained_from_its_enqueue ... ok
+test queue_permissions::a_grant_to_this_account_names_this_account_as_the_principal ... ok
+test queue_permissions::a_grant_past_the_policy_size_bound_is_refused_as_over_limit ... ok
+test queue_permissions::a_request_outside_the_documented_rules_is_refused_and_persists_nothing ... ok
+test queue_permissions::an_action_this_service_does_not_have_is_refused_as_an_unknown_action ... ok
+test queue_permissions::revoking_a_label_removes_only_that_statement ... ok
+test queue_permissions::every_shape_of_grant_becomes_one_statement_of_the_queue_policy ... ok
+test queue_policy_authorization::a_policy_document_is_validated_when_it_is_written ... ok
+test queue_policy_authorization::a_permissions_boundary_caps_an_identity_grant_and_never_grants_one ... ok
+test queue_policy_authorization::a_refused_delete_leaves_the_queue ... ok
+test queue_policy_authorization::a_session_is_granted_by_a_statement_naming_it_or_its_role ... ok
+test queue_encryption::a_queue_whose_kms_key_cannot_serve_a_call_refuses_it ... ok
+test queue_policy_authorization::a_stored_policy_reads_back_canonically ... ok
+test queue_policy_authorization::the_owner_is_refused_only_by_an_explicit_deny ... ok
+test queue_policy_authorization::a_send_is_allowed_only_where_the_policies_in_force_allow_it ... ok
+test queue_policy_condition_keys::a_users_principal_arn_condition_is_answered_with_its_own_arn ... ok
+test queue_policy_authorization::each_operation_is_judged_under_its_own_action ... ok
+test queue_policy_condition_keys::an_if_exists_deny_refuses_a_caller_that_carries_no_value_for_the_key ... ok
+test queue_tags::a_queue_url_no_queue_answers_to_is_refused_as_queue_does_not_exist ... ok
+test queue_policy_condition_keys::a_sessions_principal_arn_condition_is_answered_with_its_role ... ok
+test queue_tags::list_queue_tags_omits_tags_for_an_untagged_queue_and_mutates_nothing ... ok
+test queue_tags::create_queue_enforces_the_same_tag_restrictions ... ok
+test queue_tags::tag_queue_changes_only_the_queue_it_names ... ok
+test queue_tags::tag_queue_refuses_a_tags_map_that_names_no_tag ... ok
+test queue_tags::tag_queue_upserts_tags_and_list_queue_tags_reports_them ... ok
+test queue_tags::tag_queue_enforces_the_published_tag_restrictions ... ok
+test queue_tags::untag_queue_changes_only_the_queue_it_names ... ok
+test queue_tags::untag_queue_refuses_a_tag_keys_list_that_names_no_tag ... ok
+test queue_policy_condition_keys::an_if_exists_clause_grants_where_the_request_carries_no_value_for_the_key ... ok
+test queue_tags::untag_queue_removes_exactly_the_keys_it_names ... ok
+test queue_type_immutability::the_refusal_reports_its_class_to_a_query_compatible_client ... ok
+test queue_type_immutability::the_attribute_is_still_accepted_at_create_and_the_sibling_classes_are_unmoved ... ok
+test queue_url_endpoint_form::a_reported_url_round_trips_through_the_operations_that_take_one ... ok
+test queue_url_endpoint_form::a_queue_url_is_the_same_whatever_address_the_call_arrived_on ... ok
+test queue_url_endpoint_form::the_dead_letter_source_listing_reports_the_urls_the_creates_minted ... ok
+test receipt_handle_leases::a_fifo_handle_whose_message_is_gone_is_not_refused_as_an_expired_lease ... ok
+test queue_type_immutability::an_update_naming_the_create_only_attribute_is_refused_in_the_class_its_queue_decides ... ok
+test queue_url_endpoint_form::every_reported_queue_url_is_the_regional_endpoint_form ... ok
+test receipt_handle_lifetime::a_lapsed_handle_is_taken_by_every_operation_that_names_a_message ... ok
+test receipt_handle_provenance::a_batch_entry_fails_for_the_queue_its_own_handle_names ... ok
+test receipt_handle_lifetime::a_lapsed_handle_still_names_its_message_for_a_visibility_change ... ok
+test receipt_handle_leases::a_superseded_handle_keeps_its_message_on_a_standard_queue_and_loses_it_on_a_fifo_one ... ok
+test receive_message_attribute_names::a_name_outside_the_system_attribute_set_is_refused_on_both_members ... ok
+test receipt_handle_provenance::change_message_visibility_answers_for_the_queue_the_handle_names ... ok
+test receive_message_attribute_names::the_alias_reports_the_system_attributes_a_fifo_send_records ... ok
+test recreate_and_tag_rules::a_policy_the_queue_does_not_carry_conflicts_on_a_re_create ... ok
+test recreate_and_tag_rules::a_refused_tag_call_leaves_the_queue_readable ... ok
+test receive_message_attribute_names::every_system_attribute_name_is_served_on_both_name_members ... ok
+test recreate_and_tag_rules::a_tag_at_each_published_bound_is_accepted ... ok
+test receipt_handle_provenance::delete_message_answers_for_the_queue_the_handle_names ... ok
+test recreate_and_tag_rules::a_tag_set_conflict_is_refused_with_the_tag_sentence ... ok
+test recreate_and_tag_rules::each_listing_words_its_own_page_size_refusal ... ok
+test recreate_and_tag_rules::a_tag_rule_refusal_states_the_rule_it_broke ... ok
+test recreate_and_tag_rules::re_creating_a_name_compares_the_policy_on_what_it_grants ... ok
+test redrive_allow_policy::a_dead_letter_queue_admits_only_the_source_queues_its_permission_names ... ok
+test message_move_task::only_one_message_movement_task_runs_per_source_queue_at_a_time ... ok
+test redrive_allow_policy_document_rules::a_redrive_allow_policy_is_judged_against_the_shape_its_documentation_gives_it ... ok
+test redrive_allow_policy_reason_wording::a_refused_redrive_allow_policy_states_its_own_rule_in_amazon_sqs_wording ... ok
+test redrive_allow_policy_reason_wording::each_redrive_allow_policy_document_rule_has_its_own_sentence ... ok
+test redrive_dlq_type_reason::create_queue_refuses_a_type_mismatched_dead_letter_target ... ok
+test redrive_dlq_type_reason::set_queue_attributes_refuses_a_type_mismatched_dead_letter_target ... ok
+test redrive_policy_document::create_queue_stores_only_a_redrive_policy_the_attribute_admits ... ok
+test redrive_policy_document::one_redrive_allow_policy_reads_back_in_one_rendering_whatever_its_spelling ... ok
+test redrive_policy_document::one_redrive_policy_reads_back_in_one_rendering_whatever_its_spelling ... ok
+test redrive_policy_document::set_queue_attributes_stores_only_a_redrive_policy_the_attribute_admits ... ok
+test redrive_region_reasons::a_refused_dead_letter_target_reports_the_rule_that_arn_broke ... ok
+test redrive_region_reasons::a_refused_redrive_allow_policy_reports_the_source_arn_region_rule ... ok
+test redrive_region_reasons::a_same_region_redrive_pair_is_wired_and_listed ... ok
+test redrive_region_reasons::each_redrive_rule_has_its_own_reason_sentence ... ok
+test refusal_message_reasons::a_create_refused_for_the_attribute_pair_states_the_rule ... ok
+test refusal_message_reasons::a_move_task_source_that_is_no_dead_letter_queue_states_the_pre_condition ... ok
+test refusal_message_reasons::a_non_retryable_attempt_id_refusal_states_why_the_retry_is_not_retryable ... ok
+test refusal_message_reasons::an_update_refused_for_the_attribute_pair_states_the_rule ... ok
+test refusal_taxonomy::a_refused_request_leaves_the_queue_as_it_was ... ok
+test refusal_taxonomy::every_input_refusal_carries_a_code_this_service_has ... ok
+test regional_queue_namespace::a_dead_letter_target_outside_the_queues_own_region_is_refused ... ok
+test regional_queue_namespace::a_deleted_name_is_deferred_only_in_the_region_it_was_deleted_in ... ok
+test regional_queue_namespace::a_message_move_task_cannot_span_two_regions ... ok
+test regional_queue_namespace::a_queue_of_another_region_is_not_served ... ok
+test regional_queue_namespace::a_queues_arn_carries_the_region_its_create_addressed ... ok
+test regional_queue_namespace::a_url_is_served_by_the_queue_of_the_region_the_call_addressed ... ok
+test regional_queue_namespace::the_same_name_in_two_regions_holds_separate_messages ... ok
+test queue_depth_metrics::a_delay_that_elapses_moves_the_message_into_the_visible_series_with_no_further_call ... ok
+test request_size_transport_bound::a_message_the_ceiling_admits_round_trips_unchanged ... ok
+test request_size_transport_bound::a_batch_past_the_transport_ceiling_is_the_bare_413_and_not_the_batch_error ... ok
+test request_size_transport_bound::a_request_body_above_the_transport_ceiling_is_refused_with_a_bare_413 ... ok
+test redrive_allow_policy::a_start_whose_destination_is_its_own_source_is_refused ... ok
+test send_message_batch::a_fifo_batch_is_enqueued_in_the_order_it_was_sent ... ok
+test send_message_batch::a_repeated_deduplication_token_in_a_batch_delivers_one_message ... ok
+test send_message_batch::an_entry_reports_the_digest_of_the_attributes_it_carries ... ok
+test send_message_batch::an_entry_the_queue_will_not_take_fails_on_its_own ... ok
+test send_message_batch::every_entry_of_a_batch_is_enqueued_and_reported_under_its_own_id ... ok
+test send_message_batch::a_batch_that_is_not_acceptable_is_refused_whole ... ok
+test send_message_size_refusals::a_request_past_the_ceiling_is_refused_before_the_queue_is_looked_up ... ok
+test sender_attribution::a_message_carries_the_principal_id_of_the_send_that_arrived ... ok
+test sender_attribution::one_principals_sends_agree_and_two_principals_differ ... ok
+test send_message_size_refusals::an_over_large_message_is_refused_by_whichever_bound_the_request_size_reaches ... ok
+test sse_kms_data_keys::a_receive_reuses_the_data_key_inside_the_window_and_has_kms_open_it_past_it ... ok
+test sse_kms_data_keys::a_send_refused_before_the_queue_makes_no_kms_call ... ok
+test sse_kms_data_keys::each_queue_obtains_its_own_data_key_from_a_shared_key ... ok
+test sse_kms_data_keys::one_data_key_per_reuse_window_however_many_sends_the_burst_makes ... ok
+test sse_kms_data_keys::only_a_queue_on_a_customer_managed_key_calls_kms_for_a_data_key ... ok
+test sse_kms_data_keys::the_encryption_context_names_the_queue_under_the_documented_key ... ok
+test sse_kms_data_keys::the_reuse_period_is_the_queue_s_own_value_inside_the_published_range ... ok
+test state_roundtrip::state_written_by_one_request_is_visible_to_the_next ... ok
+test time_driven_queue_semantics::a_delay_seconds_change_is_retroactive_for_fifo_and_not_for_standard ... ok
+test time_driven_queue_semantics::a_shortened_retention_period_expires_what_is_already_older_than_it ... ok
+test request_size_transport_bound::the_transport_ceiling_refuses_every_operation_alike ... ok
+test time_driven_queue_semantics::retention_discards_a_message_older_than_the_period_whatever_state_it_is_in ... ok
+test unknown_attribute_names::create_queue_refuses_every_name_it_cannot_accept_as_an_unknown_attribute ... ok
+test unknown_attribute_names::set_queue_attributes_refuses_every_name_it_cannot_accept_as_an_unknown_attribute ... ok
+test visibility_change::a_batch_entry_is_judged_by_the_same_kinds_of_value ... ok
+test visibility_change::a_change_cannot_reach_past_what_one_receive_may_hide_a_message_for ... ok
+test visibility_change::a_handle_that_names_no_message_is_refused_by_what_the_value_is ... ok
+test service_delivery_message_size::the_maximum_message_size_bounds_a_client_send_and_not_a_service_delivery ... ok
+test message_move_task::a_started_task_delivers_the_dead_letter_queues_messages_to_the_destination ... ok
+test list_message_move_tasks::a_tasks_reported_progress_follows_the_record_and_the_clock ... ok
+test redrive_allow_policy::a_dead_letter_queue_that_no_longer_admits_its_source_takes_no_redriven_message ... ok
+test redrive_allow_policy::a_task_completes_only_once_it_has_drained_its_source_queue ... ok
+test dead_letter_drain_cycle::a_reported_task_populates_each_member_only_where_it_is_documented ... ok
+test cancel_message_move_task::a_move_cannot_push_the_destination_queue_past_what_it_may_hold ... ok
+test dead_letter_drain_cycle::a_move_task_completes_and_drains_every_dead_letter_queue_it_is_started_over ... ok
+test cancel_message_move_task::cancelling_a_running_task_stops_what_it_had_not_moved_and_keeps_what_it_had ... ok
+test time_driven_queue_semantics::a_visibility_timeout_change_spares_the_messages_already_in_flight ... ok
+
+test result: ok. 280 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 19.30s
+
+   Doc-tests service_com_amazonaws_sqs_amazonsqs
+
+running 24 tests
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/add_permission.rs - ops::add_permission (line 33) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/cancel_message_move_task.rs - ops::cancel_message_move_task (line 32) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/change_message_visibility.rs - ops::change_message_visibility (line 40) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/change_message_visibility_batch.rs - ops::change_message_visibility_batch (line 24) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/create_queue.rs - ops::create_queue (line 55) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/delete_message.rs - ops::delete_message (line 27) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/delete_message_batch.rs - ops::delete_message_batch (line 39) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/delete_queue.rs - ops::delete_queue (line 20) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/get_queue_attributes.rs - ops::get_queue_attributes (line 36) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/get_queue_url.rs - ops::get_queue_url (line 29) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/list_dead_letter_source_queues.rs - ops::list_dead_letter_source_queues (line 25) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/list_message_move_tasks.rs - ops::list_message_move_tasks (line 34) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/list_queue_tags.rs - ops::list_queue_tags (line 23) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/list_queues.rs - ops::list_queues (line 21) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/purge_queue.rs - ops::purge_queue (line 26) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/receive_message.rs - ops::receive_message (line 42) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/remove_permission.rs - ops::remove_permission (line 31) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/send_message.rs - ops::send_message (line 36) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/send_message_batch.rs - ops::send_message_batch (line 55) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/set_queue_attributes.rs - ops::set_queue_attributes (line 53) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/start_message_move_task.rs - ops::start_message_move_task (line 43) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/tag_queue.rs - ops::tag_queue (line 26) ... ignored
+test /Users/facundo/code/wye/jrr-refactor-trial/runs/7/services/service-com-amazonaws-sqs-amazonsqs/src/ops/untag_queue.rs - ops::untag_queue (line 29) ... ignored
+test services/service-com-amazonaws-sqs-amazonsqs/src/scaffolded.rs - scaffolded (line 25) ... ignored
+
+test result: ok. 0 passed; 0 failed; 24 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

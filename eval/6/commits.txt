@@ -1,0 +1,11 @@
+9b7a26dc7 refactor(sqs): move queue address helpers out of state.rs
+45e82ef7c refactor(sqs): move receipt handle format and refusals out of state.rs
+76625f120 refactor(sqs): move instant and interval helpers out of state.rs
+e7f48a2d0 refactor(sqs): move message identifiers and digests out of state.rs
+15e1892af refactor(sqs): move message movement task record and wording out of state.rs
+2fd61bc47 refactor(sqs): move queue tag limits and refusals out of state.rs
+c225704a7 refactor(sqs): move the settable queue attribute schema out of state.rs
+bd3b99d23 refactor(sqs): move the queue record and its message plane out of state.rs
+d39e3f236 refactor(sqs): move the store struct and its operations out of state.rs
+4e876f7e4 refactor(sqs): name the ARN and policy pair every authorization check reads
+86fd13b2d docs(sqs): describe the state module layout in the README
