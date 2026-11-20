@@ -1,0 +1,32 @@
+ 30 files changed, 318 insertions(+), 434 deletions(-)
+ .../service-com-amazonaws-sqs-amazonsqs/src/lib.rs |   3 -
+ .../src/ops/add_permission.rs                      |  21 +-
+ .../src/ops/cancel_message_move_task.rs            |   5 +-
+ .../src/ops/change_message_visibility.rs           |   1 -
+ .../src/ops/change_message_visibility_batch.rs     |   1 -
+ .../src/ops/create_queue.rs                        |   1 -
+ .../src/ops/delete_message.rs                      |   1 -
+ .../src/ops/delete_message_batch.rs                |   1 -
+ .../src/ops/delete_queue.rs                        |   1 -
+ .../src/ops/get_queue_attributes.rs                |   1 -
+ .../src/ops/get_queue_url.rs                       |   1 -
+ .../src/ops/list_dead_letter_source_queues.rs      |   1 -
+ .../src/ops/list_message_move_tasks.rs             |   1 -
+ .../src/ops/list_queue_tags.rs                     |   1 -
+ .../src/ops/list_queues.rs                         |   1 -
+ .../src/ops/purge_queue.rs                         |   1 -
+ .../src/ops/receive_message.rs                     |   1 -
+ .../src/ops/remove_permission.rs                   |  21 +-
+ .../src/ops/send_message.rs                        |   1 -
+ .../src/ops/send_message_batch.rs                  |   1 -
+ .../src/ops/set_queue_attributes.rs                |  28 +--
+ .../src/ops/start_message_move_task.rs             |  16 +-
+ .../src/ops/tag_queue.rs                           |  21 +-
+ .../src/ops/types/mod.rs                           |  24 --
+ .../src/ops/untag_queue.rs                         |  19 +-
+ .../src/service.rs                                 |  38 +--
+ .../src/state.rs                                   | 261 +------------------
+ .../src/state/message_move.rs                      | 275 +++++++++++++++++++++
+ .../tests/all.rs                                   |   4 +-
+ ..._probe.rs => delete_message_batch_survivors.rs} |   0
+ 30 files changed, 318 insertions(+), 434 deletions(-)

@@ -1,0 +1,5 @@
+9592b7216 refactor(sqs): authorize against a queue through one helper
+9aacd1c51 refactor(sqs): resolve the queue once in the four policy and tag handlers
+6eec620a4 chore(sqs): drop lint allows that suppress nothing
+5bb98196f refactor(sqs): drop service overrides that restate the trait defaults
+3b4dd3847 test(sqs): rename scratch_probe to say what it checks

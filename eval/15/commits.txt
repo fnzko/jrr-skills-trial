@@ -1,0 +1,11 @@
+6c0b4d5ae refactor(sqs): drop unused_imports allows that hide nothing
+677e4da5a refactor(sqs): drop lint allows on the types re-exports
+1db883274 refactor(sqs): drop crate-level lint allows that hide nothing
+8deb70ad9 refactor(sqs): remove override_* methods that restate the trait defaults
+3ead399fc refactor(sqs): resolve the queue once in tag/untag/add/remove permission ops
+f495a9406 refactor(sqs): authorise SetQueueAttributes against borrowed queue fields
+c3540965e refactor(sqs): model message move task status as an enum
+d33f362ab test(sqs): rename scratch_probe to say what it covers
+397e338b3 refactor(sqs): drop the remaining lookup-then-expect in move-task and set-attributes
+18e5d8e1e refactor(sqs): move message move task types out of state.rs into state/message_move.rs
+2e594ec46 refactor(sqs): drop a needless borrow of the queue name
