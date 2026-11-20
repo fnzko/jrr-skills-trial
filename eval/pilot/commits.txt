@@ -1,0 +1,48 @@
+87407b705 refactor(sqs): move store bounds out of state.rs into state::limits
+3801a277b refactor(sqs): move list paging into state::pagination
+98074da4e refactor(sqs): gather the FIFO constants and refusals into state::fifo
+bb4bec41c refactor(sqs): move tag quotas and refusals into state::tags
+a7637e587 refactor(sqs): move queue naming, URL and ARN handling into state::queue_address
+b7a538004 refactor(sqs): move shared batch limits and wording into state::batch
+36b12c15e refactor(sqs): move receipt handle parsing and refusals into state::receipt_handle
+a319b2f43 refactor(sqs): move message movement task record and rules into state::message_move_task
+ce3948798 refactor(sqs): move time helpers into state::clock
+169bd6cbe refactor(sqs): move whole-queue refusals into state::queue_refusals
+aa942aef0 refactor(sqs): move parameter-level refusal wording into state::parameter_refusals
+dfd025ca7 refactor(sqs): move the attribute table into state::attribute_specs
+19c8c0547 refactor(sqs): move attribute validation into state::attributes
+33a8cb273 refactor(sqs): move the re-create comparison into state::recreate
+05c71048f refactor(sqs): move message digests and sizes into state::message_content
+f5a20c63a refactor(sqs): move the redrive attribute names into state::redrive
+12cfca4d0 refactor(sqs): move message attribute limits into state::message_attributes
+85a40e0de refactor(sqs): move message body character checks into state::message_content
+d70856c84 refactor(sqs): move delete and purge intervals into state::queue_lifecycle
+ec8b5ac23 refactor(sqs): move the stored message types into state::message
+1177385fc refactor(sqs): order state's module list and re-exports alphabetically
+f8b859185 refactor(sqs): move Queue's access policy methods into state::queue_policy
+2f4f0c0dd refactor(sqs): move Queue's receipt handle ledger into state::queue_receipt_handles
+a47b57e15 refactor(sqs): move Queue's FIFO bookkeeping into state::queue_deduplication
+75f09e137 refactor(sqs): move Queue's delivery and aging methods into state::queue_delivery
+169b5c815 refactor(sqs): move Queue's purge and capacity checks into state::queue_contents
+56f4a5295 refactor(sqs): move the store's dead-letter logic into state::dead_letter
+42da1c76d refactor(sqs): move the store's message movement task methods into state::message_move_task
+04ccc50e2 refactor(sqs): move count_as_i64 next to its only caller in state::message_move_task
+18514cd84 refactor(sqs): move the Queue record into state::queue
+798c51291 refactor(sqs): keep state's module list sorted after the impl splits
+ca7f390b0 docs(sqs): keep intra-doc links resolving after the state split
+0dee08f87 refactor(sqs): drop the second, unreachable ReceiveRequestAttemptId check
+c94f1c1ac refactor(sqs): break ReceiveMessage::handle into named phases
+d05096eeb refactor(sqs): define the KMS refusal mapping once
+6522083cb refactor(sqs): judge send members by one set of rules for SendMessage and batch entries
+8d9d40dcc refactor(sqs): pull SendMessage's judging of the message out of handle
+c50fbb22b refactor(sqs): judge the shape of every batch request in one place
+78d63acbd refactor(sqs): authorize a queue-scoped call with one helper
+7073cdda6 refactor(sqs): split SendMessageBatch::handle into measure and store_entry
+668a4bb80 refactor(sqs): name the ARN and destination steps of StartMessageMoveTask
+7fc3d4cd0 refactor(sqs): word attribute refusals once for CreateQueue and SetQueueAttributes
+760408e03 test(sqs): name the batch delete clock suite for what it asserts
+2daa8468d docs(sqs): describe the state module layout in the README
+cdba3b999 chore(sqs): drop crate-wide lint allows that no longer silence anything
+a9a73426d refactor(sqs): look the queue up once in the tag and permission handlers
+c485f63ab style(sqs): apply rustfmt to the crate
+e64f4e138 style(sqs): apply rustfmt to the operation handlers

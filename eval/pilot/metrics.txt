@@ -1,0 +1,70 @@
+metric (per 1000 lines)                             src          tests
+LOC                                               19916          35729
+files                                                88             67
+% lines that are // comments                       43.5           14.6
+--- alloc
+clone()                                            7.33           6.89
+to_string()                                        6.68          19.03
+to_owned()                                         0.00           0.00
+format!(                                           5.02          15.03
+to_vec()                                           0.00           0.17
+.collect()                                         2.51           4.42
+with_capacity                                      0.45           0.39
+&String / &Vec<                                    0.25           0.00
+Box<dyn                                            0.05           0.03
+--- lock
+Mutex< / RwLock<                                   0.00           0.00
+.lock()                                            3.56           0.59
+--- async
+async fn                                           1.15          12.37
+sleep(                                             0.10           0.45
+block_on(                                          0.00           0.00
+--- err
+.unwrap()                                          0.00           0.00
+.expect(                                           0.30           2.46
+panic!(                                            0.00           3.33
+unwrap_or_default()                                1.21           5.46
+unwrap_or(                                         2.31           1.76
+unwrap_or_else(                                    0.40           3.25
+let _ =                                            0.20           1.60
+.ok() discard                                      0.00           0.00
+map_err(|_|                                        0.00           0.00
+Result<_, String>                                  0.10           0.00
+? operator                                         6.88           0.14
+catch-all `_ =>`                                   0.90           0.20
+--- types
+field: String                                      4.42           0.50
+field: Option<String>                              3.87           0.08
+field: bool                                        0.80           0.76
+*_id/_arn/_name/_key: String                       3.06           0.11
+newtype struct X(T)                                0.00           0.00
+enum definitions                                   2.06           0.34
+struct definitions                                 7.08           1.34
+impl Display/FromStr/TryFrom/From                  1.66           0.00
+serde_json::Value / json!                          4.02          46.80
+string literal compare                             0.55           0.22
+Some("literal")                                    0.75           2.85
+--- idiom
+#[allow(                                           3.56           0.00
+explicit `return x;`                              14.06           0.59
+for i in 0..                                       0.10           0.95
+if let / let-else                                 10.14           3.02
+fn get_*                                           0.00           0.06
+glob use ::*                                       6.13           0.00
+pub fn                                            11.90           0.48
+fn (any)                                          23.05          19.23
+unsafe                                             0.00           0.00
+println!/eprintln!                                 0.00           0.00
+--- cmt
+line comment //                                   82.35          35.52
+doc comment ///                                  178.75          68.32
+inner doc //!                                    127.94          35.66
+banner // ====                                     0.00           0.00
+TODO/FIXME/XXX                                     0.00           0.00
+em dash U+2014                                    47.85          13.97
+arrow U+2192 / ellipsis U+2026                     5.62           0.17
+UPPERCASE emphasis in comments                    55.23          21.47
+--- test
+#[test]/#[tokio::test]                             0.25           7.84
+assert_eq!/assert_ne!                              0.30          28.66
+assert!(                                           0.00           5.93
