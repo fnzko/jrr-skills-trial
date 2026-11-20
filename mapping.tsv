@@ -1,0 +1,15 @@
+1	branch
+2	main
+3	branch
+4	main
+5	main
+6	branch
+7	branch
+8	main
+9	branch
+10	branch+router (probe-plugins/b2), plain prompt
+11	branch+router (probe-plugins/b2), plain prompt
+12	branch+neutral router (probe-plugins/b3, no hints in body), plain prompt
+13	branch+neutral router (probe-plugins/b3, no hints in body), plain prompt
+14	branch+audit skill (v2/arms/audit), plain prompt
+15	branch+audit skill (v2/arms/audit), plain prompt
