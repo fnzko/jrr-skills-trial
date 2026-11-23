@@ -298,3 +298,40 @@ p1-04, Sonnet 5.5, three runs. Mechanical only, no blind review.
 - Reading: on this crate the search tool makes no difference; what the agent writes is the same
   set the `rg` lines already give. Untested: a fixed, verified ast-grep rule set per checklist
   item, the same in the Stop hook, and the larger SQS crate where regex noise is higher.
+
+## 2026-11-23: P10, a fixed ast-grep rule set
+
+Arm `astgrep-fixed`: the `audit` arm with step 1 of `rust-audit` changed to "run the ast-grep rules
+that ship with this skill" (`ast-grep scan -c <skill>/rules/sgconfig.yml --report-style short src
+tests`), and steps 1-2 worded as in `astgrep`. 51 rules in `skills/rust-audit/rules/rules/`, one
+file per guide, each message naming the guide and its checklist item; 51 rule tests
+(`ast-grep test --skip-snapshot-tests`, all pass, a deliberately wrong case was checked to fail).
+On the baseline crate they give 123 hits from 16 rules. Rules were written from the checklists and
+`rg` lines, then narrowed against the baseline to cut false positives (`SPEC` as a capitalized
+word, `stdin().lock()`, loops over array literals, `#[test]` names, `use serde_json::Value`), so
+they are not independent of this crate.
+
+Refactor prompt, baseline p1-04, Sonnet 5.5, three runs. Mechanical only, no blind review.
+
+| Run | Arm | Turns | Min | USD | Enums | Str compares /KLOC | expect /KLOC | Stringly ids /KLOC | Weak asserts | Newtypes | Commits |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| BASE | - | - | - | - | 3 | 2.04 | 12.27 | 19.43 | 20 | 0 | - |
+| p3-12/14/16 | audit | 13-15 | 1.4-1.8 | 0.29-0.34 | 3, 3, 3 | 2.02-2.05 | 1.02-2.05 | 20.2-21.4 | 15, 15, 16 | 0 | 4-5 |
+| p9r-01/02/03 | astgrep | 15-21 | 1.5-2.0 | 0.32-0.42 | 3, 3, 3 | 2.03-2.04 | 1.02-2.03 | 21.3-21.5 | 15, 15, 15 | 0 | 4-5 |
+| p10r-01 | astgrep-fixed | 19 | 3.2 | 0.40 | 4 | 0.98 | 0.98 | 21.53 | 7 | 0 | 6 |
+| p10r-02 | astgrep-fixed | 18 | 2.5 | 0.35 | 4 | 0.98 | 0.98 | 21.59 | 20 | 0 | 5 |
+| p10r-03 | astgrep-fixed | 14 | 2.0 | 0.31 | 4 | 0.98 | 0.98 | 21.53 | 20 | 0 | 4 |
+
+- All three parsed the command name into a `Command` enum at the request boundary, from the
+  `dt-string-match-arm` hits (11 string-literal match arms in `broker.rs`). None of the six
+  `audit` and `astgrep` runs did; before this only `context` (rules in `CLAUDE.md`, about 3x the
+  cost) changed types on the refactor.
+- All three replaced `expect("required")` with typed getters (expect 0.98/KLOC in each).
+- Weak assertions: one run fixed them (20 -> 7), two left all 20.
+- Every run piped the scan into `head -80`, so each saw 80 of the 123 hits, a different subset per
+  run (ast-grep output order is not stable). The type rules from `broker.rs` were always inside.
+- The `audit` runs never ran the guides' `rg` searches: they read the code and worked from the
+  "What to look for" list (p3-12 ran no search; p3-14 one `grep` for test and error patterns).
+  So `audit` against `astgrep-fixed` compares "a list of what to look for" with "one command that
+  returns labeled hits", not regex with ast-grep.
+- Stringly ids and newtypes did not move in any arm. Cost about the same as `audit`.

@@ -1,0 +1,6 @@
+bdaaec4 Name the attribute limits instead of repeating literals
+814830f Read required parameters without expect
+e4779b8 Parse the command name into an enum at the request boundary
+9cc37a5 Make weak test assertions check exact values
+829e345 Share the ContentBasedDeduplication-needs-FIFO check
+1a1dddd Drop a needless Ok(..?) wrapper flagged by clippy

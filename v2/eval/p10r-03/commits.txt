@@ -1,0 +1,4 @@
+a3335a7 Name the attribute range limits once
+34c4ea2 Replace expect("required") with typed required getters
+2ea9357 Parse the command name into a Command enum before dispatch
+dbad981 Fix clippy needless_question_mark and name the deliver invariant

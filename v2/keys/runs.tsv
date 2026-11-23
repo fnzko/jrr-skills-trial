@@ -148,3 +148,6 @@ p8r-18	hk-pre2	refactor	claude-sonnet-5-5
 p9r-01	astgrep	refactor	claude-sonnet-5-5
 p9r-02	astgrep	refactor	claude-sonnet-5-5
 p9r-03	astgrep	refactor	claude-sonnet-5-5
+p10r-01	astgrep-fixed	refactor	claude-sonnet-5-5
+p10r-02	astgrep-fixed	refactor	claude-sonnet-5-5
+p10r-03	astgrep-fixed	refactor	claude-sonnet-5-5
