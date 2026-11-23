@@ -1,71 +1,73 @@
-# Resumen simple del trial de skills de just-right-rust (al 2026-11-20)
+# Resumen final del trial de skills de just-right-rust (al 2026-11-23)
 
-Detalle: `TRIAL-LOG.md` (v1), `v2/REPORT.md` (v2), `v2/STATE.md` (bitacora con todas las tablas).
-Todo es local; nada pusheado ni publicado.
+Detalle completo: `v2/REPORT.md` (secciones 1 a 10: segunda etapa; seccion 11: tercera etapa),
+`TRIAL-LOG.md` (primera etapa), `v2/STATE.md` (bitacora). Repo: `fnzko/jrr-skills-trial` (privado).
 
 ## La pregunta
 
-En que circunstancias los skills nuevos de just-right-rust hacen que un agente escriba mejor Rust.
+En que circunstancias los skills de just-right-rust hacen que un agente escriba mejor Rust, y como
+hay que entregarlos para que eso pase.
 
 ## Que se hizo
 
-- v1: 16 refactors agenticos del crate SQS de aws-emulator (19.6k lineas), revision ciega por run.
-- v2: 87 runs sobre un servicio chico ("miniq") con tests de aceptacion ocultos, variando
-  tarea (construir de cero, agregar feature, refactor), forma de entrega y modelo
-  (Haiku, Sonnet, Opus). Revision ciega por dimension, cada revisor ve todas las runs juntas.
-- Todas las runs de v2 pasan los tests ocultos: ninguna mejora costo correccion.
-
-## Formas de entrega probadas
-
-| Nombre | Que recibe el agente |
+| Etapa | Que se corrio |
 |---|---|
-| none | nada |
-| skills | los 8 skills como estan (guias de ~200 lineas cada una) |
-| router | skills + un skill de entrada que manda a cargar los demas |
-| audit | skills + un skill corto con "que buscar" en codigo existente |
-| context | sin plugin; los checklists de los skills (68 lineas) en CLAUDE.md |
-| hook | skills + un hook que corre un detector y devuelve hallazgos antes de terminar |
-| short | un solo skill con esas mismas 68 lineas |
-| limits / context2 | checklist + los limites "no sobre-aplicar" (como skill / en CLAUDE.md) |
+| 1 | 16 refactors agenticos del crate SQS de aws-emulator, con y sin skills |
+| 2 | 87 runs sobre un servicio chico con tests ocultos: tres tareas, ocho formas de entrega, tres modelos |
+| 3 | 54 runs con hooks, 72 sondas de descripciones, y consumo de tokens y tiempo de todo |
 
-## Resultado por circunstancia
+Toda la calidad se midio con revision a ciegas. De 141 runs sobre el servicio chico, 140 pasan todos
+los tests ocultos: ninguna mejora costo correccion.
 
-| Tarea | Los skills se cargan solos? | Que funciono | Que no |
-|---|---|---|---|
-| Construir de cero | Si en el brazo skills (Sonnet 3 de 3, Opus 2 de 2, Haiku 1 de 2); con el hook presente solo 1 de 3 al inicio | Todo: puntaje ciego 6 -> 11 a 13 de 16. Mejor: un skill corto de 68 lineas | - |
-| Refactor | Solo `rust-keep-it-simple` (6 de 6); nunca tipos, errores, ownership ni tests | Checklist en CLAUDE.md, skill de auditoria, hook con detector | Cargar las guias completas: identico a no hacer nada |
-| Agregar feature | No (0 de 3) | Nada se separo de "none" | Todo: el codigo nuevo copia el estilo que encuentra |
-| Refactor del crate grande (SQS) | No | Skill de auditoria: 7 y 9 puntos en 10-12 min (v1 necesito 100+ turnos para eso). Es el resultado menos independiente: escribi ese skill conociendo la auditoria de SQS | Guias cargadas con enrutador |
+## Lo que se encontro
 
-## Las cinco conclusiones
+1. **Las reglas sirven.** Con el checklist el codigo mejora de 6 a 13 sobre 16 al escribir de cero,
+   en Haiku, Sonnet y Opus. Haiku con el checklist le gana a Opus sin nada.
+2. **El problema es que no se cargan.** El agente elige skills una sola vez, al inicio, mirando el
+   pedido. Las seis descripciones actuales nombran micro-actividades, no pedidos. Reescribirlas no
+   alcanza: 1 carga en 45 sondas, incluso siguiendo la guia publicada.
+3. **Lo que si carga siempre:** un skill de entrada, o tres skills por tarea (de cero, refactor,
+   agregar feature). 27 de 27 sondas, y siempre el skill correcto.
+4. **Un hook lo resuelve sin depender del agente.** Checklist al inicio de la sesion mas un detector
+   al terminar rinde igual que tener el checklist en `CLAUDE.md`.
+5. **Corto le gana a largo.** 68 lineas de checklist rinden igual o mas que las guias completas.
+6. **Sobre codigo existente hay que decir que buscar.** Las guias cargadas dan el crate original.
+7. **Agregar una feature sigue flojo.** El codigo nuevo copia el estilo que encuentra. En la ultima
+   medicion las reglas suman unos 2 puntos, pero no es concluyente.
 
-1. Los skills si aportan valor cuando se escribe codigo nuevo. Sin solapamiento entre runs con
-   y sin skills, en los tres modelos. Haiku con el checklist le gana a Opus sin nada.
-2. Lo que actua es una lista corta, no la guia larga. 68 lineas rinden igual o mas que 60 KB de
-   guias, y da igual si van en CLAUDE.md o en un skill.
-3. Sobre codigo existente el agente necesita que le digan que buscar. Cargar guias de "como
-   escribir" no cambia nada: en refactor, las 7 guias cargadas dan exactamente el crate original.
-4. La lista corta sobre-aplica tipos (ultima en simplicidad). Los limites "no sobre-aplicar" lo
-   corrigen a costa de menos tipos: es un intercambio, la suma queda casi igual. Que las guias
-   completas den mejor "overall" salio en una revision y no se repitio en la segunda: abierto.
-5. Al agregar una feature a un codigo con otro estilo, ninguna variante probada tuvo efecto.
+## Resultado final por forma de entrega
 
-Causa concreta encontrada en el texto: `rust-keep-it-simple` termina con "Apply these rules to
-the code the change touches. Do not rewrite working code elsewhere". En un refactor eso le dice
-al agente que no haga nada.
+Puntaje a ciegas y costo respecto de no usar nada (Sonnet, 3 runs por celda).
+
+| Entrega | De cero (max 16) | Refactor (max 12) | Feature (max 12) | Costo de cero |
+|---|---|---|---|---|
+| Hook inicio + detector | 13,0 | 9,0 | 9,0 | +68% |
+| Checklist en `CLAUDE.md` | 12,7 | 8,7 | 9,7 | +69% |
+| Checklist corto como skill | 12,7 | 7,3 | 9,3 | +27% |
+| Hook solo al inicio | 11,3 | 7,3 | 9,3 | +59% |
+| Sin nada | 6,3 | 5,0 | 7,0 | 0 |
+
+El costo extra es trabajo hecho (mas tipos, mas tests), no texto de reglas en contexto.
 
 ## Que recomendaria para just-right-rust
 
-- Un skill de entrada corto (el checklist) como puerta; las guias quedan como referencia.
-- Un skill de auditoria para pedidos de limpieza o review.
-- Corregir la frase de alcance de `rust-keep-it-simple`.
-- Usar el motor de hooks como detector que devuelve hallazgos.
-- Agregar feature queda sin resolver.
+1. Un skill de entrada corto con el checklist (o tres por tarea). Las seis guias quedan como
+   referencia citada desde ahi.
+2. Hooks en el plugin: checklist al inicio y detector al terminar. Donde no hay hooks, queda el skill.
+3. Corregir la frase de `rust-keep-it-simple` que frena los refactors ("Do not rewrite working code
+   elsewhere").
+4. Para el harness de evals de James: sumar una metrica de calidad, porque hoy mide solo si pasan
+   los tests y estos skills cambian como queda el codigo, no si funciona.
+
+## Sin resolver
+
+- Agregar una feature a codigo con otro estilo.
+- La frase de alcance corregida y los tres skills con contenido distinto no se midieron con runs
+  completas.
 
 ## Limites
 
-Un solo tipo de servicio, crates chicos en v2, 2 o 3 runs por celda, revisores y autores de la
-misma familia de modelos, sin revision humana, y los textos de los brazos los escribi yo. Los
-puntajes ciegos solo son comparables dentro de una misma fase (la escala de los revisores se
-movio entre fases). Fiabilidad: de 85 puntajes repetidos por otro revisor, 82 difieren en 1
-punto o menos y 46 son identicos.
+Dos o tres runs por celda, un solo tipo de servicio, crates chicos, revisores y autores de la misma
+familia de modelos, sin revision humana, y los textos de las variantes los escribi yo. Los puntajes
+solo se comparan dentro de una misma tanda. Fiabilidad de revisores: de 123 puntajes repetidos, 122
+difieren en 1 punto o menos.
