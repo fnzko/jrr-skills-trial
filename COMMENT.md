@@ -1,20 +1,23 @@
-I tested the new skills ([`ai-patterns-skills`](https://github.com/fnzko/just-right-rust/tree/30ce8a2/skills)) by letting agents work alone, headless, with and without them: 16 refactors of the aws-emulator SQS crate, then 141 runs on a small queue service with hidden acceptance tests, all reviewed blind.
+I tested the new skills ([`ai-patterns-skills`](https://github.com/fnzko/just-right-rust/tree/30ce8a2/skills)) by letting agents work alone, headless, with and without them, and scoring the code blind.
 
-Short version: the rules work, the delivery does not. With the rules in front of it the agent writes clearly better Rust, but with today's descriptions it almost never loads the skills. One short entry skill, or a hook, fixes that.
+**Result:** the rules work, the delivery does not. With the rules in front of it the agent writes clearly better Rust (6 to 13 of 16 from scratch), but with today's descriptions it almost never loads the skills. One short entry skill, or a hook, fixes that.
 
-Everything is in [this repo](https://github.com/fnzko/jrr-skills-trial): [full report](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md), [log of the first trial](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/TRIAL-LOG.md).
+**What we tried, in order**
 
-**What I found**
+1. **Refactor of the aws-emulator SQS crate, skills installed, plain "clean this up" request.** No skill loaded, and the code was no better: 8, 5, 4, 3, 2 with skills against 4, 4, 6, 9 without. ([scores](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/TRIAL-LOG.md?plain=1#L4457))
+2. **Why they do not load.** Rewording the descriptions: nothing. Asking for the skills in the prompt: 2 of 8 load. One entry skill that points to the others: all load, every time. ([finding](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/TRIAL-LOG.md?plain=1#L4858))
+3. **All skills loaded on the refactor.** No change. Three lines saying what to look for did the work: 7 and 9 with them, 4 and 2 without. ([finding](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/TRIAL-LOG.md?plain=1#L5055))
+4. **New crate from a spec, hidden acceptance tests, five ways of delivering the rules.** All of them help: 11.3 of 24 with nothing, 16.3 to 18.7 with any of them. ([P1](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L683))
+5. **Add a feature to an existing crate.** Nothing moved. The new code copies the style around it. ([P2](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L876))
+6. **Refactor of that small crate.** The full guides give back the untouched crate (13 of 24). A checklist gives 17, an audit skill 18. ([P3](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L1050))
+7. **Same thing on Haiku and Opus.** Same order on both. Haiku with the checklist beats Opus without it. ([P4](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L1290))
+8. **The audit skill on the SQS crate.** 7 and 9, in line with the best of step 1, in 10 to 12 minutes. ([P5](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L1455))
+9. **Short against long.** The six review checklists as one 68-line skill score the same as or above the full guides. ([P6](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L1579))
+10. **Eight ways of writing the descriptions, 72 short runs.** Six narrow skills, any wording, including one that follows the published guidance: 1 load in 45. One entry skill, or three task skills (new code, refactor, add a feature): 27 of 27, always the right one. ([probes](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2706))
+11. **Rules delivered by a hook, 54 runs.** The checklist at session start plus a detector at stop matches the checklist in `CLAUDE.md`. A hook bound only to Edit and Write fired in 4 of 18 runs, because the agent writes Rust through shell heredocs. ([hooks](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2840))
+12. **Tokens and time.** From scratch the rules cost 27% to 69% more. That is work done (more types, more tests), not rule text in context. ([consumption](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2778))
 
-1. **The rules help.** From scratch, blind scores go from 6 to 13 of 16, on Haiku, Sonnet and Opus. Haiku with the checklist beats Opus without it. ([from scratch](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L683), [other models](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L1290))
-2. **The skills do not get loaded.** The agent picks skills once, at the start, by matching the request, and the six descriptions name things that happen inside the work ("when defining structs", "reaches for `unwrap`"). On "clean this crate up" only `rust-keep-it-simple` loads, on "add this feature" none. ([first trial](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/TRIAL-LOG.md?plain=1#L4797), [116 transcripts](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v3/descriptions/evidence.md), [the descriptions side by side](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2622))
-3. **Rewording the descriptions is not enough.** Five wordings, one of them following the published guidance: 1 load in 45 short runs. One entry skill, or three task-level skills (new code, refactor, add a feature), loaded in 27 of 27, always the right one. ([probes](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2706), [variant texts](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v3/descriptions/probe.md), [guidance and sources](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v3/descriptions/guidance.md))
-4. **Short beats long.** The six review checklists as one 68-line skill score the same as or above the full guides. ([results](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L1579))
-5. **On existing code the agent has to be told what to look for.** The guides, once loaded, give back the untouched crate. A checklist, an audit skill or a detector change it. ([refactor](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L1050), [first trial](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/TRIAL-LOG.md?plain=1#L5055))
-6. **A hook does it without depending on the agent's choice.** The checklist at session start plus a detector at stop, limited to the lines the session added, matches the checklist in `CLAUDE.md`. ([hook A/B](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2840), [the hooks](https://github.com/fnzko/jrr-skills-trial/tree/c3f5de5/v2/arms/hk-start-stop/hooks))
-7. **Adding a feature is still weak.** New code copies the style around it. The rules add about 2 points of 12 and the ranges overlap. ([feature runs](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L876), [why I think so](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2598))
-
-**By delivery** (blind score, Sonnet, 3 runs per cell; cost is from scratch, relative to no rules)
+**Where it ended** (blind score, Sonnet, 3 runs per cell; cost is from scratch)
 
 | Delivery | From scratch (of 16) | Refactor (of 12) | Feature (of 12) | Cost |
 |---|---|---|---|---|
@@ -23,17 +26,17 @@ Everything is in [this repo](https://github.com/fnzko/jrr-skills-trial): [full r
 | Short checklist skill | 12.7 | 7.3 | 9.3 | +27% |
 | Nothing | 6.3 | 5.0 | 7.0 | 0 |
 
-The extra cost is work done (more types, more tests), not rule text in context ([consumption](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2778)). 140 of 141 runs pass the hidden tests.
+140 of 141 runs on the small crate pass the hidden tests, so no gain cost behavior.
 
 **What I would change**
 
-- Add a short entry skill with the checklists ([the one tested](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/arms/short/skills/rust-rules/SKILL.md)), or three by task ([the ones probed](https://github.com/fnzko/jrr-skills-trial/tree/c3f5de5/v3/variants/v4/skills)), and keep the guides as reference.
-- Make the plugin's hooks do something: the checklist at `SessionStart` and a detector at `Stop`. A hook bound only to Edit and Write fired in 4 of 18 runs, because the agent writes most Rust through shell heredocs, so it has to match Bash too.
-- Reword [this line](https://github.com/fnzko/just-right-rust/blob/30ce8a2/skills/rust-keep-it-simple/SKILL.md#L191) of `rust-keep-it-simple`: "Do not rewrite working code elsewhere to match them" tells an agent doing a refactor to do nothing. I did not test that change alone.
-- For the eval harness: it grades pass or fail on hidden tests, and these skills change how the code reads, not whether it works, so it needs a quality measure next to that. ([notes](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2570))
+- One short entry skill with the checklists ([tested](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/arms/short/skills/rust-rules/SKILL.md)), or three by task. The six guides stay as reference.
+- Plugin hooks that do something: checklist at `SessionStart`, detector at `Stop`, matching Bash too ([tested](https://github.com/fnzko/jrr-skills-trial/tree/c3f5de5/v2/arms/hk-start-stop/hooks)).
+- Reword [this line](https://github.com/fnzko/just-right-rust/blob/30ce8a2/skills/rust-keep-it-simple/SKILL.md#L191) of `rust-keep-it-simple`; it tells an agent doing a refactor to touch nothing. Not tested alone.
+- The eval harness grades pass or fail on hidden tests. These skills change how the code reads, not whether it works, so it needs a quality measure next to that.
 
-**Limits**
+**Still open:** adding a feature to code written in another style. In the last round the rules add about 2 points of 12 there, with overlapping ranges.
 
-Two or three runs per cell, one kind of service, small crates, reviewers and authors from the same model family, no human review, and the variant texts were written for this trial. 122 of 123 repeated blind scores differ by one point or less ([reliability](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L2840)).
+**Limits:** two or three runs per cell, one kind of service, small crates, model reviewers only (122 of 123 repeated scores within one point), and I wrote the variant texts.
 
-Commits of the last round: [hook variants](https://github.com/fnzko/jrr-skills-trial/commit/0910346), [hook runs](https://github.com/fnzko/jrr-skills-trial/commit/1f06bc6), [rerun with the fixed matcher](https://github.com/fnzko/jrr-skills-trial/commit/79ca64a), [blind reviews](https://github.com/fnzko/jrr-skills-trial/commit/7920cc2), [description probes](https://github.com/fnzko/jrr-skills-trial/commit/65a422d). What I got wrong on the way and corrected: [second round](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L179), [third round](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md?plain=1#L3112).
+Everything is in [this repo](https://github.com/fnzko/jrr-skills-trial): [full report](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/REPORT.md), [first trial log](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/TRIAL-LOG.md).
