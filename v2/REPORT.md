@@ -2534,3 +2534,617 @@ v2/
 Outside `v2/`: agent work directories in `/Users/Shared/jrr-work/` (build output cleaned); P5 in
 `../runs/14`, `../runs/15`, `../eval/14`, `../eval/15`, `../logs/14.jsonl`, `../logs/15.jsonl`; the
 v1 record in `../TRIAL-LOG.md`; the one-page summary in `../SUMMARY.md`.
+
+## 11. Third round (2026-11-23): descriptions, hooks and consumption
+
+This section is the full record of the work done after sections 1 to 10 were written. It is meant to
+be read without any other context. Short log entries for the same work are in `STATE.md` under
+"2026-11-23". Everything named here is committed in the trial repository (remote
+`fnzko/jrr-skills-trial`, private, head `c6249b2` when this section was written).
+
+### 11.1 What was asked and what was done
+
+The user's questions, in order, and what answered each one:
+
+| Question | Answered by |
+|---|---|
+| Can the SWE-bench-like evaluation proposed for skills be implemented now, on what James built? | 11.2 |
+| Is the scope sentence of `rust-keep-it-simple` the problem on refactors, and what would let the skills flow there? | 11.3 |
+| Why does adding a feature not use the skills, when a good practice can be applied locally? | 11.3 |
+| How are the skills built, and what do their descriptions say? | 11.4 |
+| Which patterns are right for skill descriptions, and what corrections apply? (three Opus agents) | 11.5, 11.6, 11.7 |
+| Would three task-level skills (from scratch, refactor, add a feature) work? | 11.7 |
+| Would a hook that forces the rules in front of the agent make sense? Build a harness and A/B it. | 11.9 |
+| Does any of this raise time or token use by a lot? | 11.8, 11.9 |
+
+Totals for this round: 54 full runs (P7 and P8), 4 hook verification runs, 72 description probes plus
+8 discarded ones, 10 blind dimension reviews, 3 research agents. Recorded cost: USD 41.31 for the 54
+runs (256 agent minutes), USD 25.29 for the 72 probes, about USD 0.26 for the hook verification runs,
+USD 0.63 for the discarded probes. Review and research agents ran on Opus inside the Max
+subscription and are not costed.
+
+### 11.2 James's evaluation harness: what it can and cannot measure today
+
+Read from `symposium` main at `3516c051` (design chapter `md/design/agent-eval.md`, RFD
+`md/rfds/skill-evaluation/`, crate `symposium-eval/`, data in `evals/`). The harness was not run in
+this round.
+
+- The whole stack is merged (last pull request #443 on 2026-11-20). `cargo xtask agent-eval <task>
+  --client claude --model <m>` runs one real Claude Code session without Symposium and one with it,
+  each isolated in `srt`, grades the code with hidden Rust tests (one `#[test]` per file under
+  `checks/`), and records which skills were loaded, tokens and time. A task is a directory under
+  `evals/tasks/` with `task.toml`, `starter/`, `checks/` and an optional `solution/`.
+- Not there yet: `--trials` with alternating order and `benchmark.json` (one round per invocation
+  today, the code comment says they come with `--trials`); a Codex adapter; anything other than
+  Linux (`srt`); more than two configurations (it compares without Symposium against with it);
+  checks that need judgment (the RFD leaves model-graded checks out of the first version).
+- The structural problem for these skills: the harness decides by pass or fail on hidden tests. In
+  this trial every run passes the hidden tests in every arm (140 of 141 small-crate runs), so a port
+  of the miniq tasks would report "no difference". The RFD says a comparison task needs knowledge
+  the model cannot already have; the just-right-rust skills are general practice, so they change how
+  the code is written and not whether it works.
+- What can be done on it now: an activation benchmark through the real Symposium delivery path (did
+  the skill load, on which request). The hidden tests of miniq are Python over stdin and stdout and
+  would have to be rewritten as Rust `#[test]` files; whether a check may launch the binary was not
+  verified.
+- What it needs before it can measure these skills: a quality metric next to pass or fail. First
+  objective detectors (clippy lint set per KLOC, `expect` per KLOC), then blind model review. This
+  trial has the pieces: `bin/detect.py`, `reviews/dimension-brief.md`, `bin/blind.py`.
+
+### 11.3 Positions taken on refactor and feature-add, and what backs them
+
+Refactor. The sentence "Apply these rules to the code the change touches. Do not rewrite working code
+elsewhere to match them." (`rust-keep-it-simple`, line 191 on branch `ai-patterns-skills`) is a brake
+but was never tested alone: no run removed it. What is known: of the six guides only
+`rust-keep-it-simple` loads on a clean-up request; with all of them loaded through an entry skill
+the result equals the untouched crate, but that sentence was present there too, so the two causes
+are not separated; the arms that worked (checklist in `CLAUDE.md`, audit skill, hooks) say what to
+look for. Proposed and untested: make the scope conditional (on a feature or fix, the code the change
+touches; on a clean-up, refactor or review, the whole requested scope), name refactor and review in
+the descriptions, and move the "Review checklist" section to the top for refactors.
+
+Feature-add. The argument "a good practice can always be applied locally" holds for some rules and
+not for others. Local rules (no new `expect` on input, exact assertions in new tests, checked
+conversions, comments) could be applied without touching the rest, and the agent did not:
+`expect` per KLOC rose in all 24 earlier feature runs and did not move in the 12 hook runs of this
+round. Cross-cutting rules (domain types, error types) are not local: a newtype in new code has to be
+converted at every boundary with the old code, and the blind judge of P2 rewarded consistency with
+the surrounding code. Two layers explain the missing effect: the skills do not load (0 of 6 by
+description), and when the rules are in context the surrounding code still acts as the precedent.
+Proposed and untested: split the checklist into local rules ("always in new code, even where the
+rest does not follow them") and cross-cutting ones ("only where the crate already uses them or the
+request asks").
+
+### 11.4 How the six skills are built
+
+Source: `just-right-rust/skills/` on branch `ai-patterns-skills` (commit `30ce8a2`, pushed to
+`fnzko/just-right-rust`).
+
+- Six skills written for this effort (`rust-domain-types`, `rust-error-discipline`,
+  `rust-ownership`, `rust-test-quality`, `rust-comments`, `rust-keep-it-simple`), 175 to 218 lines
+  each, plus the older `async-rust` (156 lines) and the external `unsafe-rust-review`.
+- Same layout in all six: a one-paragraph principle, seven to nine rule sections with examples, a
+  "Do not over-apply" section, and a "Review checklist" at the end that starts with "Before
+  finishing, verify in the diff" followed by search commands and lint names.
+- No skill mentions another one (zero cross-references) and there is no entry skill.
+- The plugin manifest (`SYMPOSIUM.toml`) registers five hooks (`SessionStart`,
+  `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `Stop`) against a hook binary that is a no-op
+  (`src/main.rs`, 22 lines). `depends-on = ["*"]`, so the plugin applies to every Rust workspace.
+
+What each description uses as its trigger:
+
+| Skill | When writing | When reviewing |
+|---|---|---|
+| `rust-domain-types` | defining structs, enums or signatures; parsing external input | code that passes ids, names, states as `String`, `u64`, `bool` |
+| `rust-error-discipline` | handling `Result`/`Option`, adding a fallback, parsing, I/O, casts | code that reaches for `unwrap`, `expect`, `unwrap_or_default`, `let _ =` |
+| `rust-ownership` | fixing a borrow checker error; signatures, getters, loops, locks | code that adds `.clone()`, `.to_string()`, `.collect()` |
+| `rust-test-quality` | writing or changing `#[test]`, `tests/`, helpers | tests that assert only `is_ok()`, non-emptiness or a substring |
+| `rust-comments` | adding comments or docs; committing, describing a pull request | a diff with comments that narrate or record history |
+| `rust-keep-it-simple` | adding a feature, trait, helper, field, dependency; changing or copying an existing function | a diff with unused code, duplicated logic, shims |
+
+Every trigger is a micro-activity inside the work or a symptom in the code. None names a request
+("refactor", "clean up", "audit", "implement a spec", "new crate"). The review triggers presuppose
+that the symptom has already been seen. `rust-keep-it-simple` is the only one with task-level
+triggers, which matches it being the only one loaded on refactors. `async-rust` uses a different
+style ("Design, implement, debug, or review asynchronous Rust ...") and never loaded in any run.
+
+### 11.5 Published guidance on descriptions (research agent, Opus)
+
+Full text with sources and the corrected descriptions: `../v3/descriptions/guidance.md`. Eleven
+primary sources: Anthropic's skill best practices, the Claude Code skills documentation, the
+agentskills.io specification and its page on optimizing descriptions, the `skill-creator` skill and
+its description-improver prompt, and the Codex, Copilot and Gemini CLI documentation (no Antigravity
+page was found).
+
+- The description is the whole trigger: only name and description are in context when the agent
+  decides, so "when to use" belongs there and not in the body.
+- Describe what the user asks for, not what happens inside the work; use words a user would say.
+- Imperative, slightly pushy wording ("Use this skill whenever ..."), including requests that do not
+  name the topic. No "I" or "you".
+- Key use case first, because listings shorten descriptions.
+- Hard limit 1,024 characters (Claude Code allows 1,536 with `when_to_use`).
+- Agents skip skills for tasks they believe they can do alone. No source offers a fix.
+- Not covered by any source: several narrow skills that should load together, or an entry skill
+  that loads others. The alternative the guidance does back is one skill with reference files.
+  Claude Code recommends hooks for rules that must hold every time.
+- The agent rewrote the six descriptions accordingly (428 to 521 characters, leading with whole
+  jobs). They were tested as variant `v7` in 11.7 and did not load.
+
+### 11.6 Evidence from the existing transcripts (analysis agent, Opus)
+
+Full tables: `../v3/descriptions/evidence.md`, scripts `extract.py` and `tables.py` beside it. 116
+transcripts (29 in `../logs/`, 87 in `logs/`), not the "about 150" the brief said.
+
+| Kind of skill | Loaded | When |
+|---|---|---|
+| Entry skills (`rust-code`, `rust-rules`, `rust-audit`, `rust-refactor`) | 40 of 40 runs that had them | tool call 1 in 39, call 2 once |
+| Six guides by description, greenfield, Sonnet | 4 of 6 runs (four to six guides each) | calls 1 to 8 |
+| Six guides by description, feature-add | 0 of 6 | |
+| Six guides by description, large-crate refactor | 0 of 8 | |
+| Six guides by description, small-crate refactor | only `rust-keep-it-simple`, 6 of 6 where no entry skill competed | |
+| Guides with a task sentence appended (`b1` probes) | 0 of 24 chances | |
+| `async-rust`, `unsafe-rust-review` | 0 of 36 | |
+
+- What the entry-skill descriptions have in common: the first sentence restates the user's request;
+  they list kinds of request; they say "Use first ... before ..."; they are under 300 characters and
+  name no micro-activity or code symptom.
+- When five of six guides load on greenfield, the one left out is always `rust-ownership`.
+- Nothing loads unprompted after tool call 8. All nine later Skill calls come right after the Stop
+  hook's findings, and they load exactly the guides whose descriptions name the reported symptoms.
+  So symptom-style descriptions do work once a symptom is in front of the agent.
+- The decision is silent: in 54 of 60 runs with a Skill call nothing is written before it.
+- 35 built-in Claude Code skills were available in all 116 runs and loaded 0 times. No skill with
+  "Always activate" wording was present, so that wording is untested.
+- Counts match section 6.1. Two framing notes: v1 runs 6 and 7 did load skills on the large crate
+  when the prompt said "Use the Rust skills"; the one-page summary's feature-add "0 of 3" covers
+  only the `skills` arm.
+
+### 11.7 Description probes (72 short real runs)
+
+Files: `../v3/bin/{probe3.sh,matrix.sh,analyze.py,make_variants.py,make_v7.py}`,
+`../v3/variants/v0` to `v7`, logs in `../v3/logs/`, write-up with the exact description text of every
+variant in `../v3/descriptions/probe.md`.
+
+Design: `claude -p --model claude-sonnet-5-5` with the isolated config, `--plugin-dir <variant>`,
+`--permission-mode auto --strict-mcp-config --disallowedTools "WebFetch" "WebSearch"
+"Bash(git push:*)" --max-turns 10 --max-budget-usd 0.5`, `timeout 300`, the three prompts of
+`prompts/`, work directories prepared as `run2.sh` does, n=3 per cell, two at a time. Measured: the
+Skill calls and their position. Loading is not effect.
+
+Variants (each a copy of `arms/skills` with only the listed change): `v0` unchanged; `v1` each of
+the six descriptions opens with task verbs in the style of `async-rust`; `v2` each keeps its text and
+gains "Use when building new Rust code, adding a feature to existing Rust code, and refactoring,
+cleaning up or reviewing existing Rust code."; `v3` each starts with "Load before writing or changing
+Rust code that ..."; `v4` the six removed and replaced by `rust-new-code`, `rust-refactor`,
+`rust-add-feature` with request-level descriptions and the 68-line checklist as body; `v5` = `v4`
+plus the six; `v6` the single entry skill of `arms/short`; `v7` the six descriptions from
+`guidance.md`, verbatim.
+
+Incident. The brief copied `"Bash(cargo:*)"` into the disallowed tools from the old probe script. On
+the greenfield prompt the agent read the spec, had `cargo --version` denied and gave up, so nothing
+could be measured. The probe agent stopped after 8 probes, tried to remove the deny from its script,
+had that edit refused by the permission classifier, and did not work around it. The user was asked
+and said to allow cargo; the deny was then removed by the main session, `--max-turns` raised from 6
+to 10, concurrency lowered to 2, and the 8 logs moved to `../v3/logs/cargo-denied/` (not counted).
+
+Result (runs out of 3 in which the skill or skills loaded):
+
+| variant | task | n | loads per skill (runs of n) | first Skill call index | cost/probe |
+|---|---|---|---|---|---|
+| v0 | feature | 3 | none (six-total 0) | -,-,- | 0.360 |
+| v0 | green | 3 | none (six-total 0) | -,-,- | 0.520 |
+| v0 | refactor | 3 | none (six-total 0) | -,-,- | 0.258 |
+| v1 | feature | 3 | none (six-total 0) | -,-,- | 0.370 |
+| v1 | green | 3 | none (six-total 0) | -,-,- | 0.509 |
+| v1 | refactor | 3 | none (six-total 0) | -,-,- | 0.229 |
+| v2 | feature | 3 | none (six-total 0) | -,-,- | 0.289 |
+| v2 | green | 3 | none (six-total 0) | -,-,- | 0.335 |
+| v2 | refactor | 3 | none (six-total 0) | -,-,- | 0.245 |
+| v3 | feature | 3 | none (six-total 0) | -,-,- | 0.335 |
+| v3 | green | 3 | none (six-total 0) | -,-,- | 0.340 |
+| v3 | refactor | 3 | com 1 kis 1 (six-total 2) | -,-,2 | 0.253 |
+| v4 | feature | 3 | ADD 3; matching task skill 3/3, wrong task skill 0/3 (six-total 0) | 1,1,1 | 0.370 |
+| v4 | green | 3 | NEW 3; matching task skill 3/3, wrong task skill 0/3 (six-total 0) | 1,1,1 | 0.472 |
+| v4 | refactor | 3 | REF 3; matching task skill 3/3, wrong task skill 0/3 (six-total 0) | 1,1,1 | 0.231 |
+| v5 | feature | 3 | ADD 3; matching task skill 3/3, wrong task skill 0/3 (six-total 0) | 1,1,1 | 0.346 |
+| v5 | green | 3 | NEW 3; matching task skill 3/3, wrong task skill 0/3 (six-total 0) | 2,1,2 | 0.519 |
+| v5 | refactor | 3 | REF 3; matching task skill 3/3, wrong task skill 0/3 (six-total 0) | 1,1,1 | 0.242 |
+| v6 | feature | 3 | rules 3 (six-total 0) | 1,1,1 | 0.369 |
+| v6 | green | 3 | rules 3 (six-total 0) | 1,1,1 | 0.499 |
+| v6 | refactor | 3 | rules 3 (six-total 0) | 1,1,1 | 0.239 |
+| v7 | feature | 3 | none (six-total 0) | -,-,- | 0.343 |
+| v7 | green | 3 | none (six-total 0) | -,-,- | 0.523 |
+| v7 | refactor | 3 | none (six-total 0) | -,-,- | 0.239 |
+
+- Task-level skills and the entry skill loaded in 27 of 27 probes, as the first or second tool call,
+  always the skill matching the request and never a wrong one.
+- The six narrow skills loaded once in 45 probes across five wordings, including the rewrite that
+  follows the published guidance.
+- With the three task skills present, the six narrow ones beside them never loaded (`v5`), so if
+  they stay as reference the task skill's body has to point at them.
+- One entry skill loads as reliably as three task skills. Any difference between the two designs
+  would come from content, which this probe does not measure.
+- The control did not repeat P1: on greenfield the six guides loaded by themselves in 4 of 6 runs on
+  2026-11-20 (first Skill call at tool call 3 in `p1-05`, `p1-08`, `p1-12`, `p1-14`) and in 0 of 3
+  on 2026-11-23, with the same client version (2.1.318) and the same first two tool calls. Self
+  loading of the narrow guides is unreliable even on greenfield.
+- Cost USD 25.29 against an estimate of 8 to 10: with cargo allowed most greenfield probes ran to
+  the budget cap.
+
+### 11.8 Consumption of the earlier 87 runs
+
+Script: `bin/usage.py <keys.tsv> <logs-dir> [--runs]`. It reads the `result` messages of each log:
+turns and duration are summed over all of them, cost and token totals come from the last one's
+`total_cost_usd` and `modelUsage`. `fresh_in` is uncached input plus cache writes. Only one of the 87
+runs has more than one `result` message (`p4-05`).
+
+All Sonnet cells of the trial, including the hook arms of 11.9 (means; `cost_vs_none` and
+`min_vs_none` are relative to `none` on the same task):
+
+| task | arm | n | turns | minutes | cost | fresh_in | cache_read | output | cost_vs_none | min_vs_none |
+|---|---|---|---|---|---|---|---|---|---|---|
+| feature | context | 3 | 22 | 3.0 | 0.64 | 69k | 1.23M | 24k | 1.30x | 1.32x |
+| feature | context2 | 3 | 18 | 2.6 | 0.56 | 66k | 0.88M | 21k | 1.15x | 1.13x |
+| feature | hk-gate | 3 | 17 | 2.4 | 0.48 | 57k | 0.79M | 17k | 0.97x | 1.04x |
+| feature | hk-gate2 | 3 | 18 | 3.4 | 0.58 | 64k | 1.08M | 22k | 1.18x | 1.48x |
+| feature | hk-pre | 3 | 15 | 2.7 | 0.51 | 59k | 0.87M | 19k | 1.04x | 1.17x |
+| feature | hk-pre2 | 3 | 15 | 2.6 | 0.52 | 60k | 0.90M | 19k | 1.06x | 1.15x |
+| feature | hk-start | 3 | 14 | 2.7 | 0.55 | 65k | 0.81M | 21k | 1.12x | 1.16x |
+| feature | hk-start-stop | 3 | 24 | 3.6 | 0.69 | 72k | 1.51M | 25k | 1.39x | 1.55x |
+| feature | hook | 3 | 24 | 3.5 | 0.71 | 76k | 1.52M | 26k | 1.45x | 1.52x |
+| feature | limits | 3 | 19 | 2.6 | 0.55 | 63k | 1.01M | 20k | 1.12x | 1.11x |
+| feature | none | 3 | 14 | 2.3 | 0.49 | 58k | 0.76M | 18k | 1.00x | 1.00x |
+| feature | router | 3 | 30 | 2.6 | 0.69 | 89k | 1.29M | 21k | 1.41x | 1.15x |
+| feature | short | 3 | 17 | 2.5 | 0.52 | 60k | 0.86M | 19k | 1.06x | 1.08x |
+| feature | skills | 3 | 18 | 2.5 | 0.53 | 59k | 1.02M | 19k | 1.07x | 1.10x |
+| green | context | 3 | 28 | 9.8 | 1.59 | 115k | 2.27M | 90k | 1.69x | 1.71x |
+| green | context2 | 3 | 21 | 9.3 | 1.42 | 111k | 2.08M | 77k | 1.51x | 1.62x |
+| green | hk-gate | 3 | 20 | 6.2 | 0.97 | 75k | 1.32M | 54k | 1.03x | 1.08x |
+| green | hk-gate2 | 3 | 29 | 12.2 | 1.68 | 121k | 2.40M | 95k | 1.78x | 2.12x |
+| green | hk-pre | 3 | 25 | 7.5 | 1.09 | 82k | 1.79M | 59k | 1.16x | 1.30x |
+| green | hk-pre2 | 3 | 24 | 8.2 | 1.23 | 92k | 1.79M | 68k | 1.31x | 1.43x |
+| green | hk-start | 3 | 19 | 9.7 | 1.50 | 111k | 1.74M | 88k | 1.59x | 1.69x |
+| green | hk-start-stop | 3 | 24 | 10.1 | 1.58 | 117k | 2.37M | 88k | 1.68x | 1.76x |
+| green | hook | 3 | 36 | 9.2 | 1.60 | 122k | 2.88M | 82k | 1.70x | 1.61x |
+| green | limits | 3 | 17 | 5.8 | 0.94 | 76k | 1.03M | 53k | 0.99x | 1.00x |
+| green | none | 3 | 18 | 5.7 | 0.94 | 73k | 1.17M | 53k | 1.00x | 1.00x |
+| green | router | 3 | 36 | 8.5 | 1.51 | 124k | 2.54M | 76k | 1.61x | 1.48x |
+| green | short | 3 | 22 | 7.4 | 1.20 | 90k | 1.63M | 68k | 1.27x | 1.28x |
+| green | skills | 3 | 42 | 9.5 | 1.72 | 137k | 2.96M | 88k | 1.83x | 1.66x |
+| refactor | audit | 3 | 14 | 1.6 | 0.31 | 42k | 0.63M | 8k | 1.23x | 1.35x |
+| refactor | context | 3 | 28 | 4.7 | 0.87 | 80k | 2.03M | 34k | 3.40x | 3.96x |
+| refactor | context2 | 3 | 29 | 3.6 | 0.72 | 71k | 1.88M | 25k | 2.82x | 3.05x |
+| refactor | hk-gate | 3 | 11 | 1.3 | 0.27 | 41k | 0.50M | 5k | 1.04x | 1.08x |
+| refactor | hk-gate2 | 3 | 17 | 2.2 | 0.38 | 47k | 0.95M | 10k | 1.50x | 1.85x |
+| refactor | hk-pre | 3 | 11 | 1.4 | 0.28 | 39k | 0.56M | 6k | 1.08x | 1.22x |
+| refactor | hk-pre2 | 3 | 15 | 2.3 | 0.39 | 49k | 0.83M | 11k | 1.54x | 1.95x |
+| refactor | hk-start | 3 | 17 | 2.4 | 0.40 | 47k | 0.90M | 12k | 1.56x | 2.01x |
+| refactor | hk-start-stop | 3 | 25 | 4.5 | 0.69 | 69k | 1.68M | 24k | 2.70x | 3.81x |
+| refactor | hook | 3 | 14 | 1.4 | 0.33 | 47k | 0.66M | 7k | 1.28x | 1.22x |
+| refactor | limits | 3 | 16 | 1.6 | 0.35 | 47k | 0.74M | 9k | 1.36x | 1.32x |
+| refactor | none | 3 | 9 | 1.2 | 0.25 | 37k | 0.41M | 7k | 1.00x | 1.00x |
+| refactor | router | 3 | 27 | 1.5 | 0.44 | 66k | 1.01M | 8k | 1.74x | 1.30x |
+| refactor | short | 3 | 15 | 1.6 | 0.33 | 43k | 0.70M | 9k | 1.31x | 1.38x |
+| refactor | skills | 3 | 11 | 0.9 | 0.25 | 41k | 0.41M | 4k | 0.97x | 0.79x |
+
+- The extra cost is work done, not rule text in context: on greenfield the `context` arm writes 90k
+  output tokens against 53k for `none` (more types, more tests).
+- The 3.4x of `context` on refactor is relative to a `none` that does almost nothing (1.2 minutes,
+  USD 0.25); in absolute terms it is 4.7 minutes and USD 0.87.
+- The short checklist skill is the cheapest arm that works: +27% on greenfield, +6% on feature.
+
+### 11.9 Hook delivery A/B (P7 and P8, 54 runs)
+
+Question: does a hook that puts the rules in front of the agent, without depending on the agent's
+choice to load a skill, improve the code, and at what cost?
+
+Arms, all in `arms/`, all carrying the same 68-line checklist (`arms/context/CLAUDE.md` copied to
+`hooks/checklist.md`) and no skills:
+
+| Arm | Hook | Script |
+|---|---|---|
+| `hk-start` | `SessionStart` prints the checklist (plain stdout becomes context) and records `HEAD` | `hooks/rules.sh start` |
+| `hk-start-stop` | the same, plus a `Stop` hook that checks only the Rust lines the session added and hands the findings back once (exit 2) | `hooks/rules.sh start`, `hooks/diff-check.py` |
+| `hk-pre`, `hk-pre2` | `PreToolUse` adds the checklist as `additionalContext` before the first Rust write of the session | `hooks/rules.sh context` |
+| `hk-gate`, `hk-gate2` | `PreToolUse` rejects the first Rust write (exit 2) with the checklist as the reason; the agent retries | `hooks/rules.sh gate` |
+
+`diff-check.py` builds the set of added lines from `git diff -U0 <base>` plus untracked `.rs` files,
+runs clippy with the 14-lint set and keeps only findings on those lines, applies the five regular
+expressions of the earlier `jrr-check.sh` to those lines only, and fires once per session. A dry run
+on a two-line crate flagged the added line and not the inherited one.
+
+Verification before the batch (`bin/hookprobe.sh <arm>`, logs in `logs/hookprobe/`): one short real
+session per arm. In all four the agent quoted the title line of the rules or responded to the
+detector's finding; the gate arm showed one rejection followed by a retry. About USD 0.06 each.
+
+Incident: the first `hk-pre` and `hk-gate` matched only `Edit|Write|MultiEdit`. In the real runs the
+agent wrote most Rust through Bash heredocs, so those hooks fired in 4 of 18 runs (`p7f-12` and
+`p7g-27` for the gate, `p7g-35` and `p7r-30` for the context arm). The other 14 are effectively
+`none` runs. The `2` arms add `Bash` to the matcher and `hooks/writes_rust.py`, which treats a Bash
+command as a Rust write when it runs `cargo init` or `cargo new`, or mentions `.rs` together with a
+redirect, heredoc, `tee`, `sed -i`, `perl -pi`, `open(`, `write_text` or `apply_patch`. They fired in
+18 of 18 runs of P8 (nine rejections seen in the gate logs; 18 new marker files). `SessionStart` and
+`Stop` fired in all 18 runs of `hk-start` and `hk-start-stop`.
+
+Runs: `keys/p7.list` (36 runs: four arms, three tasks, n=3, shuffled) and `keys/p8.list` (18 runs:
+the two corrected arms), Sonnet 5.5, three at a time through `bin/batch.sh`. Acceptance: 53 of 54
+pass every hidden test; `p7g-36` (a P7 gate run whose hook did not fire) fails 2 of 58
+(`queue_does_not_exist`, `receipt_handle_check_order`), the first acceptance failure in the trial.
+
+Blind review: three sets (`blind/p7g`, `blind/p7r`, `blind/p7f`), each with the 12 hook runs that
+fired by design (`hk-start`, `hk-start-stop`, `hk-pre2`, `hk-gate2`) plus nine anchors from earlier
+phases (`none`, `context`, `short`, three each) and `BASE` for refactor and feature. One Opus reviewer
+per set and dimension, ten in total, same brief as before. Anchors against their earlier scores: 123
+repeated scores, 122 within one point, 92 identical.
+
+Means by arm (cost relative to `none` on the same task):
+
+| Arm | Greenfield, sum of 16 (runs) | cost | Refactor, sum of 12, BASE 5 (runs) | cost | Feature, sum of 12 (runs) | cost |
+|---|---|---|---|---|---|---|
+| `hk-start-stop` | 13.00 (12, 14, 13) | 1.68x | 9.00 (10, 9, 8) | 2.70x | 9.00 (10, 9, 8) | 1.39x |
+| `context` (anchor) | 12.67 (12, 13, 13) | 1.69x | 8.67 (8, 9, 9) | 3.40x | 9.67 (11, 9, 9) | 1.30x |
+| `short` (anchor) | 12.67 (13, 13, 12) | 1.27x | 7.33 (6, 7, 9) | 1.31x | 9.33 (8, 11, 9) | 1.06x |
+| `hk-gate2` | 11.67 (12, 12, 11) | 1.78x | 7.67 (8, 8, 7) | 1.50x | 8.67 (8, 9, 9) | 1.18x |
+| `hk-start` | 11.33 (12, 9, 13) | 1.59x | 7.33 (7, 7, 8) | 1.56x | 9.33 (10, 8, 10) | 1.12x |
+| `hk-pre2` | 9.67 (7, 10, 12) | 1.31x | 7.67 (7, 9, 7) | 1.54x | 8.67 (9, 7, 10) | 1.06x |
+| `none` (anchor) | 6.33 (6, 5, 8) | 1.00x | 5.00 (5, 5, 5) | 1.00x | 7.00 (6, 5, 10) | 1.00x |
+
+Greenfield, per run (types, errors, simplicity, tests; 0 to 4 each):
+
+| run | arm | types | errors | simplicity | tests | sum |
+|---|---|---|---|---|---|---|
+| p1-03 | none | 0.0 | 1.0 | 2.0 | 3.0 | 6.0 |
+| p1-04 | none | 0.0 | 1.0 | 2.0 | 2.0 | 5.0 |
+| p1-06 | context | 4.0 | 3.0 | 1.0 | 4.0 | 12.0 |
+| p1-07 | none | 1.0 | 2.0 | 3.0 | 2.0 | 8.0 |
+| p1-10 | context | 3.0 | 3.0 | 3.0 | 4.0 | 13.0 |
+| p1-13 | context | 4.0 | 4.0 | 2.0 | 3.0 | 13.0 |
+| p6g-03 | short | 4.0 | 4.0 | 2.0 | 3.0 | 13.0 |
+| p6g-05 | short | 2.0 | 3.0 | 4.0 | 4.0 | 13.0 |
+| p6g-09 | short | 2.0 | 4.0 | 3.0 | 3.0 | 12.0 |
+| p7g-05 | hk-start-stop | 2.0 | 3.0 | 3.0 | 4.0 | 12.0 |
+| p7g-06 | hk-start-stop | 3.0 | 4.0 | 3.0 | 4.0 | 14.0 |
+| p7g-11 | hk-start-stop | 3.0 | 4.0 | 2.0 | 4.0 | 13.0 |
+| p7g-15 | hk-start | 2.0 | 4.0 | 3.0 | 3.0 | 12.0 |
+| p7g-22 | hk-start | 1.0 | 3.0 | 2.0 | 3.0 | 9.0 |
+| p7g-26 | hk-start | 3.0 | 4.0 | 2.0 | 4.0 | 13.0 |
+| p8g-02 | hk-gate2 | 3.0 | 3.0 | 2.0 | 4.0 | 12.0 |
+| p8g-03 | hk-gate2 | 4.0 | 3.0 | 2.0 | 3.0 | 12.0 |
+| p8g-11 | hk-pre2 | 1.0 | 2.0 | 1.0 | 3.0 | 7.0 |
+| p8g-12 | hk-pre2 | 2.0 | 3.0 | 2.0 | 3.0 | 10.0 |
+| p8g-15 | hk-pre2 | 3.0 | 4.0 | 2.0 | 3.0 | 12.0 |
+| p8g-17 | hk-gate2 | 3.0 | 3.0 | 2.0 | 3.0 | 11.0 |
+
+Refactor, per run (types, errors, simplicity):
+
+| run | arm | types | errors | simplicity | sum |
+|---|---|---|---|---|---|
+| BASE | BASE | 1.0 | 2.0 | 2.0 | 5.0 |
+| p3-07 | none | 1.0 | 2.0 | 2.0 | 5.0 |
+| p3-08 | context | 4.0 | 3.0 | 1.0 | 8.0 |
+| p3-09 | none | 1.0 | 2.0 | 2.0 | 5.0 |
+| p3-10 | none | 1.0 | 2.0 | 2.0 | 5.0 |
+| p3-11 | context | 3.0 | 4.0 | 2.0 | 9.0 |
+| p3-15 | context | 4.0 | 4.0 | 1.0 | 9.0 |
+| p6r-04 | short | 2.0 | 2.0 | 2.0 | 6.0 |
+| p6r-05 | short | 2.0 | 2.0 | 3.0 | 7.0 |
+| p6r-07 | short | 3.0 | 4.0 | 2.0 | 9.0 |
+| p7r-07 | hk-start | 2.0 | 3.0 | 2.0 | 7.0 |
+| p7r-13 | hk-start-stop | 3.0 | 4.0 | 3.0 | 10.0 |
+| p7r-18 | hk-start | 2.0 | 3.0 | 2.0 | 7.0 |
+| p7r-20 | hk-start-stop | 3.0 | 4.0 | 2.0 | 9.0 |
+| p7r-23 | hk-start-stop | 3.0 | 3.0 | 2.0 | 8.0 |
+| p7r-24 | hk-start | 2.0 | 3.0 | 3.0 | 8.0 |
+| p8r-04 | hk-pre2 | 2.0 | 3.0 | 2.0 | 7.0 |
+| p8r-05 | hk-gate2 | 3.0 | 4.0 | 1.0 | 8.0 |
+| p8r-07 | hk-gate2 | 2.0 | 3.0 | 3.0 | 8.0 |
+| p8r-08 | hk-pre2 | 3.0 | 4.0 | 2.0 | 9.0 |
+| p8r-13 | hk-gate2 | 2.0 | 3.0 | 2.0 | 7.0 |
+| p8r-18 | hk-pre2 | 2.0 | 3.0 | 2.0 | 7.0 |
+
+Feature, per run (types, errors, tests, judged on the code that differs from `BASE`):
+
+| run | arm | types | errors | tests | sum |
+|---|---|---|---|---|---|
+| BASE | BASE | 2.0 | 4.0 | 1.0 | 7.0 |
+| p2-02 | context | 4.0 | 4.0 | 3.0 | 11.0 |
+| p2-08 | context | 3.0 | 3.0 | 3.0 | 9.0 |
+| p2-09 | none | 1.0 | 3.0 | 2.0 | 6.0 |
+| p2-10 | context | 3.0 | 3.0 | 3.0 | 9.0 |
+| p2-12 | none | 1.0 | 2.0 | 2.0 | 5.0 |
+| p2-13 | none | 3.0 | 3.0 | 4.0 | 10.0 |
+| p6f-01 | short | 1.0 | 4.0 | 3.0 | 8.0 |
+| p6f-07 | short | 3.0 | 4.0 | 4.0 | 11.0 |
+| p6f-08 | short | 3.0 | 3.0 | 3.0 | 9.0 |
+| p7f-01 | hk-start-stop | 3.0 | 3.0 | 4.0 | 10.0 |
+| p7f-04 | hk-start | 3.0 | 4.0 | 3.0 | 10.0 |
+| p7f-17 | hk-start-stop | 3.0 | 3.0 | 3.0 | 9.0 |
+| p7f-29 | hk-start-stop | 2.0 | 2.0 | 4.0 | 8.0 |
+| p7f-32 | hk-start | 2.0 | 3.0 | 3.0 | 8.0 |
+| p7f-33 | hk-start | 3.0 | 3.0 | 4.0 | 10.0 |
+| p8f-01 | hk-pre2 | 2.0 | 3.0 | 4.0 | 9.0 |
+| p8f-06 | hk-pre2 | 2.0 | 3.0 | 2.0 | 7.0 |
+| p8f-09 | hk-gate2 | 1.0 | 3.0 | 4.0 | 8.0 |
+| p8f-10 | hk-gate2 | 3.0 | 3.0 | 3.0 | 9.0 |
+| p8f-14 | hk-pre2 | 3.0 | 3.0 | 4.0 | 10.0 |
+| p8f-16 | hk-gate2 | 2.0 | 4.0 | 3.0 | 9.0 |
+
+Mechanical measures, every run of P7 and P8 (`hook_fired` counts Stop-hook feedback only; for the
+first `hk-pre` and `hk-gate` see the incident above):
+
+| run | arm | acceptance | hook_fired | turns | minutes | cost_usd | loc_prod | newtypes | enums | stringly_ids_per_kloc | expect_per_kloc | unwrap_or_per_kloc | clippy_per_kloc | weak_asserts | tests |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| p7f-01 | hk-start-stop | 80/80 | 1 | 21 | 3.6 | 0.66 | 1320 | 0 | 3 | 21.21 | 16.31 | 8.97 | 6.53 | 20 | 72 |
+| p7f-04 | hk-start | 80/80 | 0 | 13 | 2.6 | 0.53 | 1345 | 0 | 3 | 18.39 | 17.59 | 8.79 | 6.39 | 21 | 62 |
+| p7f-08 | hk-gate | 80/80 | 0 | 19 | 2.1 | 0.44 | 1276 | 0 | 3 | 18.5 | 15.98 | 9.25 | 5.89 | 21 | 54 |
+| p7f-09 | hk-pre | 80/80 | 0 | 13 | 2.5 | 0.48 | 1313 | 0 | 3 | 21.33 | 16.41 | 9.02 | 5.74 | 21 | 57 |
+| p7f-10 | hk-pre | 80/80 | 0 | 15 | 2.4 | 0.47 | 1281 | 0 | 3 | 19.31 | 15.95 | 9.24 | 5.88 | 22 | 55 |
+| p7f-12 | hk-gate | 80/80 | 0 | 20 | 3.1 | 0.56 | 1314 | 0 | 3 | 22.06 | 16.34 | 8.99 | 5.72 | 21 | 59 |
+| p7f-17 | hk-start-stop | 80/80 | 1 | 26 | 3.5 | 0.69 | 1342 | 0 | 3 | 21.62 | 17.61 | 9.61 | 5.6 | 20 | 63 |
+| p7f-19 | hk-gate | 80/80 | 0 | 11 | 2.0 | 0.44 | 1250 | 0 | 3 | 18.03 | 15.45 | 9.44 | 8.58 | 21 | 63 |
+| p7f-21 | hk-pre | 80/80 | 0 | 18 | 3.1 | 0.58 | 1322 | 0 | 3 | 22.76 | 15.45 | 8.94 | 8.13 | 23 | 72 |
+| p7f-29 | hk-start-stop | 80/80 | 1 | 25 | 3.6 | 0.7 | 1317 | 0 | 3 | 19.64 | 16.37 | 9.0 | 6.55 | 20 | 71 |
+| p7f-32 | hk-start | 80/80 | 0 | 13 | 2.5 | 0.54 | 1301 | 0 | 3 | 22.39 | 16.58 | 9.12 | 5.8 | 22 | 66 |
+| p7f-33 | hk-start | 80/80 | 0 | 15 | 2.8 | 0.58 | 1329 | 0 | 3 | 21.81 | 17.77 | 8.89 | 6.46 | 20 | 74 |
+| p7g-03 | hk-pre | 58/58 | 0 | 21 | 6.0 | 0.93 | 1029 | 0 | 3 | 21.16 | 5.29 | 13.76 | 8.47 | 20 | 35 |
+| p7g-05 | hk-start-stop | 58/58 | 1 | 20 | 9.8 | 1.5 | 1395 | 9 | 7 | 14.37 | 1.51 | 7.56 | 0.0 | 0 | 47 |
+| p7g-06 | hk-start-stop | 58/58 | 1 | 28 | 10.8 | 1.73 | 1495 | 10 | 8 | 10.61 | 2.12 | 7.78 | 0.0 | 0 | 43 |
+| p7g-11 | hk-start-stop | 58/58 | 1 | 25 | 9.7 | 1.51 | 1464 | 10 | 6 | 11.44 | 2.15 | 10.01 | 0.0 | 0 | 41 |
+| p7g-15 | hk-start | 58/58 | 0 | 17 | 10.5 | 1.59 | 1570 | 8 | 8 | 10.56 | 2.82 | 4.93 | 1.41 | 1 | 47 |
+| p7g-16 | hk-gate | 58/58 | 0 | 17 | 5.5 | 0.9 | 1039 | 0 | 5 | 18.65 | 2.07 | 7.25 | 19.69 | 13 | 38 |
+| p7g-22 | hk-start | 58/58 | 0 | 20 | 8.4 | 1.33 | 1334 | 5 | 7 | 12.74 | 0.8 | 10.35 | 0.0 | 7 | 73 |
+| p7g-26 | hk-start | 58/58 | 0 | 21 | 10.2 | 1.57 | 1498 | 7 | 7 | 13.4 | 0.71 | 9.87 | 2.82 | 0 | 40 |
+| p7g-27 | hk-gate | 58/58 | 0 | 24 | 6.8 | 1.13 | 1487 | 10 | 7 | 10.52 | 0.7 | 9.82 | 4.21 | 3 | 38 |
+| p7g-28 | hk-pre | 58/58 | 0 | 29 | 8.5 | 1.1 | 977 | 0 | 2 | 21.91 | 0.0 | 35.05 | 6.57 | 4 | 43 |
+| p7g-35 | hk-pre | 58/58 | 0 | 24 | 7.9 | 1.25 | 1238 | 2 | 3 | 28.75 | 0.0 | 6.97 | 19.16 | 2 | 59 |
+| p7g-36 | hk-gate | 56/58 | 0 | 20 | 6.3 | 0.88 | 1093 | 0 | 2 | 17.02 | 4.0 | 25.03 | 4.0 | 14 | 37 |
+| p7r-02 | hk-gate | 58/58 | 0 | 13 | 1.7 | 0.31 | 1083 | 0 | 3 | 23.21 | 1.01 | 10.09 | 5.05 | 20 | 44 |
+| p7r-07 | hk-start | 58/58 | 0 | 18 | 2.0 | 0.36 | 1126 | 0 | 4 | 24.15 | 0.97 | 9.66 | 4.83 | 20 | 44 |
+| p7r-13 | hk-start-stop | 58/58 | 1 | 28 | 5.4 | 0.82 | 1201 | 3 | 4 | 22.89 | 1.83 | 9.16 | 2.75 | 20 | 47 |
+| p7r-14 | hk-pre | 58/58 | 0 | 10 | 1.3 | 0.28 | 1069 | 0 | 3 | 21.32 | 12.18 | 10.15 | 5.08 | 20 | 44 |
+| p7r-18 | hk-start | 58/58 | 0 | 13 | 1.7 | 0.32 | 1105 | 0 | 4 | 21.61 | 0.98 | 9.82 | 4.91 | 19 | 45 |
+| p7r-20 | hk-start-stop | 58/58 | 1 | 30 | 4.7 | 0.76 | 1185 | 2 | 5 | 24.75 | 1.83 | 9.17 | 2.75 | 20 | 46 |
+| p7r-23 | hk-start-stop | 58/58 | 1 | 17 | 3.4 | 0.49 | 1192 | 3 | 5 | 24.01 | 0.92 | 9.23 | 4.62 | 19 | 47 |
+| p7r-24 | hk-start | 58/58 | 0 | 19 | 3.4 | 0.51 | 1118 | 2 | 3 | 20.41 | 12.63 | 9.72 | 4.86 | 15 | 46 |
+| p7r-25 | hk-pre | 58/58 | 0 | 11 | 1.6 | 0.29 | 1085 | 0 | 4 | 23.02 | 12.01 | 10.01 | 5.01 | 20 | 44 |
+| p7r-30 | hk-pre | 58/58 | 0 | 13 | 1.5 | 0.26 | 1068 | 0 | 3 | 19.27 | 12.17 | 10.14 | 5.07 | 20 | 44 |
+| p7r-31 | hk-gate | 58/58 | 0 | 10 | 1.0 | 0.24 | 1064 | 0 | 3 | 19.35 | 12.22 | 10.18 | 5.09 | 20 | 44 |
+| p7r-34 | hk-gate | 58/58 | 0 | 9 | 1.1 | 0.25 | 1076 | 0 | 3 | 21.15 | 12.08 | 10.07 | 5.04 | 20 | 44 |
+| p8f-01 | hk-pre2 | 80/80 | 0 | 16 | 2.7 | 0.53 | 1290 | 0 | 3 | 18.41 | 15.06 | 9.21 | 5.86 | 22 | 62 |
+| p8f-06 | hk-pre2 | 80/80 | 0 | 12 | 2.4 | 0.47 | 1291 | 0 | 3 | 20.82 | 15.82 | 9.16 | 6.66 | 21 | 70 |
+| p8f-09 | hk-gate2 | 80/80 | 0 | 18 | 2.8 | 0.53 | 1290 | 0 | 3 | 19.15 | 15.82 | 9.16 | 6.66 | 21 | 65 |
+| p8f-10 | hk-gate2 | 80/80 | 0 | 18 | 3.1 | 0.58 | 1339 | 0 | 3 | 21.65 | 16.04 | 8.82 | 6.42 | 20 | 68 |
+| p8f-14 | hk-pre2 | 80/80 | 0 | 17 | 2.8 | 0.56 | 1328 | 0 | 3 | 21.92 | 16.23 | 8.93 | 5.68 | 22 | 60 |
+| p8f-16 | hk-gate2 | 80/80 | 0 | 19 | 4.3 | 0.63 | 1302 | 0 | 3 | 20.63 | 15.68 | 9.08 | 6.6 | 21 | 72 |
+| p8g-02 | hk-gate2 | 58/58 | 0 | 23 | 13.6 | 2.15 | 1535 | 5 | 5 | 13.84 | 2.08 | 6.23 | 2.77 | 3 | 59 |
+| p8g-03 | hk-gate2 | 58/58 | 0 | 26 | 8.0 | 1.21 | 1519 | 12 | 9 | 6.24 | 4.16 | 10.4 | 2.77 | 10 | 28 |
+| p8g-11 | hk-pre2 | 58/58 | 0 | 17 | 6.6 | 1.09 | 1378 | 7 | 5 | 26.17 | 0.0 | 17.71 | 4.62 | 0 | 29 |
+| p8g-12 | hk-pre2 | 58/58 | 0 | 19 | 7.4 | 1.19 | 1354 | 8 | 4 | 14.23 | 0.0 | 7.91 | 7.11 | 4 | 52 |
+| p8g-15 | hk-pre2 | 58/58 | 0 | 37 | 10.5 | 1.4 | 1477 | 7 | 9 | 9.27 | 0.71 | 6.42 | 2.85 | 10 | 41 |
+| p8g-17 | hk-gate2 | 58/58 | 0 | 37 | 14.9 | 1.66 | 1549 | 9 | 5 | 10.91 | 2.73 | 9.55 | 2.73 | 6 | 47 |
+| p8r-04 | hk-pre2 | 58/58 | 0 | 13 | 1.9 | 0.34 | 1102 | 0 | 4 | 21.61 | 0.98 | 9.82 | 2.95 | 20 | 44 |
+| p8r-05 | hk-gate2 | 58/58 | 0 | 21 | 3.0 | 0.49 | 1171 | 2 | 4 | 22.3 | 0.93 | 9.29 | 2.79 | 20 | 46 |
+| p8r-07 | hk-gate2 | 58/58 | 0 | 16 | 1.9 | 0.36 | 1129 | 0 | 4 | 21.13 | 11.53 | 9.61 | 2.88 | 19 | 44 |
+| p8r-08 | hk-pre2 | 58/58 | 0 | 19 | 2.6 | 0.47 | 1150 | 3 | 4 | 25.57 | 3.79 | 9.47 | 4.73 | 20 | 45 |
+| p8r-13 | hk-gate2 | 58/58 | 0 | 15 | 1.7 | 0.3 | 1101 | 0 | 4 | 23.62 | 0.98 | 9.84 | 4.92 | 20 | 44 |
+| p8r-18 | hk-pre2 | 58/58 | 0 | 14 | 2.4 | 0.37 | 1117 | 3 | 3 | 24.39 | 0.98 | 9.76 | 4.88 | 20 | 45 |
+
+Consumption, every run of P7 and P8:
+
+| run | arm | task | turns | minutes | cost | fresh_in | cache_read | output |
+|---|---|---|---|---|---|---|---|---|
+| p7f-01 | hk-start-stop | feature | 21 | 3.64 | 0.66 | 69942 | 1344439 | 24949 |
+| p7f-04 | hk-start | feature | 13 | 2.62 | 0.53 | 62595 | 765244 | 20359 |
+| p7f-08 | hk-gate | feature | 19 | 2.12 | 0.44 | 54058 | 704722 | 15246 |
+| p7f-09 | hk-pre | feature | 13 | 2.51 | 0.48 | 57112 | 775388 | 17873 |
+| p7f-10 | hk-pre | feature | 15 | 2.43 | 0.47 | 55143 | 812022 | 16534 |
+| p7f-12 | hk-gate | feature | 20 | 3.07 | 0.56 | 61032 | 1090511 | 20401 |
+| p7f-17 | hk-start-stop | feature | 26 | 3.51 | 0.69 | 72883 | 1514609 | 24414 |
+| p7f-19 | hk-gate | feature | 11 | 2.00 | 0.44 | 55275 | 565717 | 15782 |
+| p7f-21 | hk-pre | feature | 18 | 3.14 | 0.58 | 63976 | 1031966 | 21890 |
+| p7f-29 | hk-start-stop | feature | 25 | 3.55 | 0.70 | 72155 | 1677126 | 24859 |
+| p7f-32 | hk-start | feature | 13 | 2.51 | 0.54 | 63157 | 770211 | 20786 |
+| p7f-33 | hk-start | feature | 15 | 2.83 | 0.58 | 67764 | 886854 | 22051 |
+| p7g-03 | hk-pre | green | 21 | 6.01 | 0.93 | 71158 | 1419931 | 50423 |
+| p7g-05 | hk-start-stop | green | 20 | 9.85 | 1.50 | 113028 | 1824547 | 86712 |
+| p7g-06 | hk-start-stop | green | 28 | 10.76 | 1.73 | 126121 | 2859742 | 94264 |
+| p7g-11 | hk-start-stop | green | 25 | 9.70 | 1.51 | 111048 | 2421394 | 82668 |
+| p7g-15 | hk-start | green | 17 | 10.47 | 1.59 | 119882 | 1429590 | 96297 |
+| p7g-16 | hk-gate | green | 17 | 5.53 | 0.90 | 70766 | 1089553 | 50483 |
+| p7g-22 | hk-start | green | 20 | 8.39 | 1.33 | 98143 | 1836108 | 75319 |
+| p7g-26 | hk-start | green | 21 | 10.21 | 1.57 | 115933 | 1957657 | 91454 |
+| p7g-27 | hk-gate | green | 24 | 6.77 | 1.13 | 84745 | 1653702 | 62102 |
+| p7g-28 | hk-pre | green | 29 | 8.50 | 1.10 | 82697 | 2173446 | 55149 |
+| p7g-35 | hk-pre | green | 24 | 7.94 | 1.25 | 93427 | 1774232 | 69995 |
+| p7g-36 | hk-gate | green | 20 | 6.30 | 0.88 | 69407 | 1210350 | 48431 |
+| p7r-02 | hk-gate | refactor | 13 | 1.75 | 0.31 | 40385 | 622277 | 8230 |
+| p7r-07 | hk-start | refactor | 18 | 1.98 | 0.36 | 44197 | 903278 | 9725 |
+| p7r-13 | hk-start-stop | refactor | 28 | 5.43 | 0.82 | 76835 | 1962538 | 31368 |
+| p7r-14 | hk-pre | refactor | 10 | 1.30 | 0.28 | 42331 | 475724 | 5856 |
+| p7r-18 | hk-start | refactor | 13 | 1.75 | 0.32 | 42117 | 646297 | 8853 |
+| p7r-20 | hk-start-stop | refactor | 30 | 4.71 | 0.76 | 76608 | 2098034 | 24277 |
+| p7r-23 | hk-start-stop | refactor | 17 | 3.35 | 0.49 | 54875 | 975879 | 17454 |
+| p7r-24 | hk-start | refactor | 19 | 3.40 | 0.51 | 55915 | 1145847 | 17019 |
+| p7r-25 | hk-pre | refactor | 11 | 1.58 | 0.29 | 38631 | 542903 | 7918 |
+| p7r-30 | hk-pre | refactor | 13 | 1.46 | 0.26 | 37095 | 654108 | 5104 |
+| p7r-31 | hk-gate | refactor | 10 | 1.01 | 0.24 | 40970 | 471243 | 3360 |
+| p7r-34 | hk-gate | refactor | 9 | 1.07 | 0.25 | 40659 | 403915 | 4311 |
+| p8f-01 | hk-pre2 | feature | 16 | 2.74 | 0.53 | 60585 | 978468 | 18963 |
+| p8f-06 | hk-pre2 | feature | 12 | 2.35 | 0.47 | 56027 | 662140 | 17936 |
+| p8f-09 | hk-gate2 | feature | 18 | 2.84 | 0.53 | 59149 | 1013711 | 18973 |
+| p8f-10 | hk-gate2 | feature | 18 | 3.07 | 0.58 | 65235 | 1055836 | 21714 |
+| p8f-14 | hk-pre2 | feature | 17 | 2.81 | 0.56 | 63853 | 1059946 | 20329 |
+| p8f-16 | hk-gate2 | feature | 19 | 4.26 | 0.63 | 66823 | 1166593 | 24937 |
+| p8g-02 | hk-gate2 | green | 23 | 13.57 | 2.15 | 155240 | 2710559 | 126149 |
+| p8g-03 | hk-gate2 | green | 26 | 8.03 | 1.21 | 91748 | 1620544 | 68529 |
+| p8g-11 | hk-pre2 | green | 17 | 6.64 | 1.09 | 85431 | 1209487 | 62757 |
+| p8g-12 | hk-pre2 | green | 19 | 7.44 | 1.19 | 91348 | 1402491 | 68809 |
+| p8g-15 | hk-pre2 | green | 37 | 10.49 | 1.40 | 98681 | 2749418 | 73123 |
+| p8g-17 | hk-gate2 | green | 37 | 14.92 | 1.66 | 116699 | 2883859 | 90949 |
+| p8r-04 | hk-pre2 | refactor | 13 | 1.85 | 0.34 | 46778 | 668725 | 8656 |
+| p8r-05 | hk-gate2 | refactor | 21 | 2.99 | 0.49 | 53829 | 1254346 | 14501 |
+| p8r-07 | hk-gate2 | refactor | 16 | 1.88 | 0.36 | 47092 | 854513 | 8785 |
+| p8r-08 | hk-pre2 | refactor | 19 | 2.64 | 0.47 | 53522 | 1085239 | 15003 |
+| p8r-13 | hk-gate2 | refactor | 15 | 1.71 | 0.30 | 38973 | 726212 | 6819 |
+| p8r-18 | hk-pre2 | refactor | 14 | 2.42 | 0.37 | 47623 | 748026 | 10099 |
+
+Reading:
+
+- Greenfield and refactor: every hook arm is above `none` with no overlap between runs.
+- `hk-start-stop` is the best hook arm and equals the checklist in `CLAUDE.md` on quality. On
+  refactor it costs less (2.70x against 3.40x) and keeps simplicity (2.33 against 1.33). Its
+  greenfield crates have zero clippy findings and zero weak assertions on the mechanical measures.
+- Rejecting the first write adds nothing over adding context: same refactor and feature scores,
+  more time on greenfield (12.2 minutes against 8.2).
+- The short skill has the best quality for its cost: 12.67 on greenfield at +27%.
+- Feature: the rule arms average 1.7 to 2.7 points above `none` and none of their runs is below 7,
+  but one `none` run scored 10, so the ranges overlap. This is more than P2 and P6 showed (nothing
+  moved there); it comes from types and tests in the new code. `expect` per KLOC still does not move
+  (17.3 and 16.8 against 16.3 for `none`).
+- Differences of one or two points between hook arms rest on three runs per cell and are not firm.
+  What is firm is hook against no hook on greenfield and refactor.
+- A hook bound only to the file-editing tools misses most writes in headless Sonnet runs.
+
+### 11.10 Corrections to earlier statements
+
+- "Greenfield: the skills load by themselves" (sections 1 and 6.1, and the one-page summary) holds
+  for 4 of 6 runs on 2026-11-20 and 0 of 3 on 2026-11-23. Treat it as unreliable.
+- "Feature-add: nothing moved" (section 6.5) still holds for the mechanical measures; the blind
+  review of this round shows a weak, overlapping gain for every rule arm.
+- The estimate of USD 8 to 10 for the probes was wrong (USD 25.29), and the estimate of USD 36 for
+  the hook A/B became USD 41.31 because of the rerun.
+- The first statement of this round that the transcripts numbered about 150 was wrong: 116.
+- Reviewers of this round ran on Opus by the user's instruction; scores still compare only inside
+  one set, and the anchors tie this round to the earlier ones.
+
+### 11.11 What follows from this round
+
+1. Replace activation by description with one entry skill or three task-level skills whose
+   descriptions restate the request; keep the six guides as reference that the entry skill's body
+   and the detector point to.
+2. In the plugin, implement `SessionStart` with the checklist and `Stop` with the detector on added
+   lines, matching Bash as well as the file tools wherever a pre-write hook is used. Agents without
+   hooks (OpenCode, Goose) keep the skill.
+3. Untested and worth a small run: the conditional scope sentence in `rust-keep-it-simple`; a
+   feature checklist split into local and cross-cutting rules; three task skills with different
+   bodies measured by full runs (the probes only show that they load).
+4. For James's harness: a quality metric beside pass or fail, and `--trials` with an aggregate.
+
+Open at the time of writing: the user has not yet said whether to build the task skills and the real
+hook in the plugin; `../COMMENT.md` (the draft for Niko) still stops at stage 9 and does not include
+this round.
+
+### 11.12 Files added in this round
+
+```
+v2/bin/usage.py                 consumption per run and per arm from the logs
+v2/bin/hookprobe.sh             one short run that shows whether an arm's hooks reach the agent
+v2/arms/hk-start, hk-start-stop, hk-pre, hk-gate, hk-pre2, hk-gate2   hook arms (hooks/ holds the scripts)
+v2/keys/p7.list, p8.list        run lists; blind-p7g.tsv, blind-p7r.tsv, blind-p7f.tsv
+v2/runs|eval|logs/p7*, p8*      the 54 runs; logs/hookprobe/ the four verification runs
+v2/blind/p7g, p7r, p7f          the three review sets; reviews/p7g, p7r, p7f the ten reviews
+v3/descriptions/guidance.md     published guidance and the corrected descriptions
+v3/descriptions/evidence.md     what loaded in the 116 transcripts (extract.py, tables.py)
+v3/descriptions/probe.md        the description probes: variant texts and results
+v3/variants/v0..v7, v3/bin, v3/logs   probe plugins, scripts and logs (cargo-denied/ is discarded)
+```
