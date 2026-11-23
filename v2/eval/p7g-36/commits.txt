@@ -1,0 +1,4 @@
+eb07c01 Add crate skeleton, error codes and typed parameter access
+1f54f4d Add queue model and attribute parsing
+440966e Add service, binary and queue indexes so receive stays O(log n)
+45fd59d Rename a test to say what it checks

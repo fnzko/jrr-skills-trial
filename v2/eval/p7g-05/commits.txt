@@ -1,0 +1,7 @@
+b23a69a Add crate skeleton with error codes and validated value types
+023f15a Model queue attributes as stored settings plus a partial update
+0420dd7 Parse command lines into typed commands in spec check order
+4a9f339 Add the queue: arrival-ordered messages with indexed retention
+3f09a98 Connect commands to queues and add the line protocol loop
+e6368bc Test the protocol end to end, in process and through the binary
+2b35439 Tighten weak test assertions and a wildcard match

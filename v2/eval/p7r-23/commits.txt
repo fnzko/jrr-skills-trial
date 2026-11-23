@@ -1,0 +1,8 @@
+9902ebf Name the visibility timeout and delay limits once
+5fe3fb1 Parse the command name into an enum
+7d52264 Give message ids and receipt handles their own types
+9b5e5ea Type the arrival index of a queued message
+bc61c13 Share the missing-parameter error and name the expect invariant
+d55996d Split the FIFO send rules out of send_message
+9513d89 Document the queue module's public items
+31ab78b Read required parameters without expect

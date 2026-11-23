@@ -1,0 +1,3 @@
+abac951 Share error constructors instead of per-module copies
+e5ff632 Name the shared parameter ranges once
+9734dc8 Extract the FIFO/standard send rules from send_message

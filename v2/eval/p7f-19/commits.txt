@@ -1,0 +1,3 @@
+dfd5d2c Add MaxMessageBytes queue attribute
+cd70611 Add TagQueue, UntagQueue and ListQueueTags
+6220368 Add SendMessageBatch and DeleteMessageBatch

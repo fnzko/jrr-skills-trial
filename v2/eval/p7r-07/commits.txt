@@ -1,0 +1,4 @@
+53eb8c6 Name the shared attribute ranges
+90f8d5b Read required parameters with typed getters
+2d2c17f Parse the command name into an enum
+d5916ab Move the FIFO checks of SendMessage into a function

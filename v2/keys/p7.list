@@ -1,0 +1,36 @@
+p7f-01 hk-start-stop feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-02 hk-gate refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7g-03 hk-pre green claude-sonnet-5-5
+p7f-04 hk-start feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7g-05 hk-start-stop green claude-sonnet-5-5
+p7g-06 hk-start-stop green claude-sonnet-5-5
+p7r-07 hk-start refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7f-08 hk-gate feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7f-09 hk-pre feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7f-10 hk-pre feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7g-11 hk-start-stop green claude-sonnet-5-5
+p7f-12 hk-gate feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-13 hk-start-stop refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-14 hk-pre refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7g-15 hk-start green claude-sonnet-5-5
+p7g-16 hk-gate green claude-sonnet-5-5
+p7f-17 hk-start-stop feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-18 hk-start refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7f-19 hk-gate feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-20 hk-start-stop refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7f-21 hk-pre feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7g-22 hk-start green claude-sonnet-5-5
+p7r-23 hk-start-stop refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-24 hk-start refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-25 hk-pre refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7g-26 hk-start green claude-sonnet-5-5
+p7g-27 hk-gate green claude-sonnet-5-5
+p7g-28 hk-pre green claude-sonnet-5-5
+p7f-29 hk-start-stop feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-30 hk-pre refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-31 hk-gate refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7f-32 hk-start feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7f-33 hk-start feature claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7r-34 hk-gate refactor claude-sonnet-5-5 /Users/facundo/code/wye/jrr-refactor-trial/v2/baseline
+p7g-35 hk-pre green claude-sonnet-5-5
+p7g-36 hk-gate green claude-sonnet-5-5

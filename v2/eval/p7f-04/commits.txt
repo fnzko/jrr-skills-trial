@@ -1,0 +1,4 @@
+5e5bbe2 Add MaxMessageBytes queue attribute
+0b4fa28 Add TagQueue, UntagQueue and ListQueueTags
+d23d492 Format the new tests with rustfmt
+2e5ed6d Add SendMessageBatch and DeleteMessageBatch

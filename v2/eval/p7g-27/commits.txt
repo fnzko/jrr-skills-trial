@@ -1,0 +1,5 @@
+875fb26 Scaffold miniq crate with serde_json
+08f427d Implement the miniq protocol: parsing, queues, broker, JSON replies
+cef0b8f Test the protocol framing and queue commands
+7ed4f22 Test send, receive, receipt handles, retention and purge
+8f41c1c Test FIFO grouping, deduplication, dead-letter moves and the queue size limit

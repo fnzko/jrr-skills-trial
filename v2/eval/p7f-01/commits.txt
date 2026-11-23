@@ -1,0 +1,4 @@
+427bb54 Add the MaxMessageBytes queue attribute
+d6164e0 Add TagQueue, UntagQueue and ListQueueTags
+8d3c76a Add SendMessageBatch and DeleteMessageBatch
+767ceb0 Assert the whole attribute set in the tags-are-not-attributes test

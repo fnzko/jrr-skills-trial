@@ -1,0 +1,7 @@
+9d1a7e5 Name the attribute range limits instead of repeating literals
+08f8608 Make the retention limit private to attributes
+9c03cd2 Build common errors through Error constructors
+0224a3d Add required_string and required_integer to Params
+286c7b3 Extract the FIFO id rules out of send_message
+1f1938f Fix clippy warnings in the new helpers
+244acdd Share the ContentBasedDeduplication check between create and set

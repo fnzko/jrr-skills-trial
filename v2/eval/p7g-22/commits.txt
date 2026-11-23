@@ -1,0 +1,5 @@
+1ba0c77 Add crate with error codes and validated identifier types
+383c145 Decode command lines into typed commands and resolved attributes
+67ca956 Add the queue engine, response rendering and the miniq binary
+655ad43 Test queue commands, the line protocol and basic message flow
+95e8114 Test FIFO groups, deduplication, handles, retention and dead letters

@@ -1,0 +1,4 @@
+53d2670 Add crate skeleton with line protocol and Tick
+e97332b Add queue lifecycle commands
+7ca0ce1 Add SendMessage with FIFO deduplication and retention
+ada70c7 Add ReceiveMessage, dead-lettering, DeleteMessage and ChangeMessageVisibility

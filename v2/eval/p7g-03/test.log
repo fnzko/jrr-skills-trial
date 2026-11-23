@@ -1,0 +1,72 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running unittests src/lib.rs (target/debug/deps/miniq-9b6b4d57e04ab586)
+
+running 5 tests
+test params::tests::identifiers ... ok
+test attributes::tests::queue_names ... ok
+test attributes::tests::parse_rejects_unknown_names_and_bad_values ... ok
+test params::tests::null_members_are_absent ... ok
+test params::tests::integers_must_be_written_without_fraction_or_exponent ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-41041198a72155db)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/messages.rs (target/debug/deps/messages-2fa8f5e059cf1224)
+
+running 17 tests
+test dedup_ids_outlive_messages_and_purge ... ok
+test dead_lettered_message_older_than_dlq_retention_vanishes ... ok
+test delay_hides_messages_until_due ... ok
+test dead_letter_queue_receives_messages_after_max_receive_count ... ok
+test expiry_is_applied_before_a_retention_change_not_after ... ok
+test ids_count_accepted_messages_over_all_queues ... ok
+test fifo_deduplication_window ... ok
+test fifo_groups_deliver_one_at_a_time_in_order ... ok
+test handles_do_not_survive_purge_delete_or_recreate ... ok
+test fifo_dead_letter_resequences_and_unblocks_group ... ok
+test delete_and_change_visibility ... ok
+test receive_parameter_checks ... ok
+test receive_delivers_in_arrival_order_and_hides_messages ... ok
+test zero_visibility_timeout_makes_the_handle_unusable ... ok
+test retention_removes_messages_in_every_state_and_is_not_undone ... ok
+test send_validation_and_order_of_checks ... ok
+test queue_message_limit_counts_every_state ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.84s
+
+     Running tests/protocol.rs (target/debug/deps/protocol-2e203d73bf4e59ea)
+
+running 3 tests
+test invalid_utf8_is_an_invalid_request_and_processing_continues ... ok
+test every_line_gets_one_response_in_order ... ok
+test final_line_without_newline_counts ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running tests/queues.rs (target/debug/deps/queues-1de944c70cf24d4d)
+
+running 10 tests
+test create_applies_defaults_and_get_reports_them ... ok
+test request_shape_errors ... ok
+test delete_and_purge ... ok
+test create_is_idempotent_only_for_equal_attributes ... ok
+test tick_validates_and_reports_the_clock ... ok
+test create_name_and_type_rules ... ok
+test list_queues_sorts_by_bytes_and_filters_by_prefix ... ok
+test dead_letter_configuration_rules ... ok
+test set_queue_attributes_rules ... ok
+test queue_limit ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

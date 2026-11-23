@@ -1,0 +1,5 @@
+d89281c Add the MaxMessageBytes queue attribute and its send rule
+a4cc77b Split send and delete into parse and act steps
+fa505b7 Add SendMessageBatch and DeleteMessageBatch
+c2cdc23 Add TagQueue, UntagQueue and ListQueueTags
+c321780 Make SendParams Copy so send_to takes it by value without a lint

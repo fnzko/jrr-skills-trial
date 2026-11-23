@@ -1,0 +1,5 @@
+503ee07 Add crate skeleton with the line protocol loop
+271e616 Add validated ids, virtual time and attribute types
+f1b04c9 Add queue management commands
+2010e41 Add message commands: send, receive, delete, change visibility
+06e6fee Test the binary end to end

@@ -1,0 +1,3 @@
+6ff35cc Name the shared VisibilityTimeout and DelaySeconds ranges
+f229b32 Use the method path instead of a redundant closure
+ff5d9aa Share the ContentBasedDeduplication check between create and set

@@ -1,0 +1,78 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-2924a68382c6cd0e)
+
+running 25 tests
+test attributes::tests::apply_keeps_unmentioned_attributes_and_the_dead_letter_configuration ... ok
+test attributes::tests::dead_letter_attributes_must_come_together ... ok
+test attributes::tests::forget_dead_letter_only_matches_the_named_queue ... ok
+test attributes::tests::from_patch_fills_defaults ... ok
+test queue::tests::deduplication_window_is_not_extended_by_duplicates ... ok
+test queue::tests::counts_split_messages_by_state ... ok
+test queue::tests::delivered_fifo_messages_carry_group_and_sequence ... ok
+test queue::tests::a_message_keeps_its_place_after_its_visibility_timeout_ends ... ok
+test queue::tests::messages_over_the_receive_limit_are_dead_lettered_and_release_their_group ... ok
+test queue::tests::fifo_delivers_one_message_per_group_and_blocks_a_group_with_a_message_in_flight ... ok
+test queue::tests::handles_stop_working_after_redelivery_or_visibility_change ... ok
+test queue::tests::retention_removes_messages_whatever_their_state ... ok
+test request::tests::create_queue_checks_the_name_before_anything_else ... ok
+test request::tests::body_limit_counts_utf8_bytes ... ok
+test request::tests::malformed_lines_are_invalid_requests ... ok
+test request::tests::null_members_and_unknown_members_are_ignored ... ok
+test request::tests::required_parameters_are_checked_before_values ... ok
+test request::tests::send_message_carries_its_optional_parameters ... ok
+test types::tests::group_and_deduplication_ids_share_the_token_rule ... ok
+test types::tests::ids_count_from_one_and_handles_are_issued_in_order ... ok
+test types::tests::only_canonical_receipt_handles_parse ... ok
+test request::tests::wrong_types_and_ranges_are_invalid_values ... ok
+test types::tests::queue_name_error_has_its_own_code ... ok
+test types::tests::queue_names_follow_the_naming_rules ... ok
+test types::tests::time_plus_saturates ... ok
+
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-149399b64b2cf856)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/binary.rs (target/debug/deps/binary-a311e40d009813a2)
+
+running 1 test
+test binary_answers_each_line_and_exits_zero_at_end_of_input ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running tests/protocol.rs (target/debug/deps/protocol-af84cad6f972eae2)
+
+running 21 tests
+test empty_input_and_a_lone_newline_are_handled ... ok
+test invalid_utf8_is_an_invalid_request_and_the_next_line_still_runs ... ok
+test every_line_gets_exactly_one_response_in_order ... ok
+test deleting_a_dead_letter_queue_clears_the_configuration_of_its_users ... ok
+test fifo_receive_gives_one_message_per_group_and_keeps_order_within_a_group ... ok
+test a_new_queue_under_a_deleted_name_shares_nothing_with_the_old_one ... ok
+test a_dead_lettered_message_older_than_the_target_retention_vanishes_on_arrival ... ok
+test deduplication_window_ignores_duplicates_and_outlives_the_message ... ok
+test create_queue_is_idempotent_only_for_equal_attributes ... ok
+test error_precedence_follows_the_specified_order ... ok
+test dead_letter_configuration_rules_on_create ... ok
+test list_queues_sorts_by_byte_value_and_filters_by_prefix ... ok
+test messages_over_the_receive_limit_move_to_the_dead_letter_queue ... ok
+test unknown_parameters_and_unrelated_nulls_are_ignored ... ok
+test retention_removes_messages_at_once_when_lowered_and_does_not_bring_them_back ... ok
+test zero_visibility_timeout_makes_the_handle_unusable_at_once ... ok
+test send_rules_for_standard_and_fifo_queues ... ok
+test receipt_handle_errors_distinguish_never_issued_from_no_longer_usable ... ok
+test standard_queue_send_receive_and_visibility ... ok
+test set_queue_attributes_rules_and_effects ... ok
+test queue_and_message_limits_are_enforced ... ok
+
+test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.84s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

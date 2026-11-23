@@ -1,0 +1,10 @@
+[package]
+name = "miniq"
+version = "0.1.0"
+edition = "2021"
+description = "A small in-memory message queue driven by JSON lines on stdin"
+
+[dependencies]
+# `arbitrary_precision` keeps the source text of numbers, which lets us tell
+# the integer `30` from `30.0` and `3e1` as the protocol requires.
+serde_json = { version = "1", features = ["arbitrary_precision"] }

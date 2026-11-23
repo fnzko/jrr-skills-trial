@@ -1,0 +1,3 @@
+9287f7e Name the shared visibility-timeout and delay ranges
+a191f09 Build common errors through Error constructors
+2317618 Extract the queue-type rules out of send_message

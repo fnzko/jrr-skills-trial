@@ -1,0 +1,7 @@
+f09ce1e Add crate skeleton with error codes and validated value types
+8db7157 Add the queue model: messages, retention, FIFO groups, dead-lettering
+9f29bc2 Parse command lines into typed requests
+f6b1d3d Execute requests against the store and add the stdin/stdout loop
+55dfabf Apply rustfmt
+49c3dbd Test the protocol end to end through miniq::run
+258c971 Address lint findings: exhaustive Phase match, borrowed NewMessage, stronger assertions

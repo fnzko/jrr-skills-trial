@@ -1,0 +1,74 @@
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.51s
+     Running unittests src/lib.rs (target/debug/deps/miniq-2924a68382c6cd0e)
+
+running 11 tests
+test time::tests::plus_adds_seconds ... ok
+test time::tests::plus_saturates_instead_of_wrapping ... ok
+test attributes::tests::null_attributes_are_absent ... ok
+test attributes::tests::half_a_dead_letter_configuration_is_invalid ... ok
+test ids::tests::counters_count_from_one_and_track_issued_handles ... ok
+test attributes::tests::new_queue_defaults_serialize_as_listed_in_the_specification ... ok
+test params::tests::integer_accepts_only_whole_numbers_in_range ... ok
+test params::tests::null_members_are_absent ... ok
+test attributes::tests::unknown_and_ill_typed_attributes_are_invalid_values ... ok
+test ids::tests::receipt_handle_accepts_only_the_canonical_spelling ... ok
+test ids::tests::queue_name_syntax ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-149399b64b2cf856)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/behavior/main.rs (target/debug/deps/behavior-5c674a839afb9dce)
+
+running 36 tests
+test messages::a_dead_letter_arrival_older_than_the_target_retention_is_dropped ... ok
+test messages::a_message_that_expired_in_flight_cannot_be_deleted ... ok
+test messages::deduplication_ids_outlive_the_message_and_survive_a_purge ... ok
+test messages::change_message_visibility_moves_the_end_of_the_timeout ... ok
+test messages::content_based_deduplication_uses_the_body_unless_an_id_is_given ... ok
+test messages::a_zero_visibility_timeout_makes_the_handle_unusable ... ok
+test messages::a_group_is_blocked_until_its_earlier_message_is_deleted ... ok
+test messages::a_message_whose_visibility_timeout_ends_keeps_its_place_and_gets_a_new_handle ... ok
+test messages::a_sent_message_is_received_once_with_all_fields ... ok
+test messages::delayed_messages_become_visible_when_the_delay_ends ... ok
+test messages::fifo_dead_letters_take_the_next_sequence_number_and_keep_their_group ... ok
+test messages::fifo_send_rules_in_order ... ok
+test messages::fifo_sends_number_messages_and_duplicates_return_the_original ... ok
+test protocol::empty_input_produces_no_output ... ok
+test messages::messages_expire_after_the_retention_period_and_lowering_it_expires_at_once ... ok
+test messages::purge_removes_messages_in_every_state ... ok
+test messages::messages_over_the_receive_limit_move_to_the_dead_letter_queue_reset ... ok
+test messages::moved_messages_do_not_count_toward_max_messages ... ok
+test messages::receipt_handles_are_invalid_unless_issued_and_expired_unless_current ... ok
+test protocol::every_line_gets_one_response_including_blank_and_unterminated_ones ... ok
+test messages::the_deduplication_window_is_300_seconds_and_a_duplicate_does_not_extend_it ... ok
+test protocol::unknown_members_are_ignored_and_null_means_absent ... ok
+test protocol::malformed_requests_are_invalid_request ... ok
+test queues::create_is_idempotent_only_for_identical_attributes ... ok
+test messages::send_and_receive_parameters_are_checked_in_the_specified_order ... ok
+test queues::create_rules_report_the_first_failing_check ... ok
+test queues::dead_letter_queue_must_have_the_same_type ... ok
+test queues::create_then_get_returns_defaults_and_zero_counts ... ok
+test queues::deleting_a_dead_letter_queue_clears_the_configuration_of_its_users ... ok
+test queues::list_queues_filters_by_prefix_in_byte_order ... ok
+test queues::lookup_commands_report_missing_queues_whatever_the_name_looks_like ... ok
+test queues::tick_advances_the_clock_and_validates_seconds ... ok
+test queues::set_attributes_rules_in_order ... ok
+test queues::at_most_1000_queues_can_exist ... ok
+test cli::the_binary_answers_each_line_and_exits_zero_at_end_of_input ... ok
+test messages::a_queue_holds_at_most_100000_messages_and_failed_sends_use_no_id ... ok
+
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.60s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

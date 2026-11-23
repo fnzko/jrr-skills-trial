@@ -1,0 +1,12 @@
+f908a40 Name the visibility and delay limits once
+6f9b630 Build common errors in one place
+15c47fe Parse command names into an enum
+15b1ef6 Read required parameters without expect
+d244912 Give message ids, receipt handles and arrival keys their own types
+1621861 Resolve receipt handles with a single queue lookup
+21da270 Pass the validated dead-letter pair to Attributes::apply
+7299b57 Split SendMessage into resolve, dedupe and push steps
+bc286dd Count delivered messages in the type the parameter has
+7d994ee Let Queue drop a dead-letter link to a deleted queue
+ca91c65 Inline the single-use expiry closure in Queue::expire
+aab1890 Borrow the attribute update in Attributes::apply

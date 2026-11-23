@@ -1,0 +1,3 @@
+d876437 Add crate skeleton with error codes, parameter validation and attributes
+cce66e4 Add line protocol, virtual clock and queue commands
+7e236fd Add message commands: send, receive, delete, change visibility

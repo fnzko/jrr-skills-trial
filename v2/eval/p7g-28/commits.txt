@@ -1,0 +1,5 @@
+30cc7ea Add crate skeleton: line protocol loop, error codes, parameter helpers and Tick
+57c7daf Add queue management commands and the queue model
+db4420a Add SendMessage with FIFO deduplication and the per-queue limit
+c8d99cc Add ReceiveMessage, DeleteMessage and ChangeMessageVisibility
+48b9b52 Add a README describing how to run miniq and where things live

@@ -1,0 +1,8 @@
+81f4bc7 Build the missing-parameter error in one place
+caea410 Advance the receipt handle counter in place
+af2b2e6 Delete a queue by removing it from the map
+a5665cb Give message ids and receipt handles their own types
+9254d59 Resolve receipt handles inside the queue
+159864a Name the FIFO ids of a send
+7e75c92 Assert values in the request unit tests
+befd57d Say which invariant the required-parameter expects rely on

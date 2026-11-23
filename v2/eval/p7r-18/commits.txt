@@ -1,0 +1,5 @@
+0f280bf Name the attribute limits shared by queues and messages
+79ea4d8 Read required parameters through typed getters
+00488ac Parse the command name into an enum
+025eaea Move body length validation out of send_message
+8d2c90f Define the expiry test once, after the early return

@@ -1,0 +1,8 @@
+f0c6928 Name each numeric limit once in a limits module
+a15060b Parse the command name into an enum at the request boundary
+7ab8b3b Give message ids and receipt handles their own types
+e13b682 Make group id and sequence number one FIFO-only value on Message
+ee02fe1 Split SendMessage into a queue-type decision and the accept step
+c290cc2 Share the ContentBasedDeduplication rule between create and set
+8aa9536 Read required parameters without expect
+81c64ff Remove a cast, a silent no-op and an unused closure binding

@@ -1,0 +1,5 @@
+8121908 Add crate scaffold with error codes, virtual time and identifier types
+185906b Add queue model, typed commands, replies and the broker
+b9ce5fe Add request parsing, the line protocol and the miniq binary
+036c188 Test the protocol framing, error precedence and queue commands
+b543eb2 Test message behavior and the binary

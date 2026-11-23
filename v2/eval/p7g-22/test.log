@@ -1,0 +1,98 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-2924a68382c6cd0e)
+
+running 22 tests
+test attributes::tests::defaults_apply_to_an_empty_request ... ok
+test attributes::tests::create_builds_a_fifo_queue_with_dead_letter_config ... ok
+test attributes::tests::create_checks_name_suffix_before_dedup_before_pairing ... ok
+test attributes::tests::invalid_attribute_values_are_rejected ... ok
+test attributes::tests::update_keeps_what_the_patch_leaves_out ... ok
+test attributes::tests::update_rejections_follow_rule_order ... ok
+test attributes::tests::update_replaces_dead_letter_config_but_cannot_remove_it ... ok
+test attributes::tests::null_attributes_count_as_absent ... ok
+test command::tests::create_queue_checks_the_name_before_other_parameters ... ok
+test command::tests::body_limit_counts_bytes_not_characters ... ok
+test command::tests::missing_parameters_win_over_bad_values ... ok
+test command::tests::other_commands_accept_any_queue_name_string ... ok
+test command::tests::invalid_values_are_rejected ... ok
+test command::tests::request_shape_errors_are_invalid_request ... ok
+test command::tests::send_message_carries_all_parameters ... ok
+test command::tests::unknown_members_and_nulls_are_ignored ... ok
+test names::tests::counters_hand_out_consecutive_values ... ok
+test names::tests::fifo_suffix_is_detected ... ok
+test names::tests::invalid_queue_name_reports_its_code ... ok
+test names::tests::queue_name_syntax ... ok
+test names::tests::receipt_handle_accepts_only_the_canonical_spelling ... ok
+test names::tests::tokens_are_limited_to_128_name_characters ... ok
+
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-149399b64b2cf856)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/miniq/main.rs (target/debug/deps/miniq-c381d9da79ef9309)
+
+running 51 tests
+test messages::content_based_deduplication_uses_the_body ... ok
+test messages::a_delayed_or_in_flight_head_blocks_its_group_but_not_others ... ok
+test messages::an_ended_visibility_timeout_expires_the_handle ... ok
+test messages::a_message_too_old_for_the_dead_letter_queue_is_removed_on_arrival ... ok
+test messages::change_visibility_restarts_the_timeout_from_now ... ok
+test messages::change_visibility_to_zero_makes_the_message_visible_at_once ... ok
+test messages::a_new_dead_letter_configuration_applies_from_the_next_receive ... ok
+test messages::deduplication_window_reopens_at_300_and_is_not_extended_by_duplicates ... ok
+test messages::deduplication_outlives_the_message_and_ignores_the_group ... ok
+test messages::duplicate_sends_return_the_original_and_use_no_id ... ok
+test messages::failed_send_uses_no_message_id ... ok
+test messages::fifo_send_validation_follows_rule_order ... ok
+test messages::delete_and_change_visibility_check_handles ... ok
+test messages::dead_lettered_messages_are_reset_and_take_the_next_sequence_number ... ok
+test messages::max_messages_and_arrival_order ... ok
+test messages::fifo_delivers_one_message_per_group_and_blocks_busy_groups ... ok
+test messages::fifo_sequence_numbers_count_per_queue ... ok
+test messages::message_and_handle_counters_span_queues ... ok
+test messages::delay_hides_a_message_until_it_elapses ... ok
+test messages::lowering_retention_removes_at_once_and_raising_it_restores_nothing ... ok
+test messages::messages_move_to_the_dead_letter_queue_after_max_receives ... ok
+test messages::raising_retention_after_the_time_has_passed_does_not_resurrect ... ok
+test messages::only_the_latest_handle_of_a_message_works ... ok
+test messages::receive_overrides_visibility_timeout ... ok
+test messages::send_and_receive_round_trip ... ok
+test protocol::error_responses_carry_a_code_and_a_message ... ok
+test messages::zero_visibility_makes_the_message_visible_at_once_and_its_handle_unusable ... ok
+test protocol::final_line_without_newline_counts_only_if_not_empty ... ok
+test protocol::every_line_gets_exactly_one_response ... ok
+test messages::visibility_timeout_ends_and_message_keeps_its_place ... ok
+test protocol::invalid_utf8_is_one_invalid_request_and_processing_continues ... ok
+test protocol::required_parameter_errors_precede_value_errors ... ok
+test messages::retention_removes_messages_in_every_state ... ok
+test protocol::unknown_members_and_null_parameters_are_ignored ... ok
+test queues::delete_queue_unsets_dead_letter_configuration_of_others ... ok
+test queues::existing_queue_is_decided_before_the_dead_letter_queue_lookup ... ok
+test queues::dead_letter_attributes_appear_only_when_set ... ok
+test queues::get_queue_attributes_reports_defaults_and_counts ... ok
+test queues::create_queue_errors_follow_rule_order ... ok
+test queues::failed_set_queue_attributes_changes_nothing ... ok
+test queues::lookup_precedes_command_rules_for_every_queue_command ... ok
+test queues::list_queues_filters_by_prefix_in_byte_order ... ok
+test queues::recreated_queue_shares_nothing_with_the_deleted_one ... ok
+test queues::purge_removes_every_state_but_keeps_sequence_numbers ... ok
+test queues::recreating_with_equal_attributes_is_a_no_op_and_otherwise_conflicts ... ok
+test queues::tick_returns_the_new_clock ... ok
+test queues::set_queue_attributes_applies_only_what_is_given ... ok
+test queues::set_queue_attributes_errors ... ok
+test queues::creating_the_1001st_queue_fails ... ok
+test protocol::the_binary_answers_on_stdout_and_exits_with_zero ... ok
+test protocol::filling_a_queue_with_100000_messages_is_fast_and_the_next_send_fails ... ok
+
+test result: ok. 51 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.66s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
