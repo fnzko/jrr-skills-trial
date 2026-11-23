@@ -30,13 +30,6 @@ I tested the new skills ([`ai-patterns-skills`](https://github.com/fnzko/just-ri
 
 140 of 141 runs on the small crate pass the hidden tests, so no gain cost behavior.
 
-**What I would change**
-
-- One short entry skill with the checklists ([tested](https://github.com/fnzko/jrr-skills-trial/blob/c3f5de5/v2/arms/short/skills/rust-rules/SKILL.md)), or three by task. The six guides stay as reference.
-- Plugin hooks that do something: checklist at `SessionStart`, detector at `Stop`, matching Bash too ([tested](https://github.com/fnzko/jrr-skills-trial/tree/c3f5de5/v2/arms/hk-start-stop/hooks)).
-- Reword [this line](https://github.com/fnzko/just-right-rust/blob/30ce8a2/skills/rust-keep-it-simple/SKILL.md#L191) of `rust-keep-it-simple`; it tells an agent doing a refactor to touch nothing. Not tested alone.
-- The eval harness grades pass or fail on hidden tests. These skills change how the code reads, not whether it works, so it needs a quality measure next to that.
-
 **Still open:** adding a feature to code written in another style. In the last round the rules add about 0.7 of 4 there, and the runs with and without rules overlap.
 
 **Limits:** two or three runs per cell, one kind of service, small crates, model reviewers only (122 of 123 repeated scores within one point), and I wrote the variant texts.
