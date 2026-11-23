@@ -222,3 +222,51 @@ identical, 40 within one.
 
 v2 totals: 87 runs, USD 82.53 API-equivalent, 467 agent minutes. Final report being written to
 `REPORT.md`.
+
+## 2026-11-23
+
+### Consumption of the 87 earlier runs (`bin/usage.py`)
+
+Cost and agent time relative to `none`, Sonnet 5.5, n=3: greenfield skills 1.83x/1.66x, context
+1.69x/1.71x, short 1.27x/1.28x, hook 1.70x/1.61x; feature skills 1.07x, context 1.30x, short 1.06x,
+hook 1.45x; refactor skills 0.97x, context 3.40x, short 1.31x, hook 1.28x. The extra is work done
+(greenfield context writes 90k output tokens against 53k), not rule text in context.
+
+### P7 and P8: hook delivery A/B (54 runs, Sonnet 5.5, n=3, all hook arms carry the 68-line checklist and no skills)
+
+Arms: `hk-start` (SessionStart prints the checklist), `hk-start-stop` (same plus a Stop detector
+limited to the Rust lines the session added), `hk-pre2` (PreToolUse adds the checklist as context
+before the first Rust write), `hk-gate2` (PreToolUse rejects the first Rust write with the checklist
+as the reason). `hk-pre` and `hk-gate` (P7) matched only Edit/Write/MultiEdit and fired in 4 of 18
+runs, because the agent writes most Rust through Bash heredocs; they count as `none`. The `2` arms
+(P8) also match Bash commands that write `.rs` files or run `cargo init`/`cargo new` and fired in 18
+of 18. Acceptance: 53 of 54 pass everything; p7g-36 (a P7 gate run whose hook did not fire) fails 2
+of 58.
+
+Blind scores (anchors `none`, `context`, `short` from P1/P2/P3/P6 re-scored in the same sets; anchor
+test-retest against the earlier reviews: 123 repeated scores, 122 within one point, 92 identical).
+Cost is relative to `none` on the same task.
+
+| Arm | Greenfield sum of 16 (runs) | cost | Refactor sum of 12, BASE 5 (runs) | cost | Feature sum of 12 (runs) | cost |
+|---|---|---|---|---|---|---|
+| hk-start-stop | 13.00 (12, 14, 13) | 1.68x | 9.00 (10, 9, 8) | 2.70x | 9.00 (10, 9, 8) | 1.39x |
+| context | 12.67 (12, 13, 13) | 1.69x | 8.67 (8, 9, 9) | 3.40x | 9.67 (11, 9, 9) | 1.30x |
+| short | 12.67 (13, 13, 12) | 1.27x | 7.33 (6, 7, 9) | 1.31x | 9.33 (8, 11, 9) | 1.06x |
+| hk-gate2 | 11.67 (12, 12, 11) | 1.78x | 7.67 (8, 8, 7) | 1.50x | 8.67 (8, 9, 9) | 1.18x |
+| hk-start | 11.33 (12, 9, 13) | 1.59x | 7.33 (7, 7, 8) | 1.56x | 9.33 (10, 8, 10) | 1.12x |
+| hk-pre2 | 9.67 (7, 10, 12) | 1.31x | 7.67 (7, 9, 7) | 1.54x | 8.67 (9, 7, 10) | 1.06x |
+| none | 6.33 (6, 5, 8) | 1.00x | 5.00 (5, 5, 5) | 1.00x | 7.00 (6, 5, 10) | 1.00x |
+
+Dimensions: greenfield types, errors, simplicity, tests; refactor types, errors, simplicity; feature
+types, errors, tests (new code against BASE). Every hook arm separates from `none` on greenfield and
+refactor with no overlap. On feature the rule arms average 1.7 to 2.7 points above `none` but one
+`none` run scored 10, so the ranges overlap; the mechanical `expect` density does not move.
+
+### v3: description probes (72 short runs, `v3/descriptions/probe.md`, `guidance.md`, `evidence.md`)
+
+Loads in 3 runs per cell (greenfield, feature, refactor): six narrow skills with today's descriptions
+0, 0, 0; opening with task verbs 0, 0, 0; task list appended 0, 0, 0; imperative 0, 0, 1; rewritten
+after the published guidance 0, 0, 0; three task-level skills 3, 3, 3 (always the matching one, never
+a wrong one); the same plus the six narrow skills 3, 3, 3 (narrow ones never loaded); one entry skill
+3, 3, 3. The control did not repeat the P1 greenfield self-loading (4 of 6 runs on 11-20, 0 of 3 on
+11-23, same client version and opening moves). Cost USD 25.29.
