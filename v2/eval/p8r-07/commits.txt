@@ -1,0 +1,5 @@
+759a2a0 Name the shared visibility and delay ranges
+5c6ff44 Parse the command name into an enum at the request boundary
+6fb9756 State the invariant behind each required-parameter expect
+b13a1ba Share the ContentBasedDeduplication check between create and set
+b422ec3 Move the FIFO/standard send rules out of send_message

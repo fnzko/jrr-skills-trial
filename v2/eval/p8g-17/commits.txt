@@ -1,0 +1,6 @@
+d32f568 Add error codes and validated value types
+c590613 Parse command lines into typed requests
+4c63b1b Add the queue store with indexed message states
+35cee4e Apply rustfmt and clippy to the parsing and queue layers
+339fbab Execute commands and answer on stdin/stdout
+4300d6d Test the protocol end to end

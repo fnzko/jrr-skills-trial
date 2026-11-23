@@ -1,0 +1,5 @@
+e2097d2 Replace expect("required") with required_* getters
+f7573cf Parse command names into a Command enum
+323af38 Drop needless lifetime on queue_name
+48e810d Return required_string directly from queue_name
+8e1a398 Extract FIFO send validation from send_message

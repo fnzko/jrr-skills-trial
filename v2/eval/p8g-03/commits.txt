@@ -1,0 +1,5 @@
+b77853b Add error codes and validated domain types
+9205e5e Parse request lines into typed requests
+9373438 Add the single-queue model
+e2745e1 Add the broker and the stdin/stdout driver
+1314d93 Add scenario tests and format the crate

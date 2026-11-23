@@ -1,0 +1,5 @@
+134f8ee Add line protocol loop with typed errors and Tick
+da7ce7e Add queue management commands with validated attributes
+3db003c Add message storage, SendMessage, deduplication and retention
+2ea629a Add ReceiveMessage, receipt handles and dead-letter moves
+40b29dd Test the miniq binary end to end

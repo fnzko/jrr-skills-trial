@@ -1,0 +1,5 @@
+9e07c4c Add crate scaffold, error codes and validated value types
+087cc41 Parse input lines into typed requests
+bf3aebd Add queue model, broker and response types
+502c463 Declare attribute defaults next to their ranges
+7157d77 Add the stdin/stdout loop, binary and end-to-end tests

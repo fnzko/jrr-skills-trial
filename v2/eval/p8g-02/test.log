@@ -1,0 +1,84 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-2924a68382c6cd0e)
+
+running 10 tests
+test request::tests::tick_reads_seconds_and_ignores_other_members ... ok
+test types::tests::body_and_token_limits_count_bytes ... ok
+test request::tests::malformed_lines_are_invalid_requests ... ok
+test types::tests::identifiers_count_from_one ... ok
+test request::tests::tick_without_usable_seconds_is_rejected ... ok
+test types::tests::only_the_suffix_makes_a_name_fifo ... ok
+test types::tests::receipt_handles_parse_only_their_canonical_text ... ok
+test types::tests::time_adds_a_span ... ok
+test types::tests::bounded_accepts_only_its_range ... ok
+test types::tests::queue_names_follow_the_naming_rules ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-149399b64b2cf856)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/it/main.rs (target/debug/deps/it-d5dcc0964473bdf2)
+
+running 49 tests
+test messages::a_new_queue_delay_applies_to_later_sends_only ... ok
+test messages::body_length_is_counted_in_bytes ... ok
+test messages::content_based_deduplication_uses_the_body_unless_an_id_is_given ... ok
+test messages::lowering_retention_removes_at_once_and_raising_it_does_not_bring_messages_back ... ok
+test messages::get_queue_attributes_reports_defaults_and_counts ... ok
+test messages::fifo_sends_get_sequence_numbers_and_deduplicate ... ok
+test messages::deduplication_ignores_the_group_and_outlives_purge_and_deletion ... ok
+test messages::deduplication_window_is_300_seconds_and_a_duplicate_does_not_extend_it ... ok
+test messages::delayed_messages_become_visible_when_their_delay_ends ... ok
+test messages::purge_empties_the_queue_but_sequence_numbers_carry_on ... ok
+test messages::standard_sends_number_messages_across_queues ... ok
+test protocol::failures_carry_a_code_and_a_message ... ok
+test protocol::invalid_utf8_line_does_not_stop_the_stream ... ok
+test messages::send_checks_parameters_before_the_queue_and_the_queue_before_the_rules ... ok
+test messages::retention_removes_messages_as_soon_as_it_runs_out ... ok
+test protocol::final_line_without_newline_counts_only_when_not_empty ... ok
+test protocol::every_line_gets_one_response_in_order ... ok
+test queues::create_queue_is_idempotent_only_for_equal_attributes ... ok
+test queues::create_queue_name_rules_come_first ... ok
+test queues::dead_letter_queue_must_exist_and_match_the_type ... ok
+test queues::set_queue_attributes_changes_what_create_queue_compares ... ok
+test queues::delete_queue_unsets_dead_letter_configuration_of_its_users ... ok
+test queues::create_queue_validates_attributes ... ok
+test receive::a_dead_letter_queue_receives_messages_from_several_sources ... ok
+test receive::a_delivered_message_is_hidden_until_its_visibility_timeout_ends_and_keeps_its_place ... ok
+test queues::list_queues_filters_by_prefix_in_byte_order ... ok
+test receive::a_dead_letter_move_resets_the_message_and_does_not_count_as_a_delivery ... ok
+test receive::a_group_waits_for_every_earlier_message_in_any_state ... ok
+test receive::a_changed_dead_letter_configuration_applies_from_the_next_receive_and_deletion_removes_it ... ok
+test queues::set_queue_attributes_applies_rules_in_order ... ok
+test receive::a_zero_visibility_timeout_leaves_the_message_visible_with_an_unusable_handle ... ok
+test receive::change_message_visibility_can_shorten_to_zero_and_leaves_receive_count_alone ... ok
+test receive::a_moved_message_that_is_too_old_for_the_dead_letter_queue_is_removed_on_arrival ... ok
+test receive::delayed_messages_are_not_delivered ... ok
+test receive::change_message_visibility_replaces_the_end_of_the_timeout ... ok
+test receive::a_new_queue_visibility_timeout_applies_to_later_deliveries_only ... ok
+test receive::delete_and_change_check_parameters_then_the_queue_then_the_handle ... ok
+test receive::dead_letter_moves_keep_group_ids_take_new_sequence_numbers_and_ignore_deduplication ... ok
+test receive::fifo_delivers_one_message_per_group_and_blocks_a_group_while_its_head_is_busy ... ok
+test receive::receive_delivers_in_arrival_order_up_to_max_messages ... ok
+test receive::receive_validates_parameters_before_the_queue ... ok
+test receive::receipt_handles_count_deliveries_over_all_queues ... ok
+test receive::delete_message_needs_the_latest_handle_of_an_in_flight_message ... ok
+test receive::the_receive_timeout_overrides_the_queue_attribute_for_that_delivery_only ... ok
+test receive::handles_of_vanished_messages_are_expired_not_invalid ... ok
+test receive::handles_must_be_the_exact_text_of_an_issued_handle ... ok
+test queues::at_most_1000_queues_can_exist ... ok
+test binary::the_binary_answers_each_line_on_stdout_and_exits_with_zero ... ok
+test messages::a_queue_holds_at_most_100000_messages_in_any_state ... ok
+
+test result: ok. 49 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.72s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

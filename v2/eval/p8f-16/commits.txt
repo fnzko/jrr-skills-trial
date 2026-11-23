@@ -1,0 +1,4 @@
+137b494 Add MaxMessageBytes queue attribute and send size rule
+7e91a38 Format the MaxMessageBytes tests with rustfmt
+5c1b4dc Add TagQueue, UntagQueue and ListQueueTags
+94a9f2f Add SendMessageBatch and DeleteMessageBatch

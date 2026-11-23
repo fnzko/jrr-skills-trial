@@ -1,0 +1,66 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-2924a68382c6cd0e)
+
+running 18 tests
+test request::tests::a_lone_dead_letter_attribute_parses_as_incomplete ... ok
+test request::tests::null_members_count_as_absent ... ok
+test request::tests::receive_message_defaults_to_one_message ... ok
+test request::tests::missing_parameters_win_over_bad_values ... ok
+test request::tests::create_queue_checks_the_name_before_other_parameters ... ok
+test response::tests::empty_success_has_only_ok ... ok
+test response::tests::standard_send_omits_the_sequence_number ... ok
+test request::tests::send_message_checks_body_and_tokens ... ok
+test request::tests::integers_must_be_written_without_fraction_or_exponent ... ok
+test response::tests::failure_carries_code_and_message ... ok
+test types::tests::bounded_ranges_are_inclusive ... ok
+test request::tests::attributes_are_checked_by_name_type_and_range ... ok
+test request::tests::rejects_lines_that_are_not_commands ... ok
+test types::tests::ids_serialize_with_their_prefix ... ok
+test types::tests::only_canonical_issued_handles_parse ... ok
+test types::tests::queue_name_syntax ... ok
+test types::tests::timestamps_add_without_overflow ... ok
+test types::tests::tokens_and_bodies_check_length_and_alphabet ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-149399b64b2cf856)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/protocol.rs (target/debug/deps/protocol-af84cad6f972eae2)
+
+running 23 tests
+test a_final_line_without_newline_counts ... ok
+test a_dead_letter_move_does_not_count_toward_max_messages ... ok
+test every_line_gets_one_response_in_order ... ok
+test deleting_a_queue_unsets_dead_letter_configurations_naming_it ... ok
+test deduplication_outlives_the_message_and_purge_keeps_sequence_numbers ... ok
+test delayed_messages_become_visible_after_the_delay ... ok
+test create_queue_is_idempotent_only_for_equal_attributes ... ok
+test change_message_visibility_replaces_the_end_of_the_timeout ... ok
+test a_dead_lettered_fifo_message_takes_a_new_sequence_number_and_keeps_its_group ... ok
+test fifo_delivers_one_message_per_group_and_keeps_group_order ... ok
+test get_queue_attributes_reports_defaults_and_counts ... ok
+test invalid_utf8_is_an_invalid_request_and_processing_continues ... ok
+test fifo_send_rules_and_deduplication_window ... ok
+test list_queues_sorts_by_byte_value_and_filters_by_prefix ... ok
+test messages_over_the_receive_count_move_to_the_dead_letter_queue ... ok
+test set_queue_attributes_applies_the_rule_order ... ok
+test receiving_hides_the_message_until_its_visibility_timeout_ends ... ok
+test retention_removes_messages_and_cannot_be_undone_by_raising_it ... ok
+test validation_order_is_shape_required_values_lookup_rules ... ok
+test receipt_handles_are_checked_in_order_invalid_then_expired ... ok
+test queue_limit_is_one_thousand ... ok
+test the_binary_answers_each_line_and_exits_zero ... ok
+test a_queue_holds_at_most_one_hundred_thousand_messages_and_fills_quickly ... ok
+
+test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.64s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

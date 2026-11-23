@@ -1,0 +1,6 @@
+0ad18a0 Parse command names into a Command enum
+b18d34b Read required parameters without expect
+7b9357f Give message ids and receipt handles their own types
+63f6fa2 Let the queue resolve receipt handles itself
+0583a72 Pass MaxMessages to plan_receive as the u64 it is parsed as
+7a9ebd6 Add Message::new for freshly sent messages

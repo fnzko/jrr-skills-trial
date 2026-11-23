@@ -1,0 +1,6 @@
+49cace2 Add crate skeleton with error codes, virtual time and identifiers
+f0d7a46 Parse command parameters and queue attributes into typed values
+1cb3fd7 Model messages and queues with retention, dedup and receipt tracking
+e3f07fe Add the command layer and the stdin/stdout binary
+b89f9fb Test the protocol framing, check ordering and queue commands
+d221081 Test message lifecycle: delay, retention, handles, FIFO groups, dedup, DLQ

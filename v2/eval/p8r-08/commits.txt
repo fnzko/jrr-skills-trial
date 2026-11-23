@@ -1,0 +1,6 @@
+cd6483d Give Error constructors for the repeated error shapes
+c16c489 Read required parameters through typed getters
+31b62a4 Parse the command name into an enum
+144a3f3 State the invariants that dead-letter and visibility changes rely on
+58d73f2 Split SendMessage parsing and FIFO rules out of the handler
+30ede71 Give message ids, receipt handles and arrival keys their own types
