@@ -270,3 +270,31 @@ after the published guidance 0, 0, 0; three task-level skills 3, 3, 3 (always th
 a wrong one); the same plus the six narrow skills 3, 3, 3 (narrow ones never loaded); one entry skill
 3, 3, 3. The control did not repeat the P1 greenfield self-loading (4 of 6 runs on 11-20, 0 of 3 on
 11-23, same client version and opening moves). Cost USD 25.29.
+
+## 2026-11-23: P9, agent-written ast-grep queries (Niko's suggestion)
+
+Arm `astgrep`: the `audit` arm with step 1 of `rust-audit` changed to "for each checklist item,
+write ast-grep queries that find where it likely applies, run them, check each hit against the
+rule", plus a short ast-grep primer (one pattern, one verified multi-line YAML rule). Everything
+else is byte-identical to `audit`. ast-grep 0.51.3 from Homebrew. Refactor prompt, baseline
+p1-04, Sonnet 5.5, three runs. Mechanical only, no blind review.
+
+| Run | Arm | Hidden tests | Turns | Min | USD | expect /KLOC | Stringly ids /KLOC | Lint set /KLOC | Weak asserts | Newtypes | Commits |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| BASE | - | 58/58 | - | - | - | 12.27 | 19.43 | 5.11 | 20 | 0 | - |
+| p3-12 | audit | 58/58 | 15 | 1.8 | 0.34 | 2.02 | 20.24 | 3.04 | 15 | 0 | 5 |
+| p3-14 | audit | 58/58 | 13 | 1.4 | 0.29 | 1.02 | 21.41 | 5.10 | 15 | 0 | 4 |
+| p3-16 | audit | 58/58 | 14 | 1.5 | 0.31 | 2.05 | 20.51 | 5.13 | 16 | 0 | 5 |
+| p9r-01 | astgrep | 58/58 | 15 | 1.5 | 0.32 | 1.02 | 21.34 | 3.05 | 15 | 0 | 5 |
+| p9r-02 | astgrep | 58/58 | 21 | 2.0 | 0.42 | 1.02 | 21.45 | 3.06 | 15 | 0 | 5 |
+| p9r-03 | astgrep | 58/58 | 15 | 1.6 | 0.32 | 2.03 | 21.28 | 5.07 | 15 | 0 | 4 |
+
+- All three ran ast-grep once, as one loop of 9 to 11 single-node patterns (`$X.expect($$$)`,
+  `$X.unwrap()`, `$X.clone()`, `$X as $T`, `let _ = $X`, `$X.ok()`, `$X.unwrap_or_default()`,
+  `#[allow($$$)]`) plus `assert!($X.is_ok())`-style test patterns. None wrote a YAML rule, none
+  reused the primer's multi-line rule, none queried the type, simplicity or comment items.
+- Same fixes as `audit`: required-parameter getters instead of `expect("required")`, exact test
+  assertions, named limits instead of casts, lookups done once. Same cost.
+- Reading: on this crate the search tool makes no difference; what the agent writes is the same
+  set the `rg` lines already give. Untested: a fixed, verified ast-grep rule set per checklist
+  item, the same in the Stop hook, and the larger SQS crate where regex noise is higher.

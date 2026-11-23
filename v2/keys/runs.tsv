@@ -145,3 +145,6 @@ p8g-15	hk-pre2	green	claude-sonnet-5-5
 p8f-16	hk-gate2	feature	claude-sonnet-5-5
 p8g-17	hk-gate2	green	claude-sonnet-5-5
 p8r-18	hk-pre2	refactor	claude-sonnet-5-5
+p9r-01	astgrep	refactor	claude-sonnet-5-5
+p9r-02	astgrep	refactor	claude-sonnet-5-5
+p9r-03	astgrep	refactor	claude-sonnet-5-5

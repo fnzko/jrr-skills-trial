@@ -1,0 +1,5 @@
+bd482e6 Replace expect("required") with required_* getters
+5374810 Drop redundant Ok(..?) in queue_name
+58e7804 Name the shared parameter ranges and drop the usize cast
+d471bfb Assert exact values in the request unit tests
+8ab4b34 Use one expiry predicate in Queue::expire

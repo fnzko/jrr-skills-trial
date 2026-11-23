@@ -1,0 +1,5 @@
+f97becd Read required parameters without expect after require
+f1e0107 Validate the dead-letter pair once and pass it to apply
+a05553c Resolve receipt handles and queues once per command
+1cdec58 Make request unit tests assert exact results
+1ebe766 Pass MaxMessages to plan_receive as u64 instead of casting

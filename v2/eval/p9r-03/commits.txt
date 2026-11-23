@@ -1,0 +1,4 @@
+9d6224b Read required parameters with getters that fail instead of expect
+223f48c Resolve a receipt handle to its queue once
+02b0256 Assert exact results in request unit tests
+1de835e Name the visibility-timeout and delay limits
