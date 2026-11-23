@@ -7,6 +7,10 @@ All numbers in this file were read from the files under `v2/` (and `../eval/14`,
 much weight each number can carry, and the last part of section 2 lists where the files disagree with
 `STATE.md`, `PLAN.md` or `../SUMMARY.md`.
 
+Section 11 was added on 2026-11-23 and records a third round: skill descriptions, delivery through
+hooks, and token and time consumption (54 more runs, 72 probes). Where it corrects sections 1 to 10,
+section 11.10 says so.
+
 Totals: 87 headless runs in `v2/eval/` (plus the two P5 runs kept with v1),
 USD 82.53 of reported cost, 467 agent minutes, 2189 turns. Every one of
 the 87 runs builds, passes its own tests, passes all hidden acceptance scenarios and ended
