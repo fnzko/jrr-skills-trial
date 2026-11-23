@@ -1,0 +1,139 @@
+id: ks-abstraction
+language: rust
+severity: warning
+message: rust-keep-it-simple - every trait has two implementations, and no type is named for a role instead of a concept
+rule:
+  any:
+    - kind: trait_item
+    - kind: struct_item
+      has:
+        field: name
+        regex: '(Impl|Factory|Builder|Manager|Service|Helper|Util|Utils|Wrapper)$'
+    - kind: enum_item
+      has:
+        field: name
+        regex: '(Manager|Service|Helper|Util|Utils|Wrapper)$'
+---
+id: ks-suffixed-twin
+language: rust
+severity: warning
+message: rust-keep-it-simple - no function has a suffixed twin; change the existing one
+rule:
+  kind: function_item
+  has:
+    field: name
+    regex: '_(v\d+|new|ext|alt|old|legacy|impl|inner|helper|\d+)$|\D\d$'
+  not:
+    follows:
+      kind: attribute_item
+      regex: '^#\[(tokio::)?test'
+---
+id: ks-compat-shim
+language: rust
+severity: warning
+message: rust-keep-it-simple - nothing exists only for an old shape that has no users
+rule:
+  any:
+    - kind: line_comment
+      regex: '(?i)\b(legacy|retired|compat\w*|migrat\w*|deprecated|backward)\b|keep (this )?in sync'
+    - kind: attribute_item
+      regex: '^#\[deprecated'
+---
+id: ks-check-then-unwrap
+language: rust
+severity: warning
+message: rust-keep-it-simple - no value is checked and then unwrapped; bind it with if let, let-else or match
+rule:
+  any:
+    - pattern: $X.unwrap()
+    - pattern: $X.expect($$$)
+    - pattern: $M[$K]
+  inside:
+    kind: if_expression
+    stopBy: end
+    has:
+      field: condition
+      stopBy: end
+      any:
+        - pattern: $X.is_some()
+        - pattern: $X.is_ok()
+        - pattern: $X.is_err()
+        - pattern: $C.contains_key($$$)
+        - pattern: $C.len() > $N
+        - pattern: '!$C.is_empty()'
+---
+id: ks-flag-variable
+language: rust
+severity: warning
+message: rust-keep-it-simple - no flag variable feeds a second if; use any, all, find or a match
+rule:
+  pattern: let mut $F = $B;
+constraints:
+  B:
+    regex: '^(true|false)$'
+---
+id: ks-accumulator-loop
+language: rust
+severity: warning
+message: rust-keep-it-simple - push and accumulator loops are iterator adapters
+rule:
+  any:
+    - pattern: let mut $V = Vec::new();
+    - pattern: let mut $V = Vec::with_capacity($$$);
+    - pattern: let mut $V = String::new();
+    - pattern: let mut $V = 0;
+  precedes:
+    stopBy: end
+    has:
+      kind: for_expression
+      stopBy: end
+      has:
+        stopBy: end
+        any:
+          - pattern: $V.push($$$)
+          - pattern: $V.push_str($$$)
+          - pattern: $V += $$$
+---
+id: ks-index-loop
+language: rust
+severity: warning
+message: rust-keep-it-simple - iterate the collection, not its indices
+rule:
+  any:
+    - pattern: for $I in 0..$X.len() { $$$ }
+    - pattern: for $I in 0..=$X.len() - 1 { $$$ }
+---
+id: ks-leftover
+language: rust
+severity: warning
+message: rust-keep-it-simple - no dbg!, stray print, commented-out code or #[allow] remains
+rule:
+  any:
+    - pattern: dbg!($$$)
+    - pattern: eprintln!($$$)
+    - kind: attribute_item
+      regex: '^#\[allow\('
+    - kind: inner_attribute_item
+      regex: '^#!\[allow\('
+    - kind: line_comment
+      regex: '^//\s*(let|fn|pub|use|if|for|match|return|impl|struct)\b.*[;{]\s*$'
+---
+id: ks-out-parameter
+language: rust
+severity: warning
+message: rust-keep-it-simple - return the value instead of filling an output parameter
+rule:
+  kind: parameter
+  has:
+    field: type
+    regex: '^&mut\s+(Vec<|String$|bool$|Option<)'
+---
+id: ks-vague-binding
+language: rust
+severity: warning
+message: rust-keep-it-simple - shadow a converted value under its own name instead of a _str, _opt, _raw or _parsed twin
+rule:
+  kind: let_declaration
+  has:
+    field: pattern
+    regex: '^(mut\s+)?\w+_(str|opt|raw|parsed|string|val|tmp)$'

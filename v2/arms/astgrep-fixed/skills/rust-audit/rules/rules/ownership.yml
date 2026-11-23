@@ -1,0 +1,151 @@
+id: ow-clone-to-iterate
+language: rust
+severity: warning
+message: rust-ownership - no collection is cloned to iterate over it
+rule:
+  any:
+    - pattern: for $P in $X.clone() { $$$ }
+    - pattern: for $P in &$X.clone() { $$$ }
+    - pattern: $X.clone().iter()
+    - pattern: $X.clone().into_iter()
+---
+id: ow-clone-then-clear
+language: rust
+severity: warning
+message: rust-ownership - a value cloned and then cleared can be moved out with std::mem::take
+rule:
+  any:
+    - pattern: let $A = $X.clone();
+    - pattern: let mut $A = $X.clone();
+  precedes:
+    stopBy: end
+    any:
+      - pattern: $X.clear();
+      - pattern: $X = None;
+      - pattern: $X = Vec::new();
+      - pattern: $X = Default::default();
+---
+id: ow-owned-view-param
+language: rust
+severity: warning
+message: rust-ownership - parameters that are only read are borrowed views (&str, &[T], &Path, Option<&T>)
+rule:
+  kind: reference_type
+  regex: '^&(''\w+\s+)?(String|Vec<[\s\S]*>|PathBuf|Option<[\s\S]*>|Box<[\s\S]*>)$'
+  inside:
+    kind: parameter
+---
+id: ow-owned-getter
+language: rust
+severity: warning
+message: rust-ownership - getters return borrows or iterators, not fresh String or Vec
+rule:
+  kind: function_item
+  all:
+    - has:
+        field: parameters
+        regex: '^\(\s*&self\s*\)$'
+    - has:
+        field: return_type
+        regex: '^(String|Vec<)'
+---
+id: ow-alloc-to-lookup
+language: rust
+severity: warning
+message: rust-ownership - no String is allocated to compare or look up
+rule:
+  any:
+    - pattern: $M.$F(&$K.to_string())
+    - pattern: $M.$F(&$K.to_owned())
+    - pattern: $M.$F(&$K.clone())
+    - pattern: $M.$F($K.to_string())
+    - pattern: $A.to_lowercase() == $B
+    - pattern: $A.to_string() == $B
+constraints:
+  F:
+    regex: '^(get|get_mut|contains_key|contains|remove|entry)$'
+---
+id: ow-collect-to-use-once
+language: rust
+severity: warning
+message: rust-ownership - no Vec is collected only to iterate, count or test
+rule:
+  any:
+    - pattern: $X.collect::<Vec<$T>>().len()
+    - pattern: $X.collect::<Vec<$T>>().is_empty()
+    - pattern: $X.collect::<Vec<$T>>().iter()
+    - pattern: $X.collect::<Vec<$T>>().into_iter()
+---
+id: ow-scan-in-loop
+language: rust
+severity: warning
+message: rust-ownership - nothing is scanned per item that could be indexed once
+rule:
+  any:
+    - pattern: $C.iter().find($$$)
+    - pattern: $C.iter().position($$$)
+    - pattern: $C.iter().any($$$)
+    - pattern: $C.iter().filter($$$).count()
+    - pattern: $C.contains(&$X)
+  inside:
+    stopBy: end
+    any:
+      - kind: for_expression
+      - kind: while_expression
+      - kind: loop_expression
+---
+id: ow-buffer-per-iteration
+language: rust
+severity: warning
+message: rust-ownership - no buffer is created per iteration
+rule:
+  kind: let_declaration
+  has:
+    field: value
+    regex: '^(Vec|String|HashMap|HashSet|BTreeMap|VecDeque)::(new|with_capacity)\('
+  inside:
+    kind: block
+    inside:
+      any:
+        - kind: for_expression
+        - kind: while_expression
+        - kind: loop_expression
+---
+id: ow-per-call-compile
+language: rust
+severity: warning
+message: rust-ownership - nothing is parsed or compiled per call that could be done once
+rule:
+  pattern: Regex::new($$$)
+  not:
+    inside:
+      stopBy: end
+      any:
+        - kind: static_item
+        - pattern: LazyLock::new($$$)
+        - pattern: OnceLock::new()
+---
+id: ow-format-for-log
+language: rust
+severity: warning
+message: rust-ownership - nothing is formatted for a log line that may be off
+rule:
+  pattern: let $S = format!($$$);
+  precedes:
+    kind: expression_statement
+    regex: '^((tracing|log)::)?(trace|debug|info)!'
+---
+id: ow-lock-clone
+language: rust
+severity: warning
+message: rust-ownership - no whole state is cloned out of a lock, and no guard is held during slow work
+rule:
+  any:
+    - kind: call_expression
+      regex: '\.(lock|read|write)\(\)(\.unwrap\(\)|\.expect\([^)]*\)|\.await|\?)?\.clone\(\)$'
+    - kind: let_declaration
+      has:
+        field: value
+        regex: '\.(lock|read|write)\(\)(\.unwrap\(\)|\.expect\([^)]*\)|\.await|\?)?$'
+      not:
+        regex: 'std(in|out|err)\(\)\.lock'

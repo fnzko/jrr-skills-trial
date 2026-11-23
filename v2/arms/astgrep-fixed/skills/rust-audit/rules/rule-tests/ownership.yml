@@ -1,0 +1,79 @@
+id: ow-clone-to-iterate
+valid:
+  - "fn f(&self) { for q in &self.queues { g(q); } }"
+invalid:
+  - "fn f(&self) { for q in self.queues.clone() { g(q); } }"
+---
+id: ow-clone-then-clear
+valid:
+  - "fn f(&mut self) { let pending = std::mem::take(&mut self.pending); }"
+invalid:
+  - |
+    fn f(&mut self) {
+        let pending = self.pending.clone();
+        self.log(1);
+        self.pending.clear();
+    }
+---
+id: ow-owned-view-param
+valid:
+  - "fn f(name: &str, items: &[u32]) {}"
+invalid:
+  - "fn f(name: &String) {}"
+  - "fn f(items: &Vec<u32>) {}"
+---
+id: ow-owned-getter
+valid:
+  - "impl Q { fn name(&self) -> &str { &self.name } }"
+invalid:
+  - "impl Q { fn name(&self) -> String { self.name.clone() } }"
+---
+id: ow-alloc-to-lookup
+valid:
+  - "fn f(m: &HashMap<String, u32>, k: &str) -> Option<&u32> { m.get(k) }"
+invalid:
+  - "fn f(m: &HashMap<String, u32>, k: &str) -> Option<&u32> { m.get(&k.to_string()) }"
+  - "fn f(a: &str) -> bool { a.to_lowercase() == \"fifo\" }"
+---
+id: ow-collect-to-use-once
+valid:
+  - "fn f(v: &[u32]) -> usize { v.iter().filter(|x| **x > 1).count() }"
+invalid:
+  - "fn f(v: &[u32]) -> usize { v.iter().filter(|x| **x > 1).collect::<Vec<_>>().len() }"
+---
+id: ow-scan-in-loop
+valid:
+  - "fn f(v: &[u32], set: &HashSet<u32>) { for x in v { if set.get(x).is_some() {} } }"
+invalid:
+  - "fn f(v: &[u32], w: &[u32]) { for x in v { if w.iter().any(|y| y == x) {} } }"
+  - "fn f(v: &[u32], w: &Vec<u32>) { for x in v { if w.contains(&x) {} } }"
+---
+id: ow-buffer-per-iteration
+valid:
+  - "fn f(v: &[u32]) { let mut buf = Vec::new(); for x in v { buf.clear(); buf.push(*x); } }"
+invalid:
+  - "fn f(v: &[u32]) { for x in v { let mut buf = Vec::new(); buf.push(*x); } }"
+---
+id: ow-per-call-compile
+valid:
+  - "static RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(\"a+\").unwrap());"
+invalid:
+  - "fn f(s: &str) -> bool { Regex::new(\"a+\").unwrap().is_match(s) }"
+---
+id: ow-format-for-log
+valid:
+  - "fn f(q: &Q) { tracing::debug!(queue = %q.name, \"created\"); }"
+invalid:
+  - |
+    fn f(q: &Q) {
+        let line = format!("created {}", q.name);
+        tracing::debug!("{line}");
+    }
+---
+id: ow-lock-clone
+valid:
+  - "fn f(s: &Mutex<S>) -> usize { s.lock().unwrap().len() }"
+  - "fn main() { let mut input = io::stdin().lock(); }"
+invalid:
+  - "fn f(s: &Mutex<S>) -> S { s.lock().unwrap().clone() }"
+  - "fn f(s: &Mutex<S>) { let guard = s.lock().unwrap(); slow(&guard); }"

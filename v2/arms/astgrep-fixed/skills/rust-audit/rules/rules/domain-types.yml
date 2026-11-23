@@ -1,0 +1,100 @@
+id: dt-string-compare
+language: rust
+severity: warning
+message: rust-domain-types - known values are compared as enum variants, not as strings
+rule:
+  any:
+    - pattern: match $X.as_str() { $$$ }
+    - pattern: $A == $S
+    - pattern: $A != $S
+constraints:
+  S:
+    kind: string_literal
+---
+id: dt-string-match-arm
+language: rust
+severity: warning
+message: rust-domain-types - a match on string literals is a parse into an enum
+rule:
+  kind: match_arm
+  has:
+    field: pattern
+    regex: '^"[^"]*"(\s*\|\s*"[^"]*")*$'
+---
+id: dt-stringly-field
+language: rust
+severity: warning
+message: rust-domain-types - identifiers of different kinds are not the same primitive; give this one its own type
+rule:
+  any:
+    - kind: field_declaration
+      all:
+        - has:
+            field: name
+            regex: '(^|_)(id|ids|name|key|url|email|code|handle)$'
+        - has:
+            field: type
+            regex: '^(Option<|Vec<)?(String|&(''\w+ )?str)>?$'
+    - kind: parameter
+      all:
+        - has:
+            field: pattern
+            regex: '(^|_)(id|ids|name|key|url|email|code|handle)$'
+        - has:
+            field: type
+            regex: '^(Option<|Vec<)?(String|&(''\w+ )?str)>?$'
+---
+id: dt-string-keyed-map
+language: rust
+severity: warning
+message: rust-domain-types - map keys are typed, and data with a known shape is a struct
+rule:
+  kind: generic_type
+  regex: '^(std::collections::)?(Hash|BTree)Map<\s*(String|&(''\w+ )?str)\s*,'
+---
+id: dt-option-bool
+language: rust
+severity: warning
+message: rust-domain-types - Option and bool fields that change together are one enum
+rule:
+  kind: generic_type
+  regex: '^Option<\s*bool\s*>$'
+---
+id: dt-sentinel
+language: rust
+severity: warning
+message: rust-domain-types - "not set" is Option, not -1, 0 or ""
+rule:
+  any:
+    - pattern: $X.unwrap_or(-1)
+    - pattern: $X.unwrap_or("")
+    - pattern: $X.unwrap_or(String::new())
+---
+id: dt-unit-in-name
+language: rust
+severity: warning
+message: rust-domain-types - no field keeps its unit or format only in its name; use Duration, SystemTime, PathBuf
+rule:
+  kind: field_declaration
+  all:
+    - has:
+        field: name
+        regex: '_(ms|millis|secs|seconds|at|path|dir)$'
+    - has:
+        field: type
+        regex: '^(Option<)?(u\d+|i\d+|usize|isize|f64|String|&(''\w+ )?str)>?$'
+---
+id: dt-untyped-json
+language: rust
+severity: warning
+message: rust-domain-types - data with a known shape is a struct, not serde_json::Value
+rule:
+  any:
+    - kind: scoped_type_identifier
+      regex: '^serde_json::Value$'
+    - kind: scoped_identifier
+      regex: '^serde_json::Value$'
+  not:
+    inside:
+      stopBy: end
+      kind: use_declaration

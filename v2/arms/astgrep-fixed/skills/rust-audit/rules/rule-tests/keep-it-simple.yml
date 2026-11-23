@@ -1,0 +1,90 @@
+id: ks-abstraction
+valid:
+  - "struct Queue { name: String }"
+invalid:
+  - "trait Store { fn get(&self) -> u32; }"
+  - "struct QueueManager { queues: Vec<Queue> }"
+---
+id: ks-suffixed-twin
+valid:
+  - "fn receive(q: &Q) {}"
+  - "#[test]\nfn queue_limit_is_1000() {}"
+invalid:
+  - "fn receive_v2(q: &Q) {}"
+  - "fn receive_inner(q: &Q) {}"
+  - "fn parse2(s: &str) {}"
+---
+id: ks-compat-shim
+valid:
+  - "// Receipt handles are opaque to clients.\nfn f() {}"
+invalid:
+  - "// Kept for legacy callers.\nfn f() {}"
+  - "// keep in sync with broker.rs\nconst N: u32 = 1;"
+---
+id: ks-check-then-unwrap
+valid:
+  - "fn f(x: Option<u32>) -> u32 { if let Some(v) = x { v } else { 0 } }"
+invalid:
+  - |
+    fn f(x: Option<u32>) -> u32 {
+        if x.is_some() {
+            let v = x.unwrap();
+            return v;
+        }
+        0
+    }
+  - "fn f(m: &HashMap<K, V>, k: &K) -> V { if m.contains_key(k) { m[k] } else { V::default() } }"
+  - "fn f(v: &Vec<u32>) -> u32 { if !v.is_empty() { v[0] } else { 0 } }"
+---
+id: ks-flag-variable
+valid:
+  - "fn f(v: &[u32]) -> bool { v.iter().any(|x| *x > 1) }"
+invalid:
+  - "fn f(v: &[u32]) -> bool { let mut found = false; for x in v { if *x > 1 { found = true; } } found }"
+---
+id: ks-accumulator-loop
+valid:
+  - "fn f(v: &[u32]) -> Vec<u32> { v.iter().map(|x| x * 2).collect() }"
+invalid:
+  - |
+    fn f(v: &[u32]) -> Vec<u32> {
+        let mut out = Vec::new();
+        for x in v {
+            out.push(x * 2);
+        }
+        out
+    }
+  - |
+    fn f(v: &[u32]) -> u32 {
+        let mut total = 0;
+        for x in v {
+            total += x;
+        }
+        total
+    }
+---
+id: ks-index-loop
+valid:
+  - "fn f(v: &[u32]) { for x in v { g(x); } }"
+invalid:
+  - "fn f(v: &[u32]) { for i in 0..v.len() { g(v[i]); } }"
+---
+id: ks-leftover
+valid:
+  - "fn f(x: u32) -> u32 { x + 1 }"
+invalid:
+  - "fn f(x: u32) -> u32 { dbg!(x) }"
+  - "#[allow(dead_code)]\nfn f() {}"
+  - "fn f() {\n    // let x = g();\n}"
+---
+id: ks-out-parameter
+valid:
+  - "fn f(v: &[u32]) -> Vec<u32> { v.to_vec() }"
+invalid:
+  - "fn f(v: &[u32], out: &mut Vec<u32>) {}"
+---
+id: ks-vague-binding
+valid:
+  - "fn f(timeout: &str) { let timeout: u64 = timeout.parse().unwrap(); }"
+invalid:
+  - "fn f(timeout: &str) { let timeout_parsed: u64 = timeout.parse().unwrap(); }"

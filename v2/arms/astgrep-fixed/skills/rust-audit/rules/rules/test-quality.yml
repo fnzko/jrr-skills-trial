@@ -1,0 +1,112 @@
+id: tq-weak-assert
+language: rust
+severity: warning
+message: rust-test-quality - every test asserts a value, a count or an error variant, not only is_ok(), emptiness or a substring
+rule:
+  kind: macro_invocation
+  regex: '^(assert|debug_assert)!\(\s*!?[\s\S]*\.(is_(ok|err|some|none|empty)\(\)|contains\([\s\S]*\)|len\(\)\s*(>|>=|!=)\s*[01])\s*(,[\s\S]*)?\)$'
+---
+id: tq-assert-behind-condition
+language: rust
+severity: warning
+message: rust-test-quality - no assertion sits behind if let or a loop that may not run
+rule:
+  kind: macro_invocation
+  regex: '^assert(_eq|_ne|_matches)?!'
+  inside:
+    stopBy:
+      kind: function_item
+    any:
+      - kind: if_expression
+        has:
+          field: condition
+          kind: let_condition
+      - kind: for_expression
+        not:
+          has:
+            field: value
+            kind: array_expression
+      - kind: while_expression
+---
+id: tq-defaulted-in-test
+language: rust
+severity: warning
+message: rust-test-quality - a test does not default a value it should assert on
+rule:
+  any:
+    - pattern: $X.unwrap_or($$$)
+    - pattern: $X.unwrap_or_default()
+    - pattern: $X.unwrap_or_else($$$)
+    - kind: macro_invocation
+      regex: '^assert[\s\S]*\.unwrap_or(_default|_else)?\('
+  inside:
+    stopBy: end
+    kind: function_item
+    follows:
+      kind: attribute_item
+      regex: '^#\[(tokio::)?test'
+---
+id: tq-nondeterminism
+language: rust
+severity: warning
+message: rust-test-quality - no fixed sleep, port, environment change, wall clock or random value decides a result
+rule:
+  any:
+    - pattern: sleep($$$)
+    - pattern: thread::sleep($$$)
+    - pattern: std::thread::sleep($$$)
+    - pattern: tokio::time::sleep($$$)
+    - pattern: env::set_var($$$)
+    - pattern: std::env::set_var($$$)
+    - pattern: env::remove_var($$$)
+    - pattern: SystemTime::now()
+    - pattern: Instant::now()
+    - pattern: thread_rng()
+    - pattern: rand::random()
+    - pattern: Uuid::new_v4()
+    - kind: string_literal
+      regex: '(127\.0\.0\.1|localhost):[1-9][0-9]{1,4}'
+  inside:
+    stopBy: end
+    kind: function_item
+    follows:
+      kind: attribute_item
+      regex: '^#\[(tokio::)?test'
+---
+id: tq-test-only-branch
+language: rust
+severity: warning
+message: rust-test-quality - production code has no test-only branch
+rule:
+  any:
+    - pattern: cfg!(test)
+    - kind: attribute_item
+      regex: '^#\[cfg\(test\)\]$'
+      not:
+        precedes:
+          kind: mod_item
+    - kind: identifier
+      regex: '^(is_test|IS_TEST|TEST_MODE|test_mode)$'
+---
+id: tq-vague-test-name
+language: rust
+severity: warning
+message: rust-test-quality - test names describe the scenario
+rule:
+  kind: function_item
+  has:
+    field: name
+    regex: '^test_?\d*$|(_works|_success|_basic|_happy_path|_ok|_\d+)$'
+  follows:
+    kind: attribute_item
+    regex: '^#\[(tokio::)?test'
+---
+id: tq-empty-expect-message
+language: rust
+severity: warning
+message: rust-test-quality - an expect message in a test adds what failed, not "should work"
+rule:
+  pattern: $X.expect($MSG)
+constraints:
+  MSG:
+    regex: '(?i)should (succeed|work|pass)|^"(ok|works?)"$'

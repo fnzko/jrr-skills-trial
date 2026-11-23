@@ -1,0 +1,76 @@
+id: ed-silent-default
+valid:
+  - "fn f(x: Option<u32>) -> Result<u32, E> { x.ok_or(E::Missing) }"
+invalid:
+  - "fn f(x: Option<u32>) -> u32 { x.unwrap_or_default() }"
+  - "fn f(s: &str) -> u32 { s.parse().ok().unwrap_or(5) }"
+  - "fn f(v: Vec<Result<u32, E>>) -> Vec<u32> { v.into_iter().filter_map(|r| r.ok()).collect() }"
+---
+id: ed-err-arm-default
+valid:
+  - "fn f(r: Result<u32, E>) -> Result<u32, E> { match r { Ok(v) => Ok(v), Err(e) => Err(e) } }"
+invalid:
+  - "fn f(r: Result<u32, E>) -> Option<u32> { match r { Ok(v) => Some(v), Err(_) => None } }"
+  - "fn f(r: Result<Vec<u32>, E>) -> Vec<u32> { match r { Ok(v) => v, Err(_e) => Vec::new() } }"
+---
+id: ed-dropped-result
+valid:
+  - "fn f() -> Result<(), E> { write()?; Ok(()) }"
+invalid:
+  - "fn f() { let _ = write(); }"
+  - "fn f() { write().ok(); }"
+---
+id: ed-panic-in-production
+valid:
+  - |
+    #[cfg(test)]
+    mod tests {
+        fn t() { f().unwrap(); }
+    }
+invalid:
+  - "fn f(x: Option<u32>) -> u32 { x.unwrap() }"
+  - "fn f(p: &Params) -> String { p.get(\"QueueName\").expect(\"required\") }"
+---
+id: ed-vague-expect
+valid:
+  - "fn f(m: &M) -> &V { m.get(&k).expect(\"plan_receive only returns keys present in messages\") }"
+invalid:
+  - "fn f(p: &P) -> String { p.get(\"QueueName\").expect(\"required\") }"
+  - "fn f() -> F { open().expect(\"failed to open the file in the expected place\") }"
+---
+id: ed-stub-or-unwind
+valid:
+  - "fn f(k: Kind) -> u32 { match k { Kind::A => 1, Kind::B => 2 } }"
+invalid:
+  - "fn f() -> u32 { todo!() }"
+  - "fn f() { unreachable!() }"
+  - "fn f() { let r = std::panic::catch_unwind(|| g()); }"
+---
+id: ed-log-and-return
+valid:
+  - "fn f() -> Result<(), E> { if bad { return Err(E::Bad); } Ok(()) }"
+invalid:
+  - |
+    fn f() -> Result<(), E> {
+        if bad {
+            tracing::error!("bad input");
+            return Err(E::Bad);
+        }
+        Ok(())
+    }
+---
+id: ed-untyped-error
+valid:
+  - "fn f() -> Result<u32, ParseError> { todo() }"
+invalid:
+  - "fn f() -> Result<u32, String> { todo() }"
+  - "fn f() -> Result<(), Box<dyn std::error::Error>> { todo() }"
+  - "fn f() -> Result<u32, String> { g().map_err(|e| e.to_string()) }"
+  - "pub fn f() -> anyhow::Result<u32> { todo() }"
+---
+id: ed-impossible-state
+valid:
+  - "// The queue is created before any message can name it.\nfn f() {}"
+invalid:
+  - "fn f() {\n    // should never happen\n    g();\n}"
+  - "fn f(x: bool) { if x { g() } else { unreachable!() } }"

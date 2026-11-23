@@ -1,0 +1,61 @@
+id: cm-narrating
+language: rust
+severity: warning
+message: rust-comments - a comment states a reason, an invariant or a contract, not what the next line does; no banners or step numbers
+rule:
+  kind: line_comment
+  regex: '^//\s*(Step \d|Create|Initialize|Set|Get|Loop|Iterate|Check|Return|Call|Handle|Parse|Convert|Now|First|Then|Finally|Update|Add|Remove)\b|^//\s*[=\-#*]{4,}'
+---
+id: cm-history
+language: rust
+severity: warning
+message: rust-comments - no comment mentions what the code used to do, the review or the plan
+rule:
+  any:
+    - kind: line_comment
+    - kind: block_comment
+  regex: '(?i)\b(previously|no longer|used to|now uses|we now|as requested|per (the )?review|as discussed|best practices?|phase \d|refactor(ed)?)\b'
+---
+id: cm-shouting-or-non-ascii
+language: rust
+severity: warning
+message: rust-comments - comments and docs are plain ASCII, with no capitals for emphasis
+rule:
+  all:
+    - any:
+        - kind: line_comment
+        - kind: block_comment
+    - any:
+        - regex: '[^\x00-\x7F]'
+        - all:
+            - regex: '\b[A-Z]{4,}\b'
+            - not:
+                regex: '\b(TODO|FIXME|SAFETY|NOTE|SPEC|README|CHANGELOG|JSON|HTTP|HTTPS|UTF|ASCII|FIFO|LIFO|UUID|SQS)\b'
+---
+id: cm-doc-restates-name
+language: rust
+severity: warning
+message: rust-comments - a doc says what the signature cannot; this one only rephrases the name
+rule:
+  kind: line_comment
+  regex: '^///\s*(Gets?|Returns?|Sets?|Creates?|Constructs?|Builds?) (the |a |an |new )?\w+\.?\s*$'
+---
+id: cm-todo-or-stub
+language: rust
+severity: warning
+message: rust-comments - every TODO names an action and an issue, and nothing is stubbed
+rule:
+  any:
+    - kind: line_comment
+      all:
+        - regex: '(?i)\b(TODO|FIXME|XXX|HACK)\b|\bfor now\b|placeholder|not yet implemented'
+        - not:
+            regex: '(TODO|FIXME)\(#\d+\)'
+---
+id: cm-weak-safety
+language: rust
+severity: warning
+message: rust-comments - every SAFETY comment names the check that makes the block sound
+rule:
+  kind: line_comment
+  regex: 'SAFETY:.*(is valid|caller guarantees|always|never null|this is safe)'

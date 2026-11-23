@@ -1,0 +1,55 @@
+id: dt-string-compare
+valid:
+  - "fn f(k: Kind) -> bool { k == Kind::Fifo }"
+invalid:
+  - "fn f(k: &str) -> bool { k == \"fifo\" }"
+  - "fn f(k: String) { match k.as_str() { \"a\" => {}, _ => {} } }"
+---
+id: dt-string-match-arm
+valid:
+  - "fn f(k: Kind) { match k { Kind::A => {}, _ => {} } }"
+invalid:
+  - "fn f(k: &str) { match k { \"a\" | \"b\" => {}, _ => {} } }"
+---
+id: dt-stringly-field
+valid:
+  - "struct Q { name: QueueName, count: usize }"
+invalid:
+  - "struct Q { queue_name: String }"
+  - "struct M { receipt_handle: Option<String> }"
+  - "struct R<'a> { id: &'a str }"
+  - "fn f(queue_name: &str) {}"
+---
+id: dt-string-keyed-map
+valid:
+  - "struct S { queues: HashMap<QueueName, Queue> }"
+invalid:
+  - "struct S { queues: HashMap<String, Queue> }"
+  - "fn f(m: &BTreeMap<String, String>) {}"
+---
+id: dt-option-bool
+valid:
+  - "struct S { fifo: bool }"
+invalid:
+  - "struct S { fifo: Option<bool> }"
+---
+id: dt-sentinel
+valid:
+  - "fn f(x: Option<i64>) -> Option<i64> { x }"
+invalid:
+  - "fn f(x: Option<i64>) -> i64 { x.unwrap_or(-1) }"
+  - "fn f(x: Option<String>) -> String { x.unwrap_or(String::new()) }"
+---
+id: dt-unit-in-name
+valid:
+  - "struct S { timeout: Duration }"
+invalid:
+  - "struct S { timeout_ms: u64 }"
+  - "struct S { created_at: Option<u64> }"
+---
+id: dt-untyped-json
+valid:
+  - "struct S { body: Body }"
+  - "use serde_json::Value;"
+invalid:
+  - "struct S { body: serde_json::Value }"

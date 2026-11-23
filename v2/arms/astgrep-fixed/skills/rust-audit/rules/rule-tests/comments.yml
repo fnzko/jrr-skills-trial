@@ -1,0 +1,39 @@
+id: cm-narrating
+valid:
+  - "fn f() {\n    // Visibility restarts from the receive, not from the send.\n    g();\n}"
+invalid:
+  - "fn f() {\n    // Create the queue\n    g();\n}"
+  - "// ==========\nfn f() {}"
+---
+id: cm-history
+valid:
+  - "// Handles are opaque.\nfn f() {}"
+invalid:
+  - "// This no longer uses the old parser.\nfn f() {}"
+---
+id: cm-shouting-or-non-ascii
+valid:
+  - "// TODO(#12): split the FIFO queue path.\nfn f() {}"
+  - "/// Checks the request shape (SPEC section 2).\nfn f() {}"
+invalid:
+  - "// NEVER call this twice.\nfn f() {}"
+  - "// returns the count — or zero\nfn f() {}"
+---
+id: cm-doc-restates-name
+valid:
+  - "/// Returns the messages whose visibility timeout has expired, oldest first.\nfn expired() {}"
+invalid:
+  - "/// Returns the name.\nfn name() {}"
+---
+id: cm-todo-or-stub
+valid:
+  - "// TODO(#42): page the results once the spec adds NextToken.\nfn f() {}"
+invalid:
+  - "// TODO: fix this\nfn f() {}"
+  - "// placeholder value for now\nconst N: u32 = 1;"
+---
+id: cm-weak-safety
+valid:
+  - "fn f(p: *const u8) -> u8 {\n    // SAFETY: the caller checked p is non-null and aligned in new().\n    unsafe { *p }\n}"
+invalid:
+  - "fn f(p: *const u8) -> u8 {\n    // SAFETY: pointer is valid\n    unsafe { *p }\n}"

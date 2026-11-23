@@ -1,0 +1,48 @@
+id: tq-weak-assert
+valid:
+  - "#[test]\nfn t() { assert_eq!(parse(\"a\"), Ok(Kind::A)); }"
+invalid:
+  - "#[test]\nfn t() { assert!(parse(\"a\").is_ok()); }"
+  - "#[test]\nfn t() {\n    assert!(\n        out.contains(\"QueueUrl\"),\n        \"missing url\"\n    );\n}"
+  - "#[test]\nfn t() { assert!(items.len() > 0); }"
+---
+id: tq-assert-behind-condition
+valid:
+  - "#[test]\nfn t() { let v = f().unwrap(); assert_eq!(v, 1); }"
+  - "#[test]\nfn t() { for bad in [0, 13] { assert_eq!(check(bad), Err(E::Range)); } }"
+invalid:
+  - "#[test]\nfn t() { if let Ok(v) = f() { assert_eq!(v, 1); } }"
+  - "#[test]\nfn t() { for m in received() { assert!(m.visible); } }"
+---
+id: tq-defaulted-in-test
+valid:
+  - "fn prod(x: Option<u32>) -> u32 { x.unwrap_or(1) }"
+invalid:
+  - "#[test]\nfn t() { assert_eq!(f().unwrap_or(0), 3); }"
+---
+id: tq-nondeterminism
+valid:
+  - "fn prod() -> Instant { Instant::now() }"
+invalid:
+  - "#[test]\nfn t() { std::thread::sleep(Duration::from_millis(50)); }"
+  - "#[test]\nfn t() { connect(\"127.0.0.1:8080\"); }"
+---
+id: tq-test-only-branch
+valid:
+  - "#[cfg(test)]\nmod tests {}"
+invalid:
+  - "fn f() { if cfg!(test) { g() } }"
+  - "#[cfg(test)]\nimpl Queue { fn peek(&self) {} }"
+---
+id: tq-vague-test-name
+valid:
+  - "#[test]\nfn receive_hides_message_until_timeout() {}"
+invalid:
+  - "#[test]\nfn receive_works() {}"
+  - "#[test]\nfn test_1() {}"
+---
+id: tq-empty-expect-message
+valid:
+  - "#[test]\nfn t() { create(\"q\").expect(\"create on an empty broker\"); }"
+invalid:
+  - "#[test]\nfn t() { create(\"q\").expect(\"create should succeed\"); }"

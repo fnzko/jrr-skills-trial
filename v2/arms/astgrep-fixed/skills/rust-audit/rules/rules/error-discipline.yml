@@ -1,0 +1,119 @@
+id: ed-silent-default
+language: rust
+severity: warning
+message: rust-error-discipline - no failure becomes a default, an empty collection or None unless the spec defines that value
+rule:
+  any:
+    - pattern: $X.unwrap_or_default()
+    - pattern: $X.unwrap_or(0)
+    - pattern: $X.unwrap_or(false)
+    - pattern: $X.ok().unwrap_or($$$)
+    - pattern: $X.ok().unwrap_or_else($$$)
+    - pattern: $X.filter_map(Result::ok)
+    - pattern: $X.filter_map(|$A| $A.ok())
+---
+id: ed-err-arm-default
+language: rust
+severity: warning
+message: rust-error-discipline - an Err arm that returns a default hides the failure
+rule:
+  kind: match_arm
+  all:
+    - has:
+        field: pattern
+        regex: '^Err\(\s*_\w*\s*\)$'
+    - has:
+        field: value
+        regex: '^(None|Vec::new\(\)|Default::default\(\)|String::new\(\)|0|false|\{\s*\}|\(\))$'
+---
+id: ed-dropped-result
+language: rust
+severity: warning
+message: rust-error-discipline - no Result is dropped with let _ = or .ok(); except commented best-effort calls
+rule:
+  any:
+    - pattern: let _ = $X;
+    - kind: expression_statement
+      regex: '\.ok\(\)\s*;$'
+---
+id: ed-panic-in-production
+language: rust
+severity: warning
+message: rust-error-discipline - nothing that input can trigger panics; an expect that stays names the invariant
+rule:
+  any:
+    - pattern: $X.unwrap()
+    - pattern: $X.expect($$$)
+  not:
+    inside:
+      stopBy: end
+      kind: mod_item
+      has:
+        field: name
+        regex: '^tests?$'
+---
+id: ed-vague-expect
+language: rust
+severity: warning
+message: rust-error-discipline - every expect names the invariant that makes it hold
+rule:
+  pattern: $X.expect($MSG)
+constraints:
+  MSG:
+    regex: '^"([^"]{0,20}|(?i)(failed|error|unable)[^"]*)"$'
+---
+id: ed-stub-or-unwind
+language: rust
+severity: warning
+message: rust-error-discipline - no todo!(), unimplemented!() or bare unreachable!(); catch_unwind only at a thread, task or FFI boundary
+rule:
+  any:
+    - pattern: todo!($$$)
+    - pattern: unimplemented!($$$)
+    - pattern: unreachable!()
+    - pattern: catch_unwind($$$)
+    - pattern: std::panic::catch_unwind($$$)
+---
+id: ed-log-and-return
+language: rust
+severity: warning
+message: rust-error-discipline - an error is logged or returned, not both
+rule:
+  kind: expression_statement
+  has:
+    kind: macro_invocation
+    regex: '^((tracing|log)::)?(error|warn)!'
+  precedes:
+    any:
+      - regex: '^return Err'
+      - kind: expression_statement
+        regex: '^return Err'
+---
+id: ed-untyped-error
+language: rust
+severity: warning
+message: rust-error-discipline - no error type is String, &'static str or (); errors keep their cause
+rule:
+  any:
+    - kind: generic_type
+      regex: '^Result<[\s\S]*,\s*(String|&''static\s+str|\(\))\s*>$'
+    - kind: generic_type
+      regex: '^Box<\s*dyn\s+(std::error::)?Error'
+    - pattern: $X.map_err(|$E| $E.to_string())
+    - kind: function_item
+      all:
+        - regex: '^pub(\([^)]*\))?\s'
+        - has:
+            field: return_type
+            regex: '^anyhow::Result'
+---
+id: ed-impossible-state
+language: rust
+severity: warning
+message: rust-error-discipline - no Option, Result or branch exists for a state that cannot occur
+rule:
+  any:
+    - kind: line_comment
+      regex: '(?i)should (not|never) happen|just in case|cannot happen|can''t happen'
+    - kind: else_clause
+      regex: '^else\s*\{\s*unreachable!'
