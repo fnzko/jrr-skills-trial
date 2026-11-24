@@ -1,0 +1,7 @@
+72520b2 Add crate skeleton with typed errors and validated value types
+8f165d5 Add the per-queue message store
+2dbe9f3 Add queue attributes, FIFO state and send/receive rules
+5552679 Parse command lines into typed requests
+f52b869 Add the broker and the line-oriented binary
+8dd248a Add protocol and binary tests
+0c196b5 Remove input-range expects and weak assertions

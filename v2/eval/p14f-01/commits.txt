@@ -1,0 +1,5 @@
+1ffc2f0 Add MaxMessageBytes queue attribute and per-queue body limit
+f50ec87 Add TagQueue, UntagQueue and ListQueueTags
+3645c7b Split SendMessage and DeleteMessage after the QueueName step
+57b88b5 Add SendMessageBatch and DeleteMessageBatch
+47afcc9 Type tag keys and values and drop expects on required parameters

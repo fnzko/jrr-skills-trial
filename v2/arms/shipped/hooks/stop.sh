@@ -27,8 +27,8 @@ findings=$(
 [ -n "$findings" ] || exit 0
 echo report >> "$state.reports"
 {
-  printf '%s\n' "just-right-rust check: these Rust lines the session added may break the rules."
+  printf '%s\n' "just-right-rust check: findings in the Rust lines this session added."
   printf '%s\n' "$findings"
-  printf '%s\n' "Fix each one in the lines you added, changing existing code just enough where that is what it takes. That the existing code does the same is not a reason to keep one. Keep a finding only when the exception named with it applies to that line, and say why in one line. Then finish."
+  printf '%s\n' "Fix each one in the lines you added, changing existing code just enough where that is what it takes. That the existing code does the same is not a reason to keep one. Keep a finding only when the rule does not apply to that line, and say why in one line. Then finish."
 } >&2
 exit 2

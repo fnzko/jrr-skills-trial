@@ -1,0 +1,5 @@
+1621d52 Parse the command name into an enum at the request boundary
+bd77d98 Name the attribute ranges that are checked in two places
+43541a4 State the invariant behind each expect and stop swallowing impossible states
+97dfebc Give message ids, receipt handles and arrival keys their own types
+0f7cc95 Build MissingParameter errors in one place

@@ -1,0 +1,6 @@
+e66021b Add crate skeleton with error codes and domain types
+48a3c57 Add reply types, parameter access and attribute parsing
+f8641c6 Add the queue with message states, retention, deduplication and delivery
+74a9bde Add request parsing, the broker and the stdin/stdout loop
+f26448b Add protocol and binary tests; pass MaxMessages as an integer to the queue
+f74b91f Require Attributes in SetQueueAttributes instead of defaulting it

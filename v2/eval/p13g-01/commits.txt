@@ -1,0 +1,6 @@
+ff55196 Add error codes and validated value types
+d750185 Parse command lines into validated requests
+978c652 Add the queue: messages, retention, deduplication and delivery
+ca5df6c Add the broker, response encoding and the miniq binary
+4be6e8a Test the protocol end to end
+1322709 Assert exact values in the validation unit tests

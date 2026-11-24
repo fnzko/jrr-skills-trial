@@ -1,0 +1,5 @@
+fe4d0f1 Add MaxMessageBytes queue attribute and the send size rule
+506e681 Add queue tags: TagQueue, UntagQueue and ListQueueTags
+8c29f78 Add SendMessageBatch and DeleteMessageBatch
+3758479 Name the invariant on new expects and tighten tag assertions
+2a7c7eb Read required parameters in new commands without expect

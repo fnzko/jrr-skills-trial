@@ -1,0 +1,7 @@
+3db2022 Add crate skeleton with error codes and domain types
+f97d162 Parse request lines into typed commands
+278236b Add queue storage with indexed message states
+6d63746 Execute commands and serve the line protocol
+5eec0de Format sources and rename Queue::len to message_count
+bfcb38d Test the protocol end to end
+c79d2c8 Build the missing-parameter error in one place

@@ -1,0 +1,6 @@
+0281d28 Assert values in request unit tests
+36bae1a Build MissingParameter errors in one place
+1fb0a3e Parse the command name into an enum
+10e6a71 Give message ids, receipt handles and arrival positions their own types
+456d639 Extract FIFO parameter checks from send_message
+c843736 Collapse nested if-let in the duplicate-send check

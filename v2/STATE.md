@@ -425,3 +425,43 @@ BASE. Sum of 12; BASE = types 2, errors 3, tests 3.
   the detector on errors is not confirmed by the blind review.
 - Anchor drift against the P7 set: 27 repeated scores, all within one point; sums move by up to 2.
 - Three runs per arm, one reviewer per dimension.
+
+## 2026-11-24: P12 to P14, the files of the pull request branch
+
+Branch `rust-rules-and-hooks` of `just-right-rust` (on top of the open manifest pull request): the
+six guides, an entry skill `rust-rules` (the 68-line checklist, a section on how far the rules reach
+on existing code, a pointer to the guides) and two Symposium script hooks (`hooks/session-start.sh`
+prints the skill body and records the working tree; `hooks/stop.sh` + `added-lines.awk` search the
+added Rust lines with regular expressions and exit 2 with the findings). No clippy: Symposium gives a
+plugin hook 5 seconds. Checked with Symposium 0.7.0 (`plugin validate`, `hook claude session-start`,
+`hook claude stop`) and with `hooks/test.sh` (20 cases, `sh` and `dash`).
+
+Arm `shipped` = the branch's `skills/` and `hooks/` wrapped as a Claude Code plugin (`hooks.json`
+calls the same scripts; the session-start output is unwrapped from Symposium's JSON by a one-line
+adapter). Sonnet 5.5, three runs per task and round. All 27 runs pass the hidden tests and load
+`rust-rules` at the first tool call.
+
+| Round | What changed | Greenfield | Refactor: `expect` /KLOC (BASE 12.3), weak asserts (BASE 20) | Feature: new `expect`, existing lines removed |
+|---|---|---|---|---|
+| P12 | first version: scope note unconditional ("no migration of existing code"), stop check reports by pages | 7-10 newtypes, 0 weak asserts | 11.6, 11.7, 11.8; 20, 20, 20 | 0, 0, 0; 2, 10, 5 |
+| P13 | after the Codex review: scope note depends on the request, state under the user's state directory, working-tree baseline, one report per finding and three per session, test scopes, each label names its exception | 7-10 newtypes, 0 weak asserts | 2.6, 1.0, 2.8; 15, 15, 15 | 11, 9, 6; 101, 6, 5 |
+| P14 | panic label without its exception, header and closing line as in P12 | 8-11 newtypes, 0, 0, 5 weak asserts | 13.0, 0.9, 11.4; 20, 15, 15 | 0, 0, 0; 12, 5, 13 |
+
+Cost of P14 against `none`: greenfield 26 turns, 9.8 min, USD 1.50 (1.60x); refactor 22 turns,
+3.0 min, USD 0.49 (1.93x); feature 24 turns, 4.0 min, USD 0.71 (1.44x).
+
+- The unconditional scope note stopped the refactor (P12: `expect` untouched in 3 of 3). With the
+  conditional note it is removed in 4 of 6 runs (P13 3 of 3, P14 1 of 3). In the two P14 runs that
+  kept it the agent renamed the `expect` messages, got them as findings, and kept them because
+  "folding presence into the getters would change which error code wins".
+- Naming the exception next to a panic finding ("fine only where it names an invariant") undoes
+  the feature result: P13 6 to 11 new `expect`, the agent answering "the exception applies to each
+  line". Without it, 9 of 9 feature runs (hk-feat, P12, P14) have 0 or 1.
+- The same wording change went the other way on refactor (P13 better than P14), so with three runs
+  per cell the stop message cannot be tuned further on this crate.
+- Codex cross-review of the first version: `scratchpad/codex/review.md` in the session, findings
+  summarized here. Fixed: shared-/tmp state, HEAD-only baseline, paginated reports, unit-test scopes,
+  git configuration and file names, `cwd` parsed with sed, repository without commits, scope note,
+  README coverage. Not taken: candidate wording for panic findings (see above). Its alternatives,
+  untested: skill and guides without hooks, hooks in the Rust binary through the SDK, structural
+  rules instead of regular expressions, other hook events, clippy in the background.

@@ -1,0 +1,9 @@
+1f23c23 Parse the command name into an enum at the request boundary
+faf3293 Read required parameters without expect
+faa3bb4 Check the deduplication/FIFO rule in one place
+aa3a9f9 Build the expiry predicate after the early return in Queue::expire
+3e888e8 Give message ids, receipt handles and arrival keys their own types
+a6e1ed1 Drop the queue_name helper that only forwarded to required_string
+d30c1ce Move the FIFO parameter checks of SendMessage into FifoIds
+986eac6 Clone the dead-letter queue name only when a message is dead-lettered
+67690b5 Assert exact values in the request unit tests

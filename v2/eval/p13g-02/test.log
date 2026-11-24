@@ -1,0 +1,79 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-2924a68382c6cd0e)
+
+running 30 tests
+test command::tests::dead_letter_members_must_come_together ... ok
+test command::tests::receive_message_defaults_to_one_message ... ok
+test command::tests::malformed_requests_are_invalid_requests ... ok
+test command::tests::null_members_count_as_absent ... ok
+test command::tests::send_message_parses_all_parameters ... ok
+test command::tests::create_queue_checks_the_name_before_other_parameters ... ok
+test command::tests::send_message_identifiers_are_validated ... ok
+test command::tests::send_message_body_is_limited_in_bytes ... ok
+test command::tests::missing_parameter_wins_over_invalid_value ... ok
+test command::tests::integers_must_be_written_as_integers_in_range ... ok
+test command::tests::attributes_are_checked_by_name_type_and_range ... ok
+test queue::tests::content_based_deduplication_uses_the_body ... ok
+test queue::tests::delayed_message_becomes_visible_when_the_delay_ends ... ok
+test queue::tests::change_visibility_moves_the_end_of_the_timeout ... ok
+test queue::tests::dead_letter_configuration_moves_messages_that_were_received_enough ... ok
+test queue::tests::delete_requires_the_latest_handle_of_a_message_in_flight ... ok
+test queue::tests::duplicate_send_returns_the_original_and_uses_no_id ... ok
+test queue::tests::duplicate_window_outlives_the_message_and_a_purge ... ok
+test queue::tests::fifo_delivers_one_message_per_group_and_blocks_busy_groups ... ok
+test queue::tests::fifo_sequence_numbers_count_accepted_messages ... ok
+test queue::tests::message_keeps_its_place_after_its_visibility_timeout_ends ... ok
+test queue::tests::redelivery_counts_receives_and_keeps_first_received_at ... ok
+test queue::tests::retention_removes_messages_in_every_state ... ok
+test queue::tests::send_rules_pick_the_documented_error ... ok
+test types::tests::identifiers_are_one_to_128_name_characters ... ok
+test types::tests::ids_display_with_their_prefix ... ok
+test types::tests::invalid_queue_name_has_its_own_code ... ok
+test types::tests::queue_names_follow_the_naming_rules ... ok
+test types::tests::receipt_handles_must_be_spelled_as_issued ... ok
+test queue::tests::queue_refuses_message_100001 ... ok
+
+test result: ok. 30 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-149399b64b2cf856)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cli.rs (target/debug/deps/cli-0f32dee9a01bcac9)
+
+running 4 tests
+test empty_input_produces_no_output ... ok
+test invalid_utf8_line_is_rejected_and_the_next_line_still_runs ... ok
+test every_line_gets_one_response_in_order ... ok
+test filling_a_queue_to_its_limit_is_fast ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.92s
+
+     Running tests/protocol.rs (target/debug/deps/protocol-af84cad6f972eae2)
+
+running 14 tests
+test create_queue_is_idempotent_only_for_equal_attributes ... ok
+test created_queue_reports_defaults_and_counts ... ok
+test retention_drops_messages_when_lowered_and_keeps_them_gone ... ok
+test create_queue_rules_apply_in_the_written_order ... ok
+test deleted_queue_name_can_be_reused_with_a_clean_slate ... ok
+test change_visibility_to_zero_makes_the_message_visible_at_once ... ok
+test fifo_send_returns_sequence_numbers_and_deduplicates ... ok
+test failed_requests_use_the_first_failing_check ... ok
+test dead_letter_queue_must_have_the_same_type ... ok
+test received_too_often_moves_to_the_dead_letter_queue ... ok
+test list_queues_sorts_by_bytes_and_filters_by_prefix ... ok
+test send_receive_delete_round_trip ... ok
+test set_queue_attributes_rules ... ok
+test thousand_queues_is_the_limit ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,5 @@
+e47ee0d Add MaxMessageBytes queue attribute and send size rule
+765dba2 Add queue tags: TagQueue, UntagQueue and ListQueueTags
+0bca753 Split send and delete handling from parameter parsing
+6603ffe Add SendMessageBatch and DeleteMessageBatch
+71719d3 Replace check-then-expect with required getters in new code

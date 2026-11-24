@@ -39,7 +39,7 @@ function check(text,    in_tests) {
     if (text == "" || text ~ /^\/\//) return
     in_tests = path_is_test || (tests_from && line >= tests_from)
     if (!in_tests) {
-        if (text ~ /\.unwrap\(\)|\.expect\(/) report("panic on failure (fine only where it names an invariant that cannot fail)", text)
+        if (text ~ /\.unwrap\(\)|\.expect\(/) report("panic on failure", text)
         if (text ~ / as (u8|u16|u32|u64|u128|usize|i8|i16|i32|i64|i128|isize)([^A-Za-z0-9_]|$)/) report("unchecked cast (fine only when it widens)", text)
         if (text ~ /(^|[^A-Za-z0-9_])([A-Za-z0-9]+_)?(id|ids|name|key|url|code|handle): (Option<|Vec<)?(String|&('[a-z_]+ )?str)([^A-Za-z0-9_]|$)|Map<String,/) report("stringly typed (fine for wire fields and free text)", text)
         if (text ~ /match [^{;]*\.as_str\(\)|[!=]= "[A-Za-z]|"[A-Za-z0-9_]+" [!=]=/) report("string compared as a value (fine for free text)", text)

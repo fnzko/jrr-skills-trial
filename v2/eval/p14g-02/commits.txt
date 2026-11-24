@@ -1,0 +1,9 @@
+b021ff3 Add crate with error codes and validated value types
+b7ed1e8 Add request parameter access and queue attribute parsing
+4dbc69c Add the queue model with expiry, deduplication and receive planning
+229923b Add queue commands, Tick, the JSON line protocol and the miniq binary
+e9a2452 Add SendMessage with delay, FIFO rules and deduplication
+41ced10 Add ReceiveMessage with FIFO group ordering and dead-letter moves
+4e94182 Add DeleteMessage and ChangeMessageVisibility
+7bb4856 Read integers from their source text so -0 is accepted
+0f8c9d4 Tighten tests to exact values and drop a length cast

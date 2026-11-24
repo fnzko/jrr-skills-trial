@@ -1,0 +1,12 @@
+60956b0 Name the attribute range limits once
+f08577f Parse the command name into an enum
+04c430f Build common errors with constructors on Error
+7ecbf9b Give message ids, receipt handles and arrival keys their own types
+4dc226f Type virtual instants and spans instead of bare u64 seconds
+474c110 Key the queue map by a validated QueueName
+12218a7 Separate the FIFO rules of SendMessage from storing the message
+59f2a30 Stop ignoring a missing message in ChangeMessageVisibility
+bf75983 Share the queue attribute checks between CreateQueue and SetQueueAttributes
+1b74400 Make the request unit tests assert values and error codes
+2c2c83e Pass the receive batch size as u64 instead of casting it
+a0fee77 Read required parameters without an expect

@@ -1,0 +1,8 @@
+4677895 Build common errors in one place
+0b162c8 Name the attribute ranges once
+1b322a4 Parse the command name into an enum
+cf97211 Give message ids, receipt handles and arrival positions their own types
+d5e8f87 Drop a cast, a silent skip and a per-receive clone in ReceiveMessage
+fa7ea58 Resolve FIFO group and deduplication ids in a helper
+ba3b651 Assert exact values in the parameter unit tests
+67cb57d Report an absent required parameter instead of panicking on it
