@@ -465,3 +465,26 @@ Cost of P14 against `none`: greenfield 26 turns, 9.8 min, USD 1.50 (1.60x); refa
   README coverage. Not taken: candidate wording for panic findings (see above). Its alternatives,
   untested: skill and guides without hooks, hooks in the Rust binary through the SDK, structural
   rules instead of regular expressions, other hook events, clippy in the background.
+
+### P14 blind (sets `blind/p14g`, `p14r`, `p14f`: the P14 runs, P13 refactor runs, anchors, BASE)
+
+Ten Opus reviewers, one per dimension and set. Sums with the runs in brackets.
+
+| Arm | Greenfield of 16 | Refactor of 12 (BASE 4) | Feature of 12 (BASE 9) |
+|---|---|---|---|
+| shipped (P14) | 12.67 (13, 13, 12) | 7.00 (8, 7, 6) | 10.33 (11, 11, 9) |
+| shipped (P13, refactor only) | - | 8.67 (10, 8, 8) | - |
+| hk-start-stop / hk-feat (feature) | 12.33 (13, 11, 13) | 8.00 (9, 9, 6) | 10.33 (10, 10, 11) |
+| short | 11.67 (13, 10, 12) | 6.67 (6, 6, 8) | 8.33 (7, 11, 7) |
+| none | 5.33 (5, 4, 7) | 5.00 (5, 5, 5) | 5.67 (6, 5, 6) |
+
+Per dimension, shipped P14: greenfield types 3.00, errors 3.33, simplicity 2.67, tests 3.67;
+refactor types 3.00, errors 2.33, simplicity 1.67; feature types 3.67, errors 3.33, tests 3.33.
+
+- Greenfield and feature: shipped separates from `none` with no overlap and equals the best earlier
+  hook arm. `short` (skill, no hooks) is close on greenfield and uneven on feature.
+- Refactor: shipped P14 is above `none` in every run by 1 to 3 points; P13 scored higher than P14
+  with a different stop message, so rounds differ as much as arms do.
+- Anchors against their earlier reviews (P7 sets, P11 set): 81 repeated scores, 80 within one
+  point, 52 identical. BASE moved between sets (refactor 5 to 4, feature 8 to 9).
+- `rust-rules` was the first or second tool call in all 27 runs of P12 to P14.
