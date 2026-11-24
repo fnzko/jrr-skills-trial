@@ -335,3 +335,67 @@ Refactor prompt, baseline p1-04, Sonnet 5.5, three runs. Mechanical only, no bli
   So `audit` against `astgrep-fixed` compares "a list of what to look for" with "one command that
   returns labeled hits", not regex with ast-grep.
 - Stringly ids and newtypes did not move in any arm. Cost about the same as `audit`.
+
+## 2026-11-24: why the checklist as a skill costs less than the same text in `CLAUDE.md`
+
+Greenfield, Sonnet 5.5, three runs each. `arms/short/skills/rust-rules/SKILL.md` and
+`arms/context/CLAUDE.md` are the same 68 lines (the skill adds only its frontmatter), so the
+difference is not the text.
+
+| Arm | Delivery | USD | Turns | Output tokens | Lines written (prod + test) | Structs | Tests |
+|---|---|---|---|---|---|---|---|
+| none | - | 0.89-0.99 | 17-21 | 51k-55k | 1033-1200 + 908-1085 | 11-14 | 41-45 |
+| short | skill, loaded at turn 1 | 1.19-1.21 | 20-25 | 65k-69k | 1344-1446 + 800-917 | 24-28 | 37-51 |
+| context | `CLAUDE.md` | 1.45-1.80 | 22-31 | 79k-103k | 1448-2352 + 297-1422 | 32-44 | 16-62 |
+| hk-start | SessionStart hook | 1.33-1.59 | 17-21 | 75k-96k | 1334-1570 + 1037-1450 | 29-32 | 40-73 |
+| hk-start-stop | SessionStart + Stop | 1.50-1.73 | 20-28 | 83k-94k | 1395-1495 + 924-1218 | 31-38 | 41-47 |
+
+- The skill runs wrote about 2,250 lines, the always-present deliveries 2,500 to 2,700: more
+  structs and, in the hook arms, more tests. Output tokens follow (67k against 88k to 90k), and
+  cache reads follow the turns. Blind greenfield score is the same (`short` 12.67, `context` 12.67).
+- `hk-start` (run on 11-23) lands with `context` (11-19), not with `short` (11-20), so the day is
+  not the cause.
+- Not established: why a skill body leads to less code than the same text as session context.
+  Three runs per arm, and `short` was never run next to `context` on the same day.
+
+## 2026-11-24: P11, feature-add with a scope note and a firmer detector
+
+What the earlier feature runs did with the detector (`hk-start-stop`, p7f-01/17/29): it reported 31
+to 41 findings in the added lines, the agent fixed 1 or 2 and kept the rest with "the existing
+handlers use the same pattern". So on a feature the rules were in context and the findings were
+shown; the agent chose the convention of the surrounding code.
+
+Two arms, both `hk-start-stop` with changes:
+
+- `hk-feat-start`: SessionStart prints `hooks/scope.md` before the checklist (new lines follow the
+  rules even where the code next to them does not; change existing code just enough when it forces
+  new code to break a rule; no rewrite or migration beyond that; crate-wide rules apply only to
+  data the change introduces). No Stop hook.
+- `hk-feat`: the same, plus the Stop detector with two changes: findings for `unwrap`, `expect`
+  and by-value arguments under `tests/` are dropped, and the closing line says "That the existing
+  code does the same is not a reason to keep one".
+
+Feature prompt, baseline p1-04, Sonnet 5.5, three runs each. Mechanical only, no blind review.
+"Added" and "removed" are lines of `git diff start..HEAD` outside `tests/`.
+
+| Run | Arm | Hidden tests | Turns | Min | USD | `expect` in added lines | Existing lines removed | New structs | Newtypes | Weak asserts (start 20) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| p2-09/12/13 | none | 80/80 | 12-17 | 1.9-2.9 | 0.42-0.61 | 7, 8, 9 | 5, 1, 97 | 0, 0, 2 | 0 | 21-23 |
+| p6f-01/07/08 | short | 80/80 | 16-19 | 2.2-2.8 | 0.47-0.55 | 6, 6, 9 | 3, 6, 8 | 0, 3, 2 | 0-2 | - |
+| p2-02/08/10 | context | 80/80 | 18-27 | 3.0-3.1 | 0.63-0.65 | 9, 7, 6 | 13, 5, 2 | 4, 3, 3 | 1-2 | - |
+| p7f-04/32/33 | hk-start | 80/80 | 13-15 | 2.5-2.8 | 0.53-0.58 | 12, 8, 11 | 94, 2, 8 | 1, 1, 1 | - | - |
+| p7f-01/17/29 | hk-start-stop | 80/80 | 21-26 | 3.5-3.6 | 0.66-0.70 | 9, 12, 9 | 13, 9, 6 | 1, 2, 1 | 0 | 20 |
+| p11f-02/04/05 | hk-feat-start | 80/80 | 15-19 | 3.2-3.8 | 0.55-0.67 | 7, 8, 11 | 6, 7, 75 | 4, 3, 4 | 2 | 20-27 |
+| p11f-01/03/06 | hk-feat | 80/80 | 20-24 | 4.5 | 0.68-0.72 | 1, 0, 0 | 14, 2, 3 | 4, 2, 5 | 1-2 | 20 |
+
+- `hk-feat` is the first of 21 feature runs with no new `expect`. All three wrote the feature with
+  `expect` first, got 19 to 25 findings at stop, and fixed them by adding `required_string`,
+  `required_array` and `required_members` getters to the existing `Params` (2 to 14 existing lines
+  removed), which is the small enabling change the scope note allows. They also fixed weak
+  assertions in the new tests and one added an `EntryId` newtype. They kept queue names and
+  handles as `&str` ("the rules say not to retype existing data").
+- `hk-feat-start` (the scope note without the detector) is where every earlier arm is: 7 to 11 new
+  `expect`. The text at session start does not change the first draft; the detector does.
+- Cost is that of `hk-start-stop` (USD 0.68 to 0.72 against 0.66 to 0.70), about 1.4x `none`.
+- Not separated: the firmer closing line from the dropped test findings (both changed at once).
+  Not reviewed blind. One crate, three runs.

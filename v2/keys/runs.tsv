@@ -151,3 +151,9 @@ p9r-03	astgrep	refactor	claude-sonnet-5-5
 p10r-01	astgrep-fixed	refactor	claude-sonnet-5-5
 p10r-02	astgrep-fixed	refactor	claude-sonnet-5-5
 p10r-03	astgrep-fixed	refactor	claude-sonnet-5-5
+p11f-01	hk-feat	feature	claude-sonnet-5-5
+p11f-02	hk-feat-start	feature	claude-sonnet-5-5
+p11f-03	hk-feat	feature	claude-sonnet-5-5
+p11f-04	hk-feat-start	feature	claude-sonnet-5-5
+p11f-05	hk-feat-start	feature	claude-sonnet-5-5
+p11f-06	hk-feat	feature	claude-sonnet-5-5

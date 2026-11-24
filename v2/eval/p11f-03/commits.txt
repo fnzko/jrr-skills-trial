@@ -1,0 +1,5 @@
+1e48098 Add the MaxMessageBytes queue attribute
+e418cde Add TagQueue, UntagQueue and ListQueueTags
+eab58ae Split the per-queue part out of SendMessage and DeleteMessage
+e09c699 Add SendMessageBatch and DeleteMessageBatch
+80ab656 Remove expect and unwrap from the new tag and batch code

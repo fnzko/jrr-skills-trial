@@ -1,0 +1,5 @@
+17ba0e8 Add the MaxMessageBytes queue attribute
+95300f9 Add TagQueue, UntagQueue and ListQueueTags
+95f25ba Split SendMessage and DeleteMessage after the queue name
+85fadaa Format the tag module and its tests with rustfmt
+f570b94 Add SendMessageBatch and DeleteMessageBatch

@@ -1,0 +1,4 @@
+61c092b Add the MaxMessageBytes queue attribute
+ba71366 Add TagQueue, UntagQueue and ListQueueTags
+951b6b2 Apply rustfmt to the MaxMessageBytes and tag code
+d73f8f8 Add SendMessageBatch and DeleteMessageBatch

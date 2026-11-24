@@ -1,0 +1,5 @@
+dd3cc05 Add MaxMessageBytes queue attribute
+6eb0e63 Add TagQueue, UntagQueue and ListQueueTags
+75496c8 Split send and delete into parse and execute steps
+de45583 Add SendMessageBatch and DeleteMessageBatch
+20f182e Address lint findings in the added code

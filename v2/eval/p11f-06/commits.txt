@@ -1,0 +1,5 @@
+fe6835f Add MaxMessageBytes queue attribute and send size rule
+0c13654 Add queue tags: TagQueue, UntagQueue, ListQueueTags
+e32bd59 Split send and delete handlers at the parameter check
+fb7fb6d Add SendMessageBatch and DeleteMessageBatch
+90fa8ba Read required parameters without expect in the new code
