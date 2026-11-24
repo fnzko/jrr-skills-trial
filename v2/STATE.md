@@ -399,3 +399,29 @@ Feature prompt, baseline p1-04, Sonnet 5.5, three runs each. Mechanical only, no
 - Cost is that of `hk-start-stop` (USD 0.68 to 0.72 against 0.66 to 0.70), about 1.4x `none`.
 - Not separated: the firmer closing line from the dropped test findings (both changed at once).
   Not reviewed blind. One crate, three runs.
+
+### P11 blind (set `blind/p11f`: 6 new runs, anchors `none`, `context`, `hk-start-stop`, BASE)
+
+Three Opus reviewers, one per dimension, scoring the code each attempt added or changed against
+BASE. Sum of 12; BASE = types 2, errors 3, tests 3.
+
+| Arm | Types | Errors | Tests | Sum (runs) | Same runs in the P7 set |
+|---|---|---|---|---|---|
+| context | 3.33 | 3.67 | 3.67 | 10.67 (12, 10, 10) | 11, 9, 9 |
+| hk-feat | 3.33 | 3.00 | 4.00 | 10.33 (11, 10, 10) | - |
+| hk-feat-start | 3.33 | 3.00 | 3.33 | 9.67 (9, 9, 11) | - |
+| hk-start-stop | 1.67 | 2.67 | 4.00 | 8.33 (9, 9, 7) | 10, 9, 8 |
+| none | 1.33 | 2.67 | 2.67 | 6.67 (6, 6, 8) | 6, 5, 10 |
+
+- `hk-feat` and `context` separate from `none` with no overlap (10 to 12 against 6 to 8). In the P7
+  set the `none` run p2-13 scored 10 and the ranges overlapped; here it scores 8.
+- The scope note is what moves types: both arms that carry it score 3.33 against 1.67 for
+  `hk-start-stop`, which has the same checklist and no note. The new tag data is parsed into
+  `TagKey`/`TagValue` types in those runs.
+- The detector is what moves tests (4.00 with it, 3.33 and 2.67 without).
+- The errors reviewer does not see the `expect` removal: `hk-feat` (0 to 1 new `expect`) and
+  `hk-feat-start` (7 to 11) both score 3, 3, 3, as does BASE. It accepts a named `expect` after
+  `require` and marks most attempts down for `body.len() as u64` instead. So the mechanical gain of
+  the detector on errors is not confirmed by the blind review.
+- Anchor drift against the P7 set: 27 repeated scores, all within one point; sums move by up to 2.
+- Three runs per arm, one reviewer per dimension.
