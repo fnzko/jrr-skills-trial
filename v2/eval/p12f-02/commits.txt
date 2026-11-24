@@ -1,0 +1,6 @@
+5b771c9 Add MaxMessageBytes queue attribute and send size rule
+4eb1c3f Add TagQueue, UntagQueue and ListQueueTags
+338bdba Split send and delete handlers at the queue name
+401b345 Add SendMessageBatch and DeleteMessageBatch
+c155522 Read required batch and tag parameters without expect
+880f3ee Share one missing-parameter error constructor

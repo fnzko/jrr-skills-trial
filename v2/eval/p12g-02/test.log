@@ -1,0 +1,67 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (target/debug/deps/miniq-a6340b5057516ed9)
+
+running 15 tests
+test response::tests::success_with_members ... ok
+test request::tests::null_attributes_and_unknown_members_are_ignored ... ok
+test request::tests::send_message_parameters_are_parsed ... ok
+test request::tests::missing_parameters_win_over_bad_values ... ok
+test request::tests::create_queue_checks_the_name_before_other_parameters ... ok
+test request::tests::dead_letter_configuration_must_be_complete ... ok
+test response::tests::failure_carries_code_and_message ... ok
+test request::tests::malformed_lines_are_invalid_requests ... ok
+test request::tests::body_length_is_counted_in_bytes ... ok
+test request::tests::integers_must_be_written_as_integers_in_range ... ok
+test response::tests::success_without_members ... ok
+test request::tests::attributes_are_validated_one_by_one ... ok
+test types::tests::identifiers_are_limited_to_128_name_characters ... ok
+test types::tests::queue_name_rules ... ok
+test types::tests::receipt_handles_must_match_an_issued_string_exactly ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/miniq-538e5e4134b5f7ec)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/protocol.rs (target/debug/deps/protocol-22c8f7b2b1564fbf)
+
+running 27 tests
+test create_queue_is_idempotent_only_for_equal_attributes ... ok
+test create_queue_rules_run_in_the_documented_order ... ok
+test delete_message_removes_it ... ok
+test dead_letter_move_ignores_the_message_limit_of_the_target_and_honors_its_retention ... ok
+test error_codes_follow_the_documented_precedence ... ok
+test deleting_a_dead_letter_queue_clears_the_configuration ... ok
+test delayed_message_becomes_visible_at_send_time_plus_delay ... ok
+test deduplication_outlives_the_message_and_purge ... ok
+test delete_and_change_visibility_check_handles ... ok
+test failed_and_duplicate_sends_do_not_use_up_message_ids ... ok
+test every_line_gets_one_response_in_order ... ok
+test input_that_is_not_utf8_is_answered_and_skipped ... ok
+test deduplication_window_is_300_seconds_from_the_accepted_send ... ok
+test get_queue_attributes_reports_defaults_and_counts ... ok
+test fifo_delivers_one_message_per_group_and_blocks_a_busy_group ... ok
+test handles_do_not_survive_deleting_and_recreating_the_queue ... ok
+test messages_get_global_ids_and_handles ... ok
+test receive_returns_up_to_max_messages_in_arrival_order ... ok
+test list_queues_sorts_by_byte_value_and_filters_by_prefix ... ok
+test retention_removes_messages_and_lowering_it_applies_at_once ... ok
+test fifo_send_requires_group_and_deduplication ... ok
+test visibility_timeout_hides_a_message_and_it_keeps_its_place ... ok
+test set_queue_attributes_rules ... ok
+test messages_move_to_the_dead_letter_queue_after_max_receives ... ok
+test queue_count_is_limited_to_1000 ... ok
+test binary_answers_and_exits_zero_at_end_of_input ... ok
+test queue_is_limited_to_100000_messages ... ok
+
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.69s
+
+   Doc-tests miniq
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

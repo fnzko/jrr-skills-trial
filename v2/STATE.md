@@ -258,8 +258,8 @@ Cost is relative to `none` on the same task.
 | none | 6.33 (6, 5, 8) | 1.00x | 5.00 (5, 5, 5) | 1.00x | 7.00 (6, 5, 10) | 1.00x |
 
 Dimensions: greenfield types, errors, simplicity, tests; refactor types, errors, simplicity; feature
-types, errors, tests (new code against BASE). Every hook arm separates from `none` on greenfield and
-refactor with no overlap. On feature the rule arms average 1.7 to 2.7 points above `none` but one
+types, errors, tests (new code against BASE). On refactor every hook arm separates from
+`none` with no overlap; on greenfield every one except `hk-pre2` (7, 10, 12 against 6, 5, 8) does. On feature the rule arms average 1.7 to 2.7 points above `none` but one
 `none` run scored 10, so the ranges overlap; the mechanical `expect` density does not move.
 
 ### v3: description probes (72 short runs, `v3/descriptions/probe.md`, `guidance.md`, `evidence.md`)
@@ -353,8 +353,8 @@ difference is not the text.
 - The skill runs wrote about 2,250 lines, the always-present deliveries 2,500 to 2,700: more
   structs and, in the hook arms, more tests. Output tokens follow (67k against 88k to 90k), and
   cache reads follow the turns. Blind greenfield score is the same (`short` 12.67, `context` 12.67).
-- `hk-start` (run on 11-23) lands with `context` (11-19), not with `short` (11-20), so the day is
-  not the cause.
+- `hk-start` (run on 11-23) lands with `context` (11-19), not with `short` (11-20), which argues
+  against a day effect but does not rule it out: `short` and `context` never ran on the same day.
 - Not established: why a skill body leads to less code than the same text as session context.
   Three runs per arm, and `short` was never run next to `context` on the same day.
 
@@ -388,7 +388,7 @@ Feature prompt, baseline p1-04, Sonnet 5.5, three runs each. Mechanical only, no
 | p11f-02/04/05 | hk-feat-start | 80/80 | 15-19 | 3.2-3.8 | 0.55-0.67 | 7, 8, 11 | 6, 7, 75 | 4, 3, 4 | 2 | 20-27 |
 | p11f-01/03/06 | hk-feat | 80/80 | 20-24 | 4.5 | 0.68-0.72 | 1, 0, 0 | 14, 2, 3 | 4, 2, 5 | 1-2 | 20 |
 
-- `hk-feat` is the first of 21 feature runs with no new `expect`. All three wrote the feature with
+- `hk-feat` is the first arm where new `expect` goes to 1, 0, 0 (7 to 12 in the other 18 runs). All three wrote the feature with
   `expect` first, got 19 to 25 findings at stop, and fixed them by adding `required_string`,
   `required_array` and `required_members` getters to the existing `Params` (2 to 14 existing lines
   removed), which is the small enabling change the scope note allows. They also fixed weak

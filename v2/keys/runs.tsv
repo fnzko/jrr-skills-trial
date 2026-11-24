@@ -157,3 +157,13 @@ p11f-03	hk-feat	feature	claude-sonnet-5-5
 p11f-04	hk-feat-start	feature	claude-sonnet-5-5
 p11f-05	hk-feat-start	feature	claude-sonnet-5-5
 p11f-06	hk-feat	feature	claude-sonnet-5-5
+p12g-01	shipped	green	claude-sonnet-5-5
+p12g-02	shipped	green	claude-sonnet-5-5
+p12g-03	shipped	green	claude-sonnet-5-5
+p12r-01	shipped	refactor	claude-sonnet-5-5
+p12r-02	shipped	refactor	claude-sonnet-5-5
+p12r-03	shipped	refactor	claude-sonnet-5-5
+p12f-01	shipped	feature	claude-sonnet-5-5
+p12f-02	shipped	feature	claude-sonnet-5-5
+p12f-03	shipped	feature	claude-sonnet-5-5
+p13g-01	shipped	green	claude-sonnet-5-5

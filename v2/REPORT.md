@@ -3094,7 +3094,8 @@ Consumption, every run of P7 and P8:
 
 Reading:
 
-- Greenfield and refactor: every hook arm is above `none` with no overlap between runs.
+- Refactor: every hook arm is above `none` with no overlap between runs. Greenfield: every one
+  except `hk-pre2`, whose runs (7, 10, 12) overlap `none` (6, 5, 8).
 - `hk-start-stop` is the best hook arm and equals the checklist in `CLAUDE.md` on quality. On
   refactor it costs less (2.70x against 3.40x) and keeps simplicity (2.33 against 1.33). Its
   greenfield crates have zero clippy findings and zero weak assertions on the mechanical measures.

@@ -1,0 +1,4 @@
+2f0159b Add the MaxMessageBytes queue attribute
+4d7ed79 Add TagQueue, UntagQueue and ListQueueTags
+5c01bca Add SendMessageBatch and DeleteMessageBatch
+bc3e576 Remove panics and weak assertions from the new code

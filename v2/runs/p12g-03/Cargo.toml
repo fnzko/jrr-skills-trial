@@ -1,0 +1,11 @@
+[package]
+name = "miniq"
+version = "0.1.0"
+edition = "2024"
+description = "A small in-memory message queue driven by JSON lines on stdin"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+# arbitrary_precision keeps the written form of a number, which is the only way
+# to tell the integer `30` from `30.0` and `3e1`.
+serde_json = { version = "1", features = ["arbitrary_precision"] }

@@ -1,0 +1,8 @@
+389eb30 Add error codes and validated identifier types
+09df60a Parse command lines into typed commands
+7a6677f Add typed success results and the reply envelope
+9cd30e6 Add the queue model with retention, delivery and deduplication
+7e88428 Add the service and the line-driven run loop
+997718d Add end-to-end protocol tests and rename Queue::len
+8fea704 Compare whole values in two tests that asserted weakly
+38e8e6d Keep MaxMessages as u32 through the queue

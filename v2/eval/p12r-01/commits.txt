@@ -1,0 +1,4 @@
+b9e3876 Parse the command name into an enum at the request boundary
+10e1cd0 Share constructors for the two most repeated errors
+daacc15 Name the ContentBasedDeduplication rule once
+b0438f4 Give arrival indexes, message ids and receipt handles their own types

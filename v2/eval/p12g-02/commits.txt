@@ -1,0 +1,5 @@
+d0473d4 Add crate skeleton with error codes and domain types
+acb9e77 Parse command lines into typed requests
+0e1c03a Add queue state machine and response encoding
+252de82 Wire the broker, binary and end-to-end tests together
+842a2a5 Tighten ListQueues prefix handling and two weak test assertions

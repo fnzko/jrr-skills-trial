@@ -1,0 +1,5 @@
+4a9221e Parse command names into an enum at the request boundary
+e34cd02 Build common errors through Error constructors
+e0e542a Name the visibility timeout and delay ranges once
+a2eccb7 Move FIFO send id resolution out of send_message
+6d865b7 Give FIFO group and deduplication ids their own types

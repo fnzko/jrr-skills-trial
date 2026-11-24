@@ -1,0 +1,5 @@
+311570d Parse the command name into an enum at the request boundary
+f317a37 Name the visibility and delay ranges once
+3152eaa Give Error constructors for the common failure codes
+b9fdda0 Move the FIFO send rules out of send_message
+57a3991 Type the group and deduplication ids of a FIFO send
