@@ -8,7 +8,7 @@ Adds the Rust rules in three pieces:
 - `rust-rules`, a short entry skill with one line per rule and a section on how far the rules reach on existing code;
 - two shell hooks: at session start the agent is given the rules, and when it stops, the Rust lines the session added are searched for a few of them and the findings handed back.
 
-The entry skill and the hooks exist because, in a trial with headless agents, the six guides on their own almost never got loaded. The rest of this description is that trial: what improved, by how much, and what it costs. The rows named "this PR" are runs with the files of this branch.
+The entry skill and the hooks exist because, in a trial with headless agents, the six guides on their own almost never got loaded. The rest of this description is that trial: what improved, by how much, and what it costs. The rows named "this PR" are runs with the files of this branch. After each table, the bullets are what was measured and the quoted block is what I conclude from it.
 
 ## How the rules reach the agent
 
@@ -44,26 +44,30 @@ Runs in which the skill was loaded. Sonnet, headless.
 | This PR: `rust-rules` entry skill | 9 of 9 | 9 of 9 | 9 of 9 |
 | This PR: session-start hook | every session | every session | every session |
 
-- **Six guides, as written.** The descriptions name things that happen in the middle of the work ("when defining structs", "reaches for `unwrap`"). A request like "add this feature" matches none of them. The one case where they loaded by themselves (new crate) did not repeat three days later with the same client.
-- **Reworded descriptions.** Five wordings, one following the published guidance for skill descriptions. One load in 45 short runs. Wording is not the problem; the level of the description is.
-- **Entry skill.** Its description restates the request ("Write, change or refactor Rust code"), so it matches whatever the task is. It was the first or second tool call in all 27 runs.
-- **Hook.** Does not go through the agent's choice at all. It also runs in sessions that never touch Rust, which is its cost: about 90 lines of context per session.
+- **Six guides, as written.** The descriptions name things that happen in the middle of the work ("when defining structs", "reaches for `unwrap`"). The one case where they loaded by themselves (new crate) did not repeat three days later with the same client.
+- **Reworded descriptions.** Five wordings, one following the published guidance for skill descriptions. One load in 45 short runs.
+- **Entry skill.** Its description restates the request ("Write, change or refactor Rust code"). It was the first or second tool call in all 27 runs.
+- **Hook.** Does not go through the agent's choice at all. It also runs in sessions that never touch Rust: about 90 lines of context per session.
+
+> **Conclusion.** Wording is not the problem; the level of the description is. A request like "add this feature" matches a description that restates the request, and matches none that names a step in the middle of the work.
 
 ## 2. Does the code get better?
 
-Blind review by other model sessions that do not know which run had the rules. Each crate gets 0 to 4 per dimension and the table shows the sum, with the three runs in brackets. New crate: types, errors, simplicity, tests (16). Refactor: types, errors, simplicity (12). Feature: types, errors, tests of the code added (12).
+Blind review by other model sessions that do not know which run had the rules. Each crate gets 0 to 4 per dimension and the table shows the sum, with the three runs in brackets and the change against no rules. New crate: types, errors, simplicity, tests (16). Refactor: types, errors, simplicity (12). Feature: types, errors, tests of the code added (12).
 
 | Delivery | New crate (of 16) | Refactor (of 12, start crate 4) | Add a feature (of 12, start crate 9) |
 |---|---|---|---|
 | No rules | 5.3 (5, 4, 7) | 5.0 (5, 5, 5) | 5.7 (6, 5, 6) |
-| Checklist as a skill, no hooks | 11.7 (13, 10, 12) | 6.7 (6, 6, 8) | 8.3 (7, 11, 7) |
-| Checklist by hooks, no skill (earlier variant, with clippy) | 12.3 (13, 11, 13) | 8.0 (9, 9, 6) | 10.3 (10, 10, 11) |
-| This PR (skill + hooks) | 12.7 (13, 13, 12) | 7.0 (8, 7, 6) | 10.3 (11, 11, 9) |
+| Checklist as a skill, no hooks | 11.7 (13, 10, 12), +119% | 6.7 (6, 6, 8), +33% | 8.3 (7, 11, 7), +47% |
+| Checklist by hooks, no skill (earlier variant, with clippy) | 12.3 (13, 11, 13), +131% | 8.0 (9, 9, 6), +60% | 10.3 (10, 10, 11), +82% |
+| This PR (skill + hooks) | 12.7 (13, 13, 12), +138% | 7.0 (8, 7, 6), +40% | 10.3 (11, 11, 9), +82% |
 
-- **New crate.** The largest effect: the score more than doubles and no run with rules overlaps a run without. The skill alone gets most of it. The hooks add mainly on tests (3.7 against 3.0 of 4).
-- **Refactor.** The smallest and least steady effect. This PR is above no rules in every run, but by one to three points. An earlier round of the same skill with a slightly different stop message scored 10, 8, 8, so the spread between rounds is as large as the gap between deliveries.
-- **Add a feature.** Without rules the new code is worse than the crate it is added to (5.7 against 9). With this PR it is slightly better (10.3). The skill alone gets part of the way and is uneven (7, 11, 7); the stop hook is what makes it steady.
+- **New crate.** No run with rules overlaps a run without. Against the skill alone, the hooks add mainly on tests (3.7 against 3.0 of 4).
+- **Refactor.** This PR is above no rules in every run, by one to three points. An earlier round of the same skill with a slightly different stop message scored 10, 8, 8.
+- **Add a feature.** Without rules the new code scores below the crate it is added to (5.7 against 9). With this PR it scores above (10.3). The skill alone is uneven (7, 11, 7).
 - **Reviewers.** 80 of 81 scores repeated from earlier reviews of the same crates are within one point, 52 identical.
+
+> **Conclusion.** The rules improve the code on the three tasks: most on a new crate, least and least steadily on a refactor, where the spread between rounds is as large as the gap between deliveries. The skill alone gets most of the gain on a new crate. On a feature the stop hook is what makes the gain steady.
 
 ## 3. What changes in the code
 
@@ -79,8 +83,10 @@ Adding a feature:
 | This PR | 0, 0, 0 | 12, 5, 13 |
 
 - **New `expect`.** With a soft message ("fix it or say why it stays") the agent got 31 to 41 findings, fixed one or two and kept the rest because "the existing handlers use the same pattern". The message here says that is not a reason. With that wording, 9 of 9 runs over three rounds add 0 or 1.
-- **Existing lines removed.** The fix is small: the agent adds `required_*` getters to the existing parameter type and uses them in the new code. It does not rewrite the handlers that were already there.
-- **Not confirmed blind.** In an earlier set, runs with and without the `expect` removal got the same score on the errors dimension (3 of 4). The change is real in the diff; the trial does not show that a reviewer values it.
+- **Existing lines removed.** The agent adds `required_*` getters to the existing parameter type and uses them in the new code. It does not rewrite the handlers that were already there.
+- **Not confirmed blind.** In an earlier set, runs with and without the `expect` removal got the same score on the errors dimension (3 of 4).
+
+> **Conclusion.** On a feature the wording of the stop message decides the result. Told that existing code is not a reason, the agent fixes its own lines with a small change to the code around them. The change is real in the diff; the trial does not show that a reviewer values it.
 
 Refactoring (start crate: 12.3 `expect` per thousand lines, 20 weak assertions):
 
@@ -91,31 +97,33 @@ Refactoring (start crate: 12.3 `expect` per thousand lines, 20 weak assertions):
 | This PR | 13.0, 0.9, 11.4 | 20, 15, 15 |
 | This PR, earlier round | 2.6, 1.0, 2.8 | 15, 15, 15 |
 
-- **Uneven.** Over the two rounds the agent removed the `expect` calls in 4 of 6 runs. In the other two it kept them and argued that typed getters would change which error the spec reports first. Three runs per round are not enough to tell the two stop messages apart.
-- **What the scope section does.** The first version of the skill told the agent not to migrate existing code, a rule meant for features. Its three refactor runs left `expect` at 11.6 to 11.8. The skill now says the rules cover the whole requested scope when the request is a clean-up.
+- **Uneven.** Over the two rounds the agent removed the `expect` calls in 4 of 6 runs. In the other two it kept them and argued that typed getters would change which error the spec reports first.
+- **Scope section.** The first version of the skill told the agent not to migrate existing code, a rule meant for features. Its three refactor runs left `expect` at 11.6 to 11.8. The skill now says the rules cover the whole requested scope when the request is a clean-up.
+
+> **Conclusion.** On a refactor the effect is there but not reliable. Three runs per round are not enough to tell the two stop messages apart.
 
 ## 4. What it costs
 
-Means of three runs, with the ratio against no rules on the same task. Tokens processed is everything the model read plus what it wrote; the conversation is read again at every turn, mostly from cache. Tokens written is the output alone.
+Means of three runs, with the increase against no rules on the same task. Tokens processed is everything the model read plus what it wrote; the conversation is read again at every turn, mostly from cache. Tokens written is the output alone.
 
 | Task | Delivery | Time | Tokens processed | Tokens written |
 |---|---|---|---|---|
 | New crate | No rules | 5.7 min | 1.29M | 53k |
-| | Checklist as a skill, no hooks | 7.4 min (1.28x) | 1.78M (1.38x) | 68k (1.27x) |
-| | This PR (skill + hooks) | 9.8 min (1.71x) | 2.51M (1.94x) | 83k (1.55x) |
+| | Checklist as a skill, no hooks | 7.4 min, +28% | 1.78M, +38% | 68k, +27% |
+| | This PR (skill + hooks) | 9.8 min, +71% | 2.51M, +94% | 83k, +55% |
 | Refactor | No rules | 1.2 min | 0.46M | 7k |
-| | Checklist as a skill, no hooks | 1.6 min (1.38x) | 0.76M (1.65x) | 9k (1.40x) |
-| | This PR (skill + hooks) | 3.0 min (2.51x) | 1.26M (2.74x) | 15k (2.25x) |
+| | Checklist as a skill, no hooks | 1.6 min, +38% | 0.76M, +65% | 9k, +40% |
+| | This PR (skill + hooks) | 3.0 min, +151% | 1.26M, +174% | 15k, +125% |
 | Add a feature | No rules | 2.3 min | 0.84M | 18k |
-| | Checklist as a skill, no hooks | 2.5 min (1.08x) | 0.94M (1.12x) | 19k (1.05x) |
-| | This PR (skill + hooks) | 4.0 min (1.76x) | 1.61M (1.92x) | 26k (1.42x) |
+| | Checklist as a skill, no hooks | 2.5 min, +8% | 0.94M, +12% | 19k, +5% |
+| | This PR (skill + hooks) | 4.0 min, +76% | 1.61M, +92% | 26k, +42% |
 
-- **Time.** A new crate takes four more minutes. A feature takes under two more, which is the round of fixes after the stop hook. The refactor has the largest ratio because the run without rules does almost nothing (one minute, 7k tokens written); in absolute terms it is two more minutes.
-- **Tokens processed.** About double on a new crate and on a feature. This number follows the number of turns (18 to 26 on a new crate, 14 to 24 on a feature), because every turn reads the conversation again.
-- **Tokens written.** 55% more on a new crate: the runs with rules write up to a third more code than the 2,100 lines without, with two to three times as many structs. 42% more on a feature.
-- **Where the cost comes from.** Almost none of it is reading the rules: they are about 90 lines, read once. It comes from the agent doing more work once it knows them: more types, more tests, more review rounds. More work is more turns, and every turn costs tokens.
-- **The cheaper option.** The skill without hooks adds 8% to 38% in time and 12% to 65% in tokens processed. It gets most of the gain on a new crate, less on a feature.
+- **Time.** A new crate takes four more minutes, a refactor two more, a feature under two more. The refactor has the largest percentage because the run without rules is short (one minute, 7k tokens written).
+- **Tokens processed.** Turns go from 18 to 26 on a new crate and from 14 to 24 on a feature, and every turn reads the conversation again.
+- **Tokens written.** On a new crate the runs with rules write up to a third more code than the 2,100 lines without, with two to three times as many structs.
 - **Spread.** Single runs vary. With this PR a new crate took 8 to 11 minutes and 1.7M to 3.1M tokens.
+
+> **Conclusion.** Almost none of the cost is reading the rules: they are about 90 lines, read once. It comes from the agent doing more work once it knows them: more types, more tests, more review rounds. More work is more turns, and every turn costs tokens. The skill without hooks is the cheaper option: most of the gain on a new crate, less on a feature.
 
 ## Limits
 
