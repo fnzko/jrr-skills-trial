@@ -98,20 +98,26 @@ Refactoring (start crate: 12.3 `expect` per thousand lines, 20 weak assertions):
 
 ## 4. What it costs
 
-Means of three runs. The ratio is tokens billed against no rules on the same task.
+Means of three runs, with the ratio against no rules on the same task. Tokens processed is everything the model read plus what it wrote; the conversation is read again at every turn, mostly from cache. Tokens written is the output alone.
 
-| Delivery | New crate | Refactor | Add a feature |
-|---|---|---|---|
-| No rules | 18 turns, 5.7 min, USD 0.94 | 9 turns, 1.2 min, USD 0.25 | 14 turns, 2.3 min, USD 0.49 |
-| Checklist as a skill, no hooks | 22 turns, 7.4 min, 1.27x | 15 turns, 1.6 min, 1.31x | 17 turns, 2.5 min, 1.06x |
-| Checklist by hooks, no skill (earlier variant) | 24 turns, 10.1 min, 1.68x | 25 turns, 4.5 min, 2.70x | 22 turns, 4.5 min, 1.42x |
-| This PR (skill + hooks) | 26 turns, 9.8 min, 1.60x | 22 turns, 3.0 min, 1.93x | 24 turns, 4.0 min, 1.44x |
+| Task | Delivery | Time | Tokens processed | Tokens written |
+|---|---|---|---|---|
+| New crate | No rules | 5.7 min | 1.29M | 53k |
+| | Checklist as a skill, no hooks | 7.4 min (1.28x) | 1.78M (1.38x) | 68k (1.27x) |
+| | This PR (skill + hooks) | 9.8 min (1.71x) | 2.51M (1.94x) | 83k (1.55x) |
+| Refactor | No rules | 1.2 min | 0.46M | 7k |
+| | Checklist as a skill, no hooks | 1.6 min (1.38x) | 0.76M (1.65x) | 9k (1.40x) |
+| | This PR (skill + hooks) | 3.0 min (2.51x) | 1.26M (2.74x) | 15k (2.25x) |
+| Add a feature | No rules | 2.3 min | 0.84M | 18k |
+| | Checklist as a skill, no hooks | 2.5 min (1.08x) | 0.94M (1.12x) | 19k (1.05x) |
+| | This PR (skill + hooks) | 4.0 min (1.76x) | 1.61M (1.92x) | 26k (1.42x) |
 
+- **Time.** A new crate takes four more minutes. A feature takes under two more, which is the round of fixes after the stop hook. The refactor has the largest ratio because the run without rules does almost nothing (one minute, 7k tokens written); in absolute terms it is two more minutes.
+- **Tokens processed.** About double on a new crate and on a feature. This number follows the number of turns (18 to 26 on a new crate, 14 to 24 on a feature), because every turn reads the conversation again.
+- **Tokens written.** 55% more on a new crate: the runs with rules write up to a third more code than the 2,100 lines without, with two to three times as many structs. 42% more on a feature.
 - **Where the cost comes from.** Almost none of it is reading the rules: they are about 90 lines, read once. It comes from the agent doing more work once it knows them: more types, more tests, more review rounds. More work is more turns, and every turn costs tokens.
-- **New crate.** 60% more tokens and four more minutes. The runs with rules write up to a third more code than the 2,100 lines without, with two to three times as many structs.
-- **Refactor.** The ratio looks large because the run without rules does almost nothing (9 turns, one minute). In absolute terms it is USD 0.49 against 0.25.
-- **Add a feature.** 44% more tokens and under two more minutes, for the round of fixes after the stop hook.
-- **The cheaper option.** The skill without hooks costs 6% to 31% more and gets most of the gain on a new crate, less on a feature.
+- **The cheaper option.** The skill without hooks adds 8% to 38% in time and 12% to 65% in tokens processed. It gets most of the gain on a new crate, less on a feature.
+- **Spread.** Single runs vary. With this PR a new crate took 8 to 11 minutes and 1.7M to 3.1M tokens.
 
 ## Limits
 
